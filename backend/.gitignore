@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (CRITICAL: Do not remove this)
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Editor Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Ignore the uploads folder if you still have it locally
+uploads/
