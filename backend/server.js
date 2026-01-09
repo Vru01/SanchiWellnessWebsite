@@ -14,7 +14,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // --- MIDDLEWARE ---
-app.use(cors({ origin: "*" }));
+app.use(cors({
+  origin: [
+    "https://sanchiwellness.com",
+    "https://www.sanchiwellness.com"
+  ]
+}));
+
 app.use(express.json());
 
 // --- MONGODB CONNECTION ---
