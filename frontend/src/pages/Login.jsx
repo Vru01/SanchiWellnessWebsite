@@ -75,7 +75,11 @@ const Login = () => {
           <Link to="/" className="flex items-center gap-3 group">
             <img src={Logo} alt="Sanchi Wellness" className="h-10 w-auto object-contain bg-white/90 rounded-full p-1" />
             <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tighter text-white drop-shadow-md group-hover:opacity-90 transition-opacity">SANCHI WELLNESS</span>
+              {/* Split text colors: Cyan for Sanchi, Green for Wellness */}
+              <span className="text-xl font-black tracking-tighter drop-shadow-md group-hover:opacity-90 transition-opacity">
+                <span className="text-cyan-400">SANCHI</span>{' '}
+                <span className="text-green-500">WELLNESS</span>
+              </span>
             </div>
           </Link>
         </header>

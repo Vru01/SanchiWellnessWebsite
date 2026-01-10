@@ -25,10 +25,13 @@ app.use(express.json());
 
 // --- MONGODB CONNECTION ---
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('✅ Connected to MongoDB Atlas'))
+    .then(() => {
+        console.log('✅ Connected to MongoDB Atlas');
+        seedProducts(); // Run seeding after connection
+    })
     .catch((err) => console.error('❌ MongoDB Connection Error:', err));
 
-// --- SEED DATA (Safe Mode) ---
+// --- SEED DATA  ---
 const seedProducts = async () => {
     try {
         const count = await Product.countDocuments();
@@ -39,76 +42,100 @@ const seedProducts = async () => {
 
             const products = [
                 { 
-                    name: "Male Might", 
-                    description: "Extreme Satisfaction", 
-                    price: 899, 
+                    name: "Ambrosia", 
+                    description: "Mix berries (without sugar) - Antioxidant Rich", 
+                    price: 1980, 
+                    category: "Wellness", 
+                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1768055648/Ambrosia_ebsvoz.jpg", 
+                    tag: "Premium" 
+                },
+                { 
+                    name: "Male Might (10 Caps)", 
+                    description: "Men's Capsule - Extreme Satisfaction", 
+                    price: 1600, 
                     category: "Men's Health", 
                     img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969563/P1_gw0rtq.jpg", 
                     tag: "Best Seller" 
                 },
                 { 
+                    name: "Male Might (30 Caps)", 
+                    description: "Men's Capsule - Monthly Pack", 
+                    price: 4500, 
+                    category: "Men's Health", 
+                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969563/P1_gw0rtq.jpg", 
+                    tag: "Value Pack" 
+                },
+                { 
                     name: "Virility Maxx", 
-                    description: "Vitality Booster", 
-                    price: 749, 
+                    description: "Sperm Capsule (30 Cap) - Vitality Booster", 
+                    price: 1500, 
                     category: "Men's Health", 
                     img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969562/P2_rnqzem.jpg", 
                     tag: "Trending" 
                 },
                 { 
                     name: "Piyoosh", 
-                    description: "Pure Cow Colostrum", 
-                    price: 699, 
+                    description: "Pure Cow Colostrum (30 Tab)", 
+                    price: 800, 
                     category: "Immunity", 
                     img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969562/P4_gjkkw5.jpg", 
-                    tag: null 
+                    tag: "Natural" 
+                },
+                { 
+                    name: "Aspire Glow Soap", 
+                    description: "Cream Soft Soap (75 gm)", 
+                    price: 80, 
+                    category: "Bath & Body", 
+                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969562/P8_jmucip.jpg", 
+                    tag: "Daily Use" 
+                },
+                { 
+                    name: "Aspire Face Wash", 
+                    description: "Charcoal Face Wash (100ml)", 
+                    price: 280, 
+                    category: "Face Care", 
+                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969579/P9_vc69ms.jpg", 
+                    tag: "Deep Cleanse" 
+                },
+                { 
+                    name: "Blossom Care", 
+                    description: "Vaginal Wash (100 ml) - Intimate Hygiene", 
+                    price: 380, 
+                    category: "Personal Care", 
+                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969563/P6_akilmv.jpg", 
+                    tag: "Hygiene" 
                 },
                 { 
                     name: "Wild Roots", 
-                    description: "Anti Hair Fall Shampoo", 
-                    price: 349, 
+                    description: "Anti Hair Fall Shampoo (200 ml)", 
+                    price: 320, 
                     category: "Hair Care", 
                     img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969563/P5_yu19ca.jpg", 
                     tag: "Herbal" 
                 },
                 { 
-                    name: "Aspire Face Wash", 
-                    description: "Cucumber & Tea Tree", 
-                    price: 249, 
-                    category: "Face Care", 
-                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969579/P9_vc69ms.jpg", 
-                    tag: "Daily Use" 
-                },
-                { 
                     name: "Aloe Aura", 
-                    description: "Soothe & Glow Gel", 
-                    price: 199, 
+                    description: "Aloe Vera Gel (100 ml) - Soothe & Glow", 
+                    price: 320, 
                     category: "Skin Care", 
                     img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969562/P3_r2frvm.jpg", 
                     tag: null 
                 },
                 { 
-                    name: "Blossom Care", 
-                    description: "Intimate Hygiene Wash", 
-                    price: 299, 
-                    category: "Personal Care", 
-                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969563/P6_akilmv.jpg", 
-                    tag: null 
+                    name: "Vita-Maxx Men", 
+                    description: "Men's Multivitamin (60 Tab)", 
+                    price: 1400, 
+                    category: "Supplements", 
+                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1768055647/Men_VitaMax_rx6cxx.jpg", 
+                    tag: "New" 
                 },
                 { 
-                    name: "Aspire Saffron Soap", 
-                    description: "Sandalwood & Saffron", 
-                    price: 129, 
-                    category: "Bath & Body", 
-                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969562/P7_wemkns.jpg", 
-                    tag: "Organic" 
-                },
-                { 
-                    name: "Aspire Glow Soap", 
-                    description: "Cream Soft Soap", 
-                    price: 119, 
-                    category: "Bath & Body", 
-                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1767969562/P8_jmucip.jpg", 
-                    tag: null 
+                    name: "Vita-Maxx Women", 
+                    description: "Women's Multivitamin (60 Tab)", 
+                    price: 1400, 
+                    category: "Supplements", 
+                    img: "https://res.cloudinary.com/dfqgwgehn/image/upload/v1768055647/Women_Vita-Max_oaont4.jpg", 
+                    tag: "New" 
                 }
             ];
             
@@ -122,7 +149,6 @@ const seedProducts = async () => {
         console.error("❌ Seeding error:", err);
     }
 };
-
 // --- USE ROUTES ---
 app.use('/api', authRoutes);         // Handles /api/login, /api/signup
 app.use('/api/products', productRoutes); // Handles /api/products

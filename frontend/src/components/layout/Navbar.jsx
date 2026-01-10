@@ -52,8 +52,10 @@ const Navbar = () => {
         <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-3 group">
           <img src={Logo} alt="Sanchi Wellness" className="h-10 w-auto object-contain" />
           <div className="flex flex-col">
-            <span className="text-xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-green-600">
-              SANCHI WELLNESS
+            {/* Removed gradient classes, split into two spans with solid colors */}
+            <span className="text-xl font-black tracking-tighter">
+              <span className="text-cyan-500">SANCHI</span>{' '}
+              <span className="text-green-600">WELLNESS</span>
             </span>
           </div>
         </Link>

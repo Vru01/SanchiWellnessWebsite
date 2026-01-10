@@ -29,10 +29,11 @@ const HeroSlider = () => {
       {/* --- CENTERED TEXT OVERLAY --- */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-2 md:px-4">
         
-        <h1 className="text-[8vw] md:text-8xl lg:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-green-500 drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)] text-center whitespace-nowrap pb-2">
-          SANCHI WELLNESS
+        {/* Removed gradient/transparent classes. Kept font size, weight, shadow. Split text for solid colors. */}
+        <h1 className="text-[8vw] md:text-8xl lg:text-9xl font-black tracking-tighter drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)] text-center whitespace-nowrap pb-2">
+          <span className="text-cyan-500">SANCHI</span>{' '}
+          <span className="text-green-500">WELLNESS</span>
         </h1>
-
         {/* TAGLINE */}
         <div className="mt-2 md:mt-8 bg-black/40 backdrop-blur-sm border border-white/10 px-4 md:px-6 py-1 md:py-2 rounded-full">
             <span className="text-white/90 text-[10px] sm:text-xs md:text-sm font-medium tracking-[0.15em] md:tracking-[0.2em] uppercase text-center whitespace-nowrap">
