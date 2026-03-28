@@ -17,8 +17,12 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     "https://sanchiwellness.com",
-    "https://www.sanchiwellness.com"
-  ]
+    "https://www.sanchiwellness.com",
+    "https://sanchiwellnesswebsite.onrender.com" // Essential for Render environment
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Explicitly allow PUT
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 
 app.use(express.json());
