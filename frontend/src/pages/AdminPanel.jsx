@@ -7,14 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { 
   Check, X, Clock, MapPin, User, Package, 
-  ShoppingBag, Trash2, Edit, Plus, Image as ImageIcon, Loader2 
+  ShoppingBag, Trash2, Edit, Plus, Image as ImageIcon, Loader2, Tag as TagIcon
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL + "/api" || "http://localhost:5000/api";
 
 // --- CLOUDINARY CONFIG ---
-const CLOUD_NAME = "dfqgwgehn"; // I found this from your previous seed data
-const UPLOAD_PRESET = "sanchi_wellness_uploads"; // Your new Unsigned Preset
+const CLOUD_NAME = "dfqgwgehn"; 
+const UPLOAD_PRESET = "sanchi_wellness_uploads"; 
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('orders'); 
@@ -29,8 +29,15 @@ const AdminPanel = () => {
   const [isEditing, setIsEditing] = useState(false); 
   const [showProductForm, setShowProductForm] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({
-    id: '', name: '', price: '', category: '', description: '', img: '', tag: ''
+    id: '', name: '', price: '', discountPrice: '', category: '', description: '', img: '', tag: ''
   });
+
+  // --- HELPER: CALCULATE PERCENTAGE ---
+  const calculateDiscount = (original, discounted) => {
+    if (!discounted || Number(discounted) >= Number(original)) return null;
+    const diff = original - discounted;
+    return Math.round((diff / original) * 100);
+  };
 
   // --- 1. FETCH DATA ---
   const fetchData = async () => {
@@ -75,10 +82,9 @@ const AdminPanel = () => {
     setUploading(true);
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", UPLOAD_PRESET); // 'sanchi_wellness_uploads'
+    formData.append("upload_preset", UPLOAD_PRESET);
 
     try {
-      // Upload directly to Cloudinary
       const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
         method: "POST",
         body: formData,
@@ -87,7 +93,6 @@ const AdminPanel = () => {
       const data = await res.json();
       
       if (data.secure_url) {
-        // Automatically put the URL into the form
         setCurrentProduct(prev => ({ ...prev, img: data.secure_url }));
       } else {
         alert("Upload failed. Check Cloud Name/Preset.");
@@ -104,7 +109,6 @@ const AdminPanel = () => {
   const handleProductSubmit = async (e) => {
     e.preventDefault();
     
-    // Use the /admin/ routes we created
     const endpoint = isEditing 
       ? `${API_BASE}/products/admin/update/${currentProduct.id}` 
       : `${API_BASE}/products/admin/add`;
@@ -147,6 +151,7 @@ const AdminPanel = () => {
       id: product._id,
       name: product.name,
       price: product.price,
+      discountPrice: product.discountPrice || '',
       category: product.category,
       description: product.description,
       img: product.img,
@@ -157,7 +162,7 @@ const AdminPanel = () => {
   };
 
   const openAddProduct = () => {
-    setCurrentProduct({ id: '', name: '', price: '', category: '', description: '', img: '', tag: '' });
+    setCurrentProduct({ id: '', name: '', price: '', discountPrice: '', category: '', description: '', img: '', tag: '' });
     setIsEditing(false);
     setShowProductForm(true);
   };
@@ -165,16 +170,16 @@ const AdminPanel = () => {
   const getUserName = (u) => !u ? "Unknown" : (typeof u === 'string' ? `ID: ${u.slice(-4)}` : u.name);
   const getUserEmail = (u) => !u || typeof u === 'string' ? "" : u.email;
 
-  if (loading) return <div className="min-h-screen flex justify-center items-center">Loading Dashboard...</div>;
+  if (loading) return <div className="min-h-screen flex justify-center items-center font-sans">Loading Dashboard...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 font-sans">
       <Navbar />
       <div className="container mx-auto px-4 py-28">
         
         {/* HEADER & TABS */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <h1 className="text-3xl font-black text-gray-800">Admin Control Center</h1>
+            <h1 className="text-3xl font-black text-gray-800 tracking-tighter uppercase">ADMIN PANEL</h1>
             <div className="flex bg-white p-1 rounded-lg shadow-sm border">
                 <button 
                     onClick={() => setActiveTab('orders')}
@@ -213,14 +218,14 @@ const AdminPanel = () => {
 
                     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <h3 className="text-xs font-bold text-gray-400 uppercase mb-2">Payment</h3>
+                            <h3 className="text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest">Payment</h3>
                             <div className="p-3 bg-blue-50 border border-blue-100 rounded-lg">
                                 <p className="text-xs text-blue-600 font-bold">UTR: {order.transactionId || "N/A"}</p>
                                 <p className="mt-1 text-2xl font-black text-green-700">₹{order.totalAmount}</p>
                             </div>
                         </div>
                         <div>
-                            <h3 className="text-xs font-bold text-gray-400 uppercase mb-2">Customer</h3>
+                            <h3 className="text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest">Customer</h3>
                             <div className="space-y-1 text-sm">
                                 <p className="font-bold">{getUserName(order.userId)}</p>
                                 <p className="text-gray-500">{getUserEmail(order.userId)}</p>
@@ -229,7 +234,7 @@ const AdminPanel = () => {
                         </div>
                         <div className="flex flex-col justify-between">
                             <div className="mb-4">
-                                <h3 className="text-xs font-bold text-gray-400 uppercase mb-2">Items</h3>
+                                <h3 className="text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest">Items</h3>
                                 <div className="text-sm space-y-1">
                                     {order.items.map((item, idx) => (
                                         <div key={idx} className="flex justify-between border-b border-dashed border-gray-200 pb-1">
@@ -257,30 +262,44 @@ const AdminPanel = () => {
             <div>
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-bold text-gray-700">Inventory Management</h2>
-                    <Button onClick={openAddProduct} className="bg-cyan-600 hover:bg-cyan-700 text-white gap-2">
-                        <Plus className="h-4 w-4" /> Add Product
+                    <Button onClick={openAddProduct} className="bg-gray-900 hover:bg-black text-white gap-2 font-bold px-6">
+                        <Plus className="h-4 w-4" /> ADD PRODUCT
                     </Button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {products.map((product) => (
-                        <Card key={product._id} className="overflow-hidden group hover:shadow-lg transition-all flex flex-col h-full">
+                    {products.map((product) => {
+                        const discount = calculateDiscount(product.price, product.discountPrice);
+                        return (
+                        <Card key={product._id} className="overflow-hidden group hover:shadow-xl transition-all flex flex-col h-full bg-white relative">
+                            {/* DISCOUNT PERCENTAGE BADGE */}
+                            {discount && (
+                                <div className="absolute top-2 left-2 z-10 bg-rose-600 text-white text-[11px] font-black px-2.5 py-1 rounded-sm shadow-md animate-pulse">
+                                    {discount}% OFF
+                                </div>
+                            )}
+                            
                             <div className="h-48 bg-gray-50 relative p-4 flex items-center justify-center">
-                                <img src={product.img} alt={product.name} className="h-full w-full object-contain" />
+                                <img src={product.img} alt={product.name} className="h-full w-full object-contain group-hover:scale-105 transition-transform duration-300" />
                                 <Badge className="absolute top-2 right-2 bg-white text-gray-800 shadow-sm border hover:bg-white">{product.category}</Badge>
                             </div>
                             <CardContent className="p-4 flex-grow flex flex-col justify-between">
                                 <div>
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h3 className="font-bold text-lg leading-tight">{product.name}</h3>
-                                        <span className="font-bold text-green-600">₹{product.price}</span>
+                                    <div className="flex justify-between items-start mb-3">
+                                        <h3 className="font-bold text-lg leading-tight text-gray-800">{product.name}</h3>
+                                        <div className="flex flex-col items-end">
+                                            <span className="font-black text-xl text-emerald-700">₹{product.discountPrice || product.price}</span>
+                                            {product.discountPrice && (
+                                                <span className="text-sm text-gray-400 line-through font-medium">₹{product.price}</span>
+                                            )}
+                                        </div>
                                     </div>
-                                    <p className="text-sm text-gray-500 line-clamp-2 mb-4">{product.description}</p>
+                                    <p className="text-sm text-gray-500 line-clamp-2 mb-6 italic">{product.description}</p>
                                 </div>
                                 
                                 <div className="flex gap-2 mt-auto">
-                                    <Button onClick={() => openEditProduct(product)} variant="outline" className="flex-1 border-gray-200 hover:bg-gray-50">
-                                        <Edit className="h-4 w-4 mr-2" /> Edit
+                                    <Button onClick={() => openEditProduct(product)} variant="outline" className="flex-1 border-gray-200 hover:bg-gray-50 font-bold">
+                                        <Edit className="h-4 w-4 mr-2" /> EDIT
                                     </Button>
                                     <Button onClick={() => deleteProduct(product._id)} variant="outline" className="text-red-500 border-red-100 hover:bg-red-50 hover:text-red-600">
                                         <Trash2 className="h-4 w-4" />
@@ -288,89 +307,89 @@ const AdminPanel = () => {
                                 </div>
                             </CardContent>
                         </Card>
-                    ))}
+                    )})}
                 </div>
             </div>
         )}
 
         {/* ==================== PRODUCT MODAL ==================== */}
         {showProductForm && (
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center p-4">
-                <Card className="w-full max-w-lg shadow-2xl animate-in fade-in zoom-in duration-200">
-                    <div className="p-6 border-b flex justify-between items-center">
-                        <h2 className="text-xl font-bold">{isEditing ? "Edit Product" : "Add New Product"}</h2>
-                        <button onClick={() => setShowProductForm(false)} className="text-gray-400 hover:text-gray-600"><X className="h-6 w-6" /></button>
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-center items-center p-4">
+                <Card className="w-full max-w-lg shadow-2xl animate-in fade-in zoom-in duration-200 border-none bg-white">
+                    <div className="p-6 border-b flex justify-between items-center bg-gray-50">
+                        <h2 className="text-xl font-black tracking-tight text-gray-800 uppercase">{isEditing ? "Edit Product" : "New Inventory"}</h2>
+                        <button onClick={() => setShowProductForm(false)} className="text-gray-400 hover:text-gray-600 bg-white rounded-full p-1 border shadow-sm"><X className="h-5 w-5" /></button>
                     </div>
                     <form onSubmit={handleProductSubmit} className="p-6 space-y-4">
                         
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Product Name</Label>
-                                <Input required value={currentProduct.name} onChange={(e) => setCurrentProduct({...currentProduct, name: e.target.value})} />
+                                <Label className="text-xs font-bold uppercase tracking-widest text-gray-500">Name</Label>
+                                <Input required value={currentProduct.name} onChange={(e) => setCurrentProduct({...currentProduct, name: e.target.value})} className="rounded-md" />
                             </div>
                             <div className="space-y-2">
-                                <Label>Category</Label>
-                                <Input required placeholder="e.g. Men's Health" value={currentProduct.category} onChange={(e) => setCurrentProduct({...currentProduct, category: e.target.value})} />
+                                <Label className="text-xs font-bold uppercase tracking-widest text-gray-500">Category</Label>
+                                <Input required placeholder="e.g. Men's Health" value={currentProduct.category} onChange={(e) => setCurrentProduct({...currentProduct, category: e.target.value})} className="rounded-md" />
                             </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Price (₹)</Label>
-                                <Input required type="number" value={currentProduct.price} onChange={(e) => setCurrentProduct({...currentProduct, price: e.target.value})} />
+                                <Label className="text-xs font-bold uppercase tracking-widest text-gray-500">M.R.P (₹)</Label>
+                                <Input required type="number" value={currentProduct.price} onChange={(e) => setCurrentProduct({...currentProduct, price: e.target.value})} className="rounded-md border-gray-300" />
                             </div>
                             <div className="space-y-2">
-                                <Label>Tag (Optional)</Label>
-                                <Input placeholder="e.g. Best Seller" value={currentProduct.tag} onChange={(e) => setCurrentProduct({...currentProduct, tag: e.target.value})} />
+                                <Label className="text-xs font-bold uppercase tracking-widest text-emerald-600">Sale Price (₹)</Label>
+                                <Input type="number" placeholder="Optional" value={currentProduct.discountPrice} onChange={(e) => setCurrentProduct({...currentProduct, discountPrice: e.target.value})} className="rounded-md border-emerald-100 bg-emerald-50/30" />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <Label>Description</Label>
-                            <Input required value={currentProduct.description} onChange={(e) => setCurrentProduct({...currentProduct, description: e.target.value})} />
+                            <Label className="text-xs font-bold uppercase tracking-widest text-gray-500">Description</Label>
+                            <Input required value={currentProduct.description} onChange={(e) => setCurrentProduct({...currentProduct, description: e.target.value})} className="rounded-md" />
                         </div>
 
-                        {/* --- IMAGE UPLOAD SECTION --- */}
                         <div className="space-y-2">
-                            <Label>Product Image</Label>
-                            <div className="flex gap-4 items-center">
-                                {/* PREVIEW BOX */}
-                                <div className="h-20 w-20 bg-gray-100 border rounded-md flex items-center justify-center overflow-hidden relative shrink-0">
+                            <Label className="text-xs font-bold uppercase tracking-widest text-gray-500">Tag (Optional)</Label>
+                            <Input placeholder="e.g. Best Seller" value={currentProduct.tag} onChange={(e) => setCurrentProduct({...currentProduct, tag: e.target.value})} className="rounded-md" />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label className="text-xs font-bold uppercase tracking-widest text-gray-500">Product Image</Label>
+                            <div className="flex gap-4 items-center bg-gray-50 p-3 rounded-lg border border-dashed border-gray-300">
+                                <div className="h-20 w-20 bg-white border rounded-md flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm">
                                     {currentProduct.img ? (
                                         <img src={currentProduct.img} alt="Preview" className="h-full w-full object-cover" />
                                     ) : (
                                         <ImageIcon className="text-gray-300 h-8 w-8" />
                                     )}
                                     {uploading && (
-                                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                                             <Loader2 className="h-6 w-6 text-white animate-spin" />
                                         </div>
                                     )}
                                 </div>
 
-                                {/* INPUTS */}
                                 <div className="flex-1 space-y-2">
-                                    <div className="relative">
-                                        <Input 
-                                            type="file" 
-                                            accept="image/*"
-                                            onChange={handleImageUpload}
-                                            disabled={uploading}
-                                            className="cursor-pointer file:bg-gray-100 file:text-gray-700 file:border-0 file:rounded-md file:px-2 file:py-1 file:mr-2 file:text-sm file:font-bold hover:file:bg-gray-200"
-                                        />
-                                    </div>
                                     <Input 
-                                        placeholder="Or paste URL manually..." 
+                                        type="file" 
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        disabled={uploading}
+                                        className="cursor-pointer text-xs h-9"
+                                    />
+                                    <Input 
+                                        placeholder="Image URL" 
                                         value={currentProduct.img} 
                                         onChange={(e) => setCurrentProduct({...currentProduct, img: e.target.value})}
-                                        className="text-xs text-gray-500 h-8"
+                                        className="text-[10px] text-gray-500 h-7"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <Button type="submit" disabled={uploading} className="w-full bg-gray-900 hover:bg-black text-white mt-4">
-                            {uploading ? "Uploading Image..." : (isEditing ? "Update Product" : "Create Product")}
+                        <Button type="submit" disabled={uploading} className="w-full bg-gray-900 hover:bg-black text-white mt-4 font-black h-12 rounded-lg tracking-widest shadow-lg">
+                            {uploading ? "UPLOADING..." : (isEditing ? "SAVE CHANGES" : "CREATE PRODUCT")}
                         </Button>
                     </form>
                 </Card>
