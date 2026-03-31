@@ -5,13 +5,13 @@ const User = require('../models/User');
 
 // SIGNUP
 router.post('/signup', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ error: "Email already exists" });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ name, email, password: hashedPassword });
+        const newUser = new User({ name, email, password: hashedPassword, phone: phone || '' });
         await newUser.save();
 
         res.status(201).json({ message: "User created successfully", userId: newUser._id });
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
 
         res.json({ 
             message: "Login successful", 
-            user: { id: user._id, name: user.name, email: user.email } 
+            user: { id: user._id, name: user.name, email: user.email, phone: user.phone || '' } 
         });
     } catch (err) {
         res.status(500).json({ error: "Server error" });

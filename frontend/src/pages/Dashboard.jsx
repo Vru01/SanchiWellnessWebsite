@@ -67,7 +67,7 @@ const Dashboard = () => {
       const productData = {
         id: targetId, 
         name: product.name,
-        price: product.price,
+        price: product.discountPrice || product.price,
         img: product.img
       };
 

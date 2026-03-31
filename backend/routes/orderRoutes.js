@@ -89,7 +89,7 @@ router.get('/orders/:userId', async (req, res) => {
 router.get('/admin/all-orders', async (req, res) => {
     try {
         const orders = await Order.find()
-            .populate('userId', 'name email') 
+            .populate('userId', 'name email phone') 
             .sort({ createdAt: -1 });
             
         res.json(orders);
@@ -104,6 +104,16 @@ router.post('/admin/update-status', async (req, res) => {
     try {
         await Order.findByIdAndUpdate(orderId, { status });
         res.json({ message: "Status updated" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// --- ADMIN: DELETE ORDER ---
+router.delete('/admin/delete-order/:orderId', async (req, res) => {
+    try {
+        await Order.findByIdAndDelete(req.params.orderId);
+        res.json({ message: "Order deleted" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

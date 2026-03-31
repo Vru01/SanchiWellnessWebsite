@@ -125,6 +125,11 @@ const ProductSection = ({ onAddToCart }) => {
                       className="w-full h-full object-contain p-4 relative z-10 group-hover:scale-110 transition-transform duration-500" 
                    />
                 </div>
+                {product.discountPrice && Number(product.discountPrice) < Number(product.price) && (
+                  <div className="absolute top-2 left-2 z-20 bg-rose-600 text-white text-[11px] font-black px-2.5 py-1 rounded-sm shadow-md animate-pulse">
+                    {Math.round(((product.price - product.discountPrice) / product.price) * 100)}% OFF
+                  </div>
+                )}
                 {product.tag && (
                   <Badge className="absolute top-3 right-3 shadow-md z-20 bg-cyan-600">{product.tag}</Badge>
                 )}
@@ -132,8 +137,13 @@ const ProductSection = ({ onAddToCart }) => {
               
               <CardContent className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-2">
-                  <p className="text-xs font-bold text-cyan-600 uppercase tracking-wider">{product.category}</p>
-                  <span className="text-lg font-bold text-gray-900">₹{product.price}</span>
+                  <p className="text-s font-bold text-cyan-600 uppercase tracking-wider">{product.category}</p>
+                  <div className="flex flex-col items-end">
+                    <span className="font-black text-xl text-emerald-700">₹{product.discountPrice || product.price}</span>
+                    {product.discountPrice && (
+                      <span className="text-sm text-gray-400 line-through font-medium">₹{product.price}</span>
+                    )}
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 leading-tight mb-1">{product.name}</h3>
                 <p className="text-sm text-gray-500">{product.description}</p>
