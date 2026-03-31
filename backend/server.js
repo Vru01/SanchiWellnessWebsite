@@ -18,7 +18,8 @@ app.use(cors({
   origin: [
     "https://sanchiwellness.com",
     "https://www.sanchiwellness.com",
-    "https://sanchiwellnesswebsite.onrender.com" // Essential for Render environment
+    "https://sanchiwellnesswebsite.onrender.com",
+    "https://sanchiwellnesswebsite-front.onrender.com"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Explicitly allow PUT
   allowedHeaders: ["Content-Type", "Authorization"],
