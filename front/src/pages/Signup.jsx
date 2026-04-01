@@ -173,7 +173,7 @@ function LeftPanel() {
         </Link>
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/50 text-xs mb-6">
-            <Sparkles className="h-3 w-3" style={{color:'#6fea6d'}}/>Join the wellness community
+            <Sparkles className="h-3 w-3" style={{color:'#6fea6d'}}/>Keeping Wellness In Everyday Life
           </div>
           <h2 className="font-serif text-4xl font-bold text-white leading-tight mb-4">
             Begin your path<br/>to <span style={{color:'#6fea6d'}}>true wellness.</span>

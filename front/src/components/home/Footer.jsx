@@ -48,7 +48,7 @@ export default function Footer() {
                   <span style={{color: '#19e5e4'}}>Sanchi</span>{' '}
                   <span style={{color: '#6fea6d'}}>Wellness</span>
                 </p>
-                <p className="text-[9px] tracking-[0.22em] uppercase text-gray-600">Ancient Wisdom · Modern Science</p>
+                <p className="text-[9px] tracking-[0.22em] uppercase text-gray-600">Keeping Wellness In Everyday Life</p>
               </div>
             </div>
 

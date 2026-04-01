@@ -34,7 +34,7 @@ export default function Login() {
     <div className="min-h-screen flex">
       {/* Left decorative panel — desktop only */}
       <LeftPanel
-        badge="Ancient Wisdom · Modern Science"
+        badge="Keeping Wellness In Everyday Life"
         heading={<>Your wellness<br /><span style={{color:'#19e5e4'}}>journey</span> awaits.</>}
         sub="Sign in to access your dashboard, track orders, and explore our curated wellness collection."
         pills={['Premium Products','Fast Delivery','Natural Ingredients','Expert Formulas']}
@@ -43,7 +43,7 @@ export default function Login() {
       />
 
       {/* Right — form side */}
-      <div className="flex-1 flex flex-col min-h-screen" style={{background: 'linear-gradient(160deg, #f0fffe 0%, #f7fff7 50%, #f0f9ff 100%)'}}>
+      <div className="flex-1 flex flex-col min-h-screen" style={{background: 'linear-gradient(160deg, #f0fffe 0%, #f7fff7 50%, #f0f9ff )'}}>
         {/* Top accent bar */}
         <div className="h-1 w-full" style={{background: 'linear-gradient(90deg, #19e5e4, #6fea6d)'}} />
 
@@ -108,7 +108,7 @@ export default function Login() {
 
             {/* Trust row */}
             <div className="flex items-center justify-center gap-5 mt-6 flex-wrap">
-              {[{icon:<ShieldCheck className="h-3.5 w-3.5"/>,label:'Secure',color:'#19e5e4'},{icon:<Leaf className="h-3.5 w-3.5"/>,label:'100% Natural',color:'#6fea6d'},{icon:<Sparkles className="h-3.5 w-3.5"/>,label:'Ayurveda',color:'#fbbf24'}].map(({icon,label,color})=>(
+              {[{icon:<ShieldCheck className="h-3.5 w-3.5"/>,label:'Secure',color:'#19e5e4'},{icon:<Leaf className="h-3.5 w-3.5"/>,label:' Natural',color:'#6fea6d'},{icon:<Sparkles className="h-3.5 w-3.5"/>,label:'Ayurveda',color:'#fbbf24'}].map(({icon,label,color})=>(
                 <div key={label} className="flex items-center gap-1.5 text-[11px] text-gray-400" style={{color}}>
                   {icon}<span className="text-gray-400">{label}</span>
                 </div>
@@ -126,8 +126,8 @@ function LeftPanel({ badge, heading, sub, pills, quote, tealFirst }) {
   return (
     <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden flex-col"
       style={{background: tealFirst
-        ? 'linear-gradient(145deg,#0a0f1e 0%,#0d1f1f 50%,#0a1a0a 100%)'
-        : 'linear-gradient(145deg,#0a1a0a 0%,#0d1f1f 50%,#0a0f1e 100%)'}}>
+        ? 'linear-gradient(145deg,#0a0f1e 0%,#0d1f1f 50%,#0a1a0a )'
+        : 'linear-gradient(145deg,#0a1a0a 0%,#0d1f1f 50%,#0a0f1e )'}}>
       <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-3xl opacity-25 animate-pulse" style={{background:'#19e5e4'}}/>
       <div className="absolute bottom-1/3 right-1/4 w-56 h-56 rounded-full blur-3xl opacity-20 animate-pulse" style={{background:'#6fea6d',animationDelay:'1s'}}/>
       <div className="absolute inset-0 opacity-[0.04]" style={{backgroundImage:'linear-gradient(rgba(255,255,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.15) 1px,transparent 1px)',backgroundSize:'40px 40px'}}/>

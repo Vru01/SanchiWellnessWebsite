@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cron = require('node-cron');
+const https = require('https');
+const http = require('http');
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
@@ -155,10 +158,23 @@ const seedProducts = async () => {
     }
 };
 // --- USE ROUTES ---
+app.get('/', (req, res) => res.json({ status: 'ok', service: 'Sanchi Wellness API' }));
 app.use('/api', authRoutes);         // Handles /api/login, /api/signup
 app.use('/api/products', productRoutes); // Handles /api/products
 app.use('/api/cart', cartRoutes);    // Handles /api/cart/...
 app.use('/api', orderRoutes);        // Handles /api/checkout, /api/orders
+
+// --- KEEP ALIVE CRON (prevents Render free tier cold starts) ---
+const BACKEND_URL = process.env.BACKEND_URL || `http://localhost:${PORT}`;
+cron.schedule('*/14 * * * *', () => {
+    const url = new URL(BACKEND_URL);
+    const requester = url.protocol === 'https:' ? https : http;
+    requester.get(`${BACKEND_URL}/`, (res) => {
+        console.log(`🔄 Keep-alive ping sent → status ${res.statusCode}`);
+    }).on('error', (err) => {
+        console.error('❌ Keep-alive ping failed:', err.message);
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

@@ -1,10 +1,10 @@
 import { Leaf, FlaskConical, HeartHandshake, Award } from 'lucide-react';
 
 const stats = [
-  { value: '100%', label: 'Natural Ingredients' },
-  { value: '12+', label: 'Premium Products' },
-  { value: '5000+', label: 'Happy Customers' },
-  { value: '10+', label: 'Years of Research' },
+  { label: 'Natural Ingredients' },
+  { label: 'Premium Products' },
+  { label: 'Delivered Happiness' },
+  { label: 'Years Of Research' },
 ];
 
 const pillars = [
@@ -22,8 +22,7 @@ export default function AboutSection() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map(s => (
             <div key={s.label} className="text-center">
-              <p className="font-serif text-3xl md:text-4xl font-bold text-white">{s.value}</p>
-              <p className="text-white/70 text-sm mt-1 tracking-wide">{s.label}</p>
+              <p className="font-serif text-lg md:text-xl font-bold text-white tracking-widest uppercase">{s.label}</p>
             </div>
           ))}
         </div>

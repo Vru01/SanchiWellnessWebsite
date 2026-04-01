@@ -63,7 +63,7 @@ export default function Navbar() {
                 <span style={{color: '#6fea6d'}}>Wellness</span>
               </span>
               <span className={`text-[8px] tracking-[0.22em] uppercase font-light mt-0.5 ${scrolled ? 'text-gray-400' : 'text-white/45'}`}>
-                Ancient Wisdom · Modern Science
+                Keeping Wellness In Everyday Life
               </span>
             </div>
           </Link>

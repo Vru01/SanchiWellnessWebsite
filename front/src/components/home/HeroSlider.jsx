@@ -5,12 +5,14 @@ import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const slides = [
-  { img: 'https://res.cloudinary.com/dfqgwgehn/image/upload/v1767970064/S1_rvzr1o.jpg', tag: 'Premium Wellness' },
-  { img: 'https://res.cloudinary.com/dfqgwgehn/image/upload/v1767970063/S2_tzlapo.jpg', tag: 'Natural Healing' },
-  { img: 'https://res.cloudinary.com/dfqgwgehn/image/upload/v1767970063/S3_v7gbae.jpg', tag: 'Ancient Wisdom' },
-  { img: 'https://res.cloudinary.com/dfqgwgehn/image/upload/v1767970062/S4_jgwriv.jpg', tag: 'Pure Ingredients' },
-  { img: 'https://res.cloudinary.com/dfqgwgehn/image/upload/v1767970062/S5_btzcqb.jpg', tag: 'Holistic Care' },
-  { img: 'https://res.cloudinary.com/dfqgwgehn/image/upload/v1767970062/S6_p8jzfm.jpg', tag: 'Modern Science' },
+  { img: '/carousel/1.png', tag: 'Premium Wellness' },
+  { img: '/carousel/2.png', tag: 'Natural Healing' },
+  { img: '/carousel/3.png', tag: 'Ancient Wisdom' },
+  { img: '/carousel/4.png', tag: 'Pure Ingredients' },
+  { img: '/carousel/5.png', tag: 'Holistic Care' },
+  { img: '/carousel/6.png', tag: 'Modern Science' },
+  { img: '/carousel/7.png', tag: 'Ayurveda Rooted' },
+  { img: '/carousel/8.png', tag: 'Everyday Wellness' },
 ];
 
 export default function HeroSlider() {
@@ -46,13 +48,21 @@ export default function HeroSlider() {
         <div className="inline-flex items-center gap-2 border border-cyan-400/50 text-cyan-300 text-xs tracking-[0.3em] uppercase px-5 py-2 rounded-full mb-8 backdrop-blur-sm bg-white/5">
           {slides[selected].tag}
         </div>
-        <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-wide mb-4">
-          <span style={{color: '#19e5e4'}}>Sanchi</span>{' '}
-          <span style={{color: '#6fea6d'}}>Wellness</span>
+        <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-wide mb-3">
+          <span style={{color: '#19e5e4'}}>SANCHI</span>{' '}
+          <span style={{color: '#6fea6d'}}>WELLNESS</span>
         </h1>
-        <p className="text-white/70 text-lg md:text-xl max-w-xl mb-10 font-light leading-relaxed">
-          Ancient Ayurvedic wisdom meets modern science. Pure, potent, and purposeful.
-        </p>
+
+        {/* Tagline — highlighted */}
+        <div className="flex items-center gap-3 mb-10">
+          <div className="h-px w-8 bg-gradient-to-r from-transparent to-white/40" />
+          <p className="text-white text-sm md:text-base tracking-[0.2em] uppercase font-medium px-4 py-1.5 rounded-full"
+            style={{background: 'linear-gradient(135deg, rgba(25,229,228,0.15), rgba(111,234,109,0.15))', border: '1px solid rgba(25,229,228,0.25)'}}>
+            Keeping Wellness In Everyday Life
+          </p>
+          <div className="h-px w-8 bg-gradient-to-l from-transparent to-white/40" />
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-4">
           <Link to="/signup" className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-green-600 text-white font-semibold px-8 py-4 rounded-full hover:from-cyan-600 hover:to-green-700 transition-all shadow-lg shadow-cyan-500/25 text-sm tracking-wide">
             Shop Now <ArrowRight className="h-4 w-4" />
