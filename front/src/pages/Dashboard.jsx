@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import ProductSection from '@/components/home/ProductSection';
 import Footer from '@/components/home/Footer';
-import { ShoppingBag, Package, Plus, Minus, Trash2, Loader2, User, ArrowRight, Clock, CheckCircle2, XCircle, Mail, Phone } from 'lucide-react';
+import { ShoppingBag, Package, Plus, Minus, Trash2, Loader2, User, ArrowRight, Clock, CheckCircle2, XCircle, Mail, Phone, Truck } from 'lucide-react';
 import { toast } from '@/components/ui/Toast';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -182,6 +182,15 @@ export default function Dashboard() {
                         <div>
                           <p className="font-semibold text-gray-900 text-sm">#{String(order.id).slice(-6).toUpperCase()}</p>
                           <p className="text-gray-400 text-xs mt-0.5">{new Date(order.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                          
+                          {/* NEW: Customer Tracking ID Display */}
+                          {order.awbNumber && (
+                            <div className="mt-2 inline-flex items-center gap-1.5 bg-cyan-50 text-cyan-700 border border-cyan-100 px-2.5 py-1 rounded-md">
+                              <Truck className="h-3 w-3" />
+                              <span className="text-xs font-semibold">Tracking AWB: <span className="font-mono tracking-wider">{order.awbNumber}</span></span>
+                            </div>
+                          )}
+                          
                         </div>
                         <div className="text-right">
                           <p className="font-bold text-gray-900 text-sm mb-1">₹{order.total}</p>

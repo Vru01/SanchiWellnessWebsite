@@ -11,7 +11,21 @@ const orderSchema = new mongoose.Schema({
     status: { type: String, default: 'Pending' },
     paymentMethod: String,
     transactionId: String,
-    shippingAddress: String,
+    
+    // 1. Updated Address Structure (Required by Shipping APIs)
+    shippingAddress: {
+        street: String,
+        city: String,
+        state: String,
+        pincode: String
+    },
+    
+    // 2. New Shipping Tracking Fields
+    shipmentId: String,
+    awbNumber: String,
+    courierName: String,
+    labelUrl: String,
+    
     createdAt: { type: Date, default: Date.now }
 });
 

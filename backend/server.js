@@ -19,6 +19,7 @@ const PORT = process.env.PORT || 5000;
 // --- MIDDLEWARE ---
 app.use(cors({
   origin: [
+    "http://localhost:5173",
     "https://sanchiwellness.com",
     "https://www.sanchiwellness.com",
     "https://sanchiwellnesswebsite.onrender.com",

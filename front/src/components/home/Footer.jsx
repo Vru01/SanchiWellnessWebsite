@@ -40,13 +40,13 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <img
                 src="/logo.png"
-                alt="Sanchi Wellness"
+                alt="SANCHI WELLNESS"
                 className="w-11 h-11 rounded-full object-cover shadow-lg shadow-cyan-900/40 ring-2 ring-white/10"
               />
               <div>
                 <p className="font-serif text-xl font-bold">
-                  <span style={{color: '#19e5e4'}}>Sanchi</span>{' '}
-                  <span style={{color: '#6fea6d'}}>Wellness</span>
+                  <span style={{color: '#19e5e4'}}>SANCHI</span>{' '}
+                  <span style={{color: '#6fea6d'}}>WELLNESS</span>
                 </p>
                 <p className="text-[9px] tracking-[0.22em] uppercase text-gray-600">Keeping Wellness In Everyday Life</p>
               </div>
@@ -153,7 +153,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600">
-          <p>&copy; {currentYear} Sanchi Wellness. All rights reserved.</p>
+          <p>&copy; {currentYear} SANCHI WELLNESS. All rights reserved.</p>
           <div className="flex items-center gap-1 text-gray-700">
             <span>Made with</span>
             <span className="text-red-500 animate-pulse mx-0.5">♥</span>

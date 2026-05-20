@@ -212,13 +212,33 @@ export default function AdminPanel() {
                   {/* Address */}
                   <div className="bg-slate-50 border border-gray-100 rounded-xl p-4">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Ship To</p>
+                    
                     {order.shippingAddress ? (
                       <div className="flex items-start gap-1.5">
                         <MapPin className="h-3.5 w-3.5 text-gray-400 mt-0.5 shrink-0" />
-                        <p className="text-xs text-gray-700 leading-relaxed">{order.shippingAddress}</p>
+                        <div className="text-xs text-gray-700 leading-relaxed">
+                          {/* Check if it's the new Object format */}
+                          {typeof order.shippingAddress === 'object' ? (
+                            <>
+                              <p>{order.shippingAddress.street}</p>
+                              <p>{order.shippingAddress.city}, {order.shippingAddress.state} - {order.shippingAddress.pincode}</p>
+                            </>
+                          ) : (
+                            /* Fallback for older orders where address was a string */
+                            <p>{order.shippingAddress}</p>
+                          )}
+                        </div>
                       </div>
                     ) : (
                       <p className="text-gray-300 text-xs italic">No address</p>
+                    )}
+
+                    {/* Bonus: Display the new AWB Tracking Number from Shipmozo! */}
+                    {order.awbNumber && (
+                      <div className="mt-3 pt-2 border-t border-gray-200">
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">AWB Tracking</p>
+                        <p className="text-xs font-mono text-cyan-600 font-semibold">{order.awbNumber}</p>
+                      </div>
                     )}
                   </div>
 

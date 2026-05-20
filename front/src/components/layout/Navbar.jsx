@@ -52,15 +52,15 @@ export default function Navbar() {
             <div className="relative">
               <img
                 src="/logo.png"
-                alt="Sanchi Wellness"
+                alt="SANCHI WELLNESS"
                 className="w-10 h-10 rounded-full object-cover shadow-md ring-2 ring-white/30 group-hover:ring-cyan-400/50 transition-all duration-300"
               />
 
             </div>
             <div className="flex flex-col leading-none">
               <span className="font-serif text-[17px] font-bold tracking-wide">
-                <span style={{color: '#19e5e4'}}>Sanchi</span>{' '}
-                <span style={{color: '#6fea6d'}}>Wellness</span>
+                <span style={{color: '#19e5e4'}}>SANCHI</span>{' '}
+                <span style={{color: '#6fea6d'}}>WELLNESS</span>
               </span>
               <span className={`text-[8px] tracking-[0.22em] uppercase font-light mt-0.5 ${scrolled ? 'text-gray-400' : 'text-white/45'}`}>
                 Keeping Wellness In Everyday Life

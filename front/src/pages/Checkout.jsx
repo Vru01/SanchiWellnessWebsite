@@ -2,21 +2,37 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/home/Footer';
-import { Lock, ShieldCheck, Smartphone, AlertCircle, Info, CheckCircle2, Loader2, ArrowLeft } from 'lucide-react';
-import QRCode from 'react-qr-code';
+import { Lock, ShieldCheck, Smartphone, AlertCircle, CheckCircle2, Loader2, ArrowLeft } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API = `${API_URL}/api`;
-const MERCHANT_UPI = import.meta.env.VITE_UPI_ID || import.meta.env.VITE_MERCHANT_UPI || 'yourname@upi';
-const MERCHANT_NAME = 'Sanchi Wellness';
+const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID; 
+
+// Helper function to load Razorpay script
+const loadScript = (src) => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
 
 export default function Checkout() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [address, setAddress] = useState('');
-  const [txnId, setTxnId] = useState('');
+  
+  // 1. Updated state to hold structured address data
+  const [address, setAddress] = useState({
+    street: '',
+    city: '',
+    state: '',
+    pincode: ''
+  });
+  
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -36,26 +52,108 @@ export default function Checkout() {
   }, [navigate]);
 
   const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-  const upiLink = `upi://pay?pa=${MERCHANT_UPI}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&tn=SanchiWellnessOrder&cu=INR`;
 
-  const handleSubmit = async () => {
+  // Helper to handle input changes for address
+  const handleAddressChange = (e) => {
+    setAddress({ ...address, [e.target.name]: e.target.value });
+  };
+
+  const handleRazorpayPayment = async () => {
     setError('');
-    if (!address.trim() || address.length < 10) { setError('Please enter a complete shipping address.'); return; }
-    if (!/^\d{12}$/.test(txnId)) { setError('UTR must be exactly 12 digits.'); return; }
+    
+    // 2. Updated Validation for the new structured address
+    if (!address.street.trim() || !address.city.trim() || !address.state.trim() || !address.pincode.trim()) {
+      setError('Please fill in all shipping address fields.');
+      return;
+    }
+    
+    if (!/^\d{6}$/.test(address.pincode.trim())) {
+      setError('Please enter a valid 6-digit Pincode.');
+      return;
+    }
+
     setSubmitting(true);
+
+    // 1. Load Razorpay script
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    if (!res) {
+      setError("Razorpay SDK failed to load. Are you online?");
+      setSubmitting(false);
+      return;
+    }
+
     try {
-      const res = await fetch(`${API}/checkout`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, transactionId: txnId, address, cartItems: cart }),
+      // 2. Create order on backend
+      const orderRes = await fetch(`${API}/create-razorpay-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartItems: cart }),
       });
-      const data = await res.json();
-      if (res.ok) {
-        setSuccess(true);
-        window.dispatchEvent(new Event('cartUpdated'));
-        setTimeout(() => navigate('/dashboard'), 2500);
-      } else { setError(data.error || 'Order failed. Please try again.'); }
-    } catch { setError('Server connection failed.'); }
-    finally { setSubmitting(false); }
+      const orderData = await orderRes.json();
+
+      if (!orderData.success) {
+        setError("Failed to create order on server.");
+        setSubmitting(false);
+        return;
+      }
+
+      // 3. Initialize Razorpay Checkout
+      const options = {
+        key: RAZORPAY_KEY, 
+        amount: orderData.order.amount,
+        currency: orderData.order.currency,
+        name: "Sanchi Wellness",
+        description: "Wellness Products Purchase",
+        order_id: orderData.order.id, // The order_id created by backend
+        handler: async function (response) {
+          // 4. Verify payment on backend
+          try {
+            const verifyRes = await fetch(`${API}/verify-razorpay-payment`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                userId: user.id,
+                address, // This now correctly passes the structured object
+                cartItems: cart
+              }),
+            });
+            const verifyData = await verifyRes.json();
+
+            if (verifyData.success) {
+              setSuccess(true);
+              window.dispatchEvent(new Event('cartUpdated'));
+              setTimeout(() => navigate('/dashboard'), 2500);
+            } else {
+              setError("Payment verification failed.");
+            }
+          } catch (err) {
+            setError("Server error during verification.");
+          }
+        },
+        prefill: {
+          name: user.name || "",
+          email: user.email || "",
+          contact: user.phone || ""
+        },
+        theme: {
+          color: "#06b6d4" // Cyan-500 to match your UI
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.on("payment.failed", function (response) {
+        setError(response.error.description);
+      });
+      paymentObject.open();
+
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (loading) return (
@@ -70,7 +168,6 @@ export default function Checkout() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      {/* Header */}
       <div className="bg-gradient-to-r from-cyan-500 to-green-600 pt-24 pb-10 px-6">
         <div className="max-w-5xl mx-auto">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm mb-4">
@@ -95,23 +192,49 @@ export default function Checkout() {
           <div className="w-20 h-20 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-100">
             <CheckCircle2 className="h-10 w-10 text-green-600" />
           </div>
-          <h2 className="font-serif text-3xl font-bold text-gray-900 mb-3">Order Placed!</h2>
-          <p className="text-gray-500 leading-relaxed">We'll verify your UPI payment and ship your order shortly. Redirecting to dashboard...</p>
+          <h2 className="font-serif text-3xl font-bold text-gray-900 mb-3">Payment Successful!</h2>
+          <p className="text-gray-500 leading-relaxed">Your order has been placed. Redirecting to your dashboard...</p>
         </div>
       ) : (
         <div className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left */}
+          
+          {/* Left: Shipping & Summary */}
           <div className="space-y-6">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
                 <span className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-500 to-green-600 text-white text-xs font-bold flex items-center justify-center shadow-sm">1</span>
                 <h2 className="font-serif text-lg font-semibold text-gray-900">Shipping Details</h2>
               </div>
-              <div className="p-6">
-                <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-medium">Delivery Address</label>
-                <textarea rows={4} value={address} onChange={e => setAddress(e.target.value)}
-                  placeholder="Full Name, House No, Street, Area, City, Pincode"
-                  className="w-full border border-gray-200 rounded-xl p-4 text-sm text-gray-900 placeholder-gray-300 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all resize-none bg-gray-50" />
+              <div className="p-6 space-y-4">
+                {/* 3. Updated UI for structured address inputs */}
+                <div>
+                  <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-medium">Street Address / Area</label>
+                  <input type="text" name="street" value={address.street} onChange={handleAddressChange}
+                    placeholder="House No, Building, Street Name"
+                    className="w-full border border-gray-200 rounded-xl p-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all bg-gray-50" />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-medium">City</label>
+                    <input type="text" name="city" value={address.city} onChange={handleAddressChange}
+                      placeholder="e.g. Mumbai"
+                      className="w-full border border-gray-200 rounded-xl p-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all bg-gray-50" />
+                  </div>
+                  <div>
+                    <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-medium">State</label>
+                    <input type="text" name="state" value={address.state} onChange={handleAddressChange}
+                      placeholder="e.g. Maharashtra"
+                      className="w-full border border-gray-200 rounded-xl p-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all bg-gray-50" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-medium">Pincode</label>
+                  <input type="text" name="pincode" value={address.pincode} onChange={handleAddressChange} maxLength={6}
+                    placeholder="6-digit Pincode"
+                    className="w-full border border-gray-200 rounded-xl p-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all bg-gray-50" />
+                </div>
               </div>
             </div>
 
@@ -132,64 +255,42 @@ export default function Checkout() {
                     <span className="font-semibold text-gray-900">₹{item.price * item.quantity}</span>
                   </div>
                 ))}
-                <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
-                  <span className="font-semibold text-gray-600">Total Payable</span>
-                  <span className="font-serif text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-green-600">₹{total}</span>
-                </div>
               </div>
             </div>
           </div>
 
-          {/* Right — payment */}
+          {/* Right: Payment Action */}
           <div>
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden sticky top-24">
               <div className="px-6 py-5 border-b border-gray-100 flex items-center gap-2">
                 <Smartphone className="h-5 w-5 text-cyan-600" />
-                <h2 className="font-serif text-lg font-semibold text-gray-900">Scan & Pay via UPI</h2>
+                <h2 className="font-serif text-lg font-semibold text-gray-900">Payment</h2>
               </div>
 
               <div className="p-6 flex flex-col items-center gap-5">
-                <div className="p-4 bg-gradient-to-br from-cyan-50 to-green-50 rounded-2xl border border-cyan-100 shadow-inner">
-                  <QRCode value={upiLink} size={180} />
-                </div>
-
-                <div className="flex items-start gap-2 bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-xs text-yellow-700 max-w-xs text-center">
-                  <Info className="h-4 w-4 shrink-0 mt-0.5 text-yellow-500" />
-                  <span>Verify payee name is <strong>"{MERCHANT_NAME}"</strong> before confirming payment.</span>
-                </div>
-
-                <div className="text-center">
-                  <p className="text-gray-400 text-xs uppercase tracking-widest mb-1">Amount to Pay</p>
+                <div className="text-center w-full pb-4 border-b border-gray-100">
+                  <p className="text-gray-400 text-xs uppercase tracking-widest mb-1">Total Payable</p>
                   <p className="font-serif text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-green-600">₹{total}</p>
                 </div>
 
                 <div className="w-full space-y-4">
-                  <div>
-                    <label className="text-gray-600 text-xs tracking-widest uppercase mb-2 block font-medium">Transaction ID (UTR)</label>
-                    <input value={txnId}
-                      onChange={e => { const v = e.target.value.replace(/\D/g, ''); if (v.length <= 12) setTxnId(v); }}
-                      maxLength={12} placeholder="Enter 12-digit UTR number"
-                      className="w-full border border-gray-200 text-gray-900 placeholder-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all bg-gray-50" />
-                    <p className="text-gray-400 text-[10px] mt-1.5">Found in your UPI app under "Transaction Details"</p>
-                  </div>
-
                   {error && (
                     <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 border border-red-100 p-3 rounded-xl">
                       <AlertCircle className="h-4 w-4 shrink-0" /> {error}
                     </div>
                   )}
 
-                  <button onClick={handleSubmit} disabled={submitting}
-                    className="w-full bg-gradient-to-r from-cyan-500 to-green-600 hover:from-cyan-600 hover:to-green-700 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-sm shadow-md shadow-cyan-200 disabled:opacity-60">
-                    {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Verifying Payment...</> : 'I Have Paid — Place Order'}
+                  <button onClick={handleRazorpayPayment} disabled={submitting}
+                    className="w-full bg-[#02042b] hover:bg-gray-900 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-sm shadow-md disabled:opacity-60">
+                    {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Processing...</> : 'Pay securely with Razorpay'}
                   </button>
+                  <p className="text-center text-[10px] text-gray-400 font-medium">Cards, UPI, NetBanking & Wallets accepted</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
-
       <Footer />
     </div>
   );
