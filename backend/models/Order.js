@@ -25,7 +25,9 @@ const orderSchema = new mongoose.Schema({
     awbNumber: String,
     courierName: String,
     labelUrl: String,
-    
+    // Add these inside your orderSchema
+    deliveryType: { type: String, default: 'standard' },
+    deliveryFee: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 });
 
