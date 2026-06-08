@@ -5,6 +5,7 @@ import ProductSection from '@/components/home/ProductSection';
 import Footer from '@/components/home/Footer';
 import { ShoppingBag, Package, Plus, Minus, Trash2, Loader2, User, ArrowRight, Clock, CheckCircle2, XCircle, Mail, Phone, Truck } from 'lucide-react';
 import { toast } from '@/components/ui/Toast';
+import ProfileSidebar from '@/components/ProfileSidebar';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API = `${API_URL}/api`;
@@ -24,11 +25,26 @@ export default function Dashboard() {
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
-    if (!stored) { navigate('/login'); return; }
-    const u = JSON.parse(stored);
-    setUser(u);
-    fetchCart(u.id);
-    fetchOrders(u.id);
+    const token = localStorage.getItem('token'); // 🔥 Added token safety check
+
+    // If either the user object or token is missing, wipe local storage clean and redirect
+    if (!stored || !token) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      navigate('/login'); 
+      return; 
+    }
+
+    try {
+      const u = JSON.parse(stored);
+      setUser(u);
+      fetchCart(u.id);
+      fetchOrders(u.id);
+    } catch (err) {
+      // Handles rare case of corrupted JSON strings in localStorage
+      localStorage.clear();
+      navigate('/login');
+    }
   }, [navigate]);
 
   const fetchCart = async (id) => {
@@ -36,7 +52,20 @@ export default function Dashboard() {
     const token = localStorage.getItem('token');
     try { 
       const r = await fetch(`${API}/cart/${id}`, { headers: { 'Authorization': `Bearer ${token}` } }); 
+      
+      // 🔥 NEW: If token is expired or invalid, boot them out safely
+      if (r.status === 401) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        navigate('/login');
+        toast.error("Session expired. Please sign in again.");
+        return;
+      }
+
       if (r.ok) setCart(await r.json()); 
+    }
+    catch (err) {
+      console.error(err);
     }
     finally { setCartLoading(false); }
   };
@@ -44,11 +73,25 @@ export default function Dashboard() {
   const fetchOrders = async (id) => {
     const token = localStorage.getItem('token');
     try { 
-      const r = await fetch(`${API}/orders/user/${id}`, { headers: { 'Authorization': `Bearer ${token}` } }); 
-      if (r.ok) setOrders(await r.json()); 
-    } catch {}
-  };
+      const r = await fetch(`${API}/orders/user/${id}`, { 
+        headers: { 'Authorization': `Bearer ${token}` } 
+      }); 
 
+      // 🔥 IF TOKEN IS EXPIRED (Backend throws 401): Wipe session and force re-login
+      if (r.status === 401) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        navigate('/login');
+        toast.error("Your session has expired. Please log in again.");
+        return;
+      }
+
+      if (r.ok) setOrders(await r.json()); 
+    } catch (err) {
+      console.error("Order history retrieval failed:", err);
+    }
+  };
+  
   const addToCart = async (product) => {
     if (!user) return;
     const token = localStorage.getItem('token');
@@ -87,6 +130,8 @@ export default function Dashboard() {
     return s + (price * item.quantity);
   }, 0);
 
+  // Dynamic counter to fix the cart length calculation bug
+  const cartItemCount = cart.reduce((s, item) => s + item.quantity, 0);
   if (!user) return null;
 
   return (
@@ -236,70 +281,16 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="space-y-5">
-          <div className="rounded-2xl shadow-sm border border-gray-100 overflow-hidden bg-white">
-            <div className="px-5 pt-5 pb-4 relative" style={{background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 70%, #0f2027 100%)'}}>
-              <div className="absolute inset-0 pointer-events-none" style={{backgroundImage: 'radial-gradient(circle at 10% 80%, #19e5e425 0%, transparent 50%), radial-gradient(circle at 90% 20%, #6fea6d18 0%, transparent 50%)'}} />
-              <div className="relative flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg text-xl font-bold text-white shrink-0"
-                  style={{background: 'linear-gradient(135deg, #19e5e4, #6fea6d)'}}>
-                  {user.name.charAt(0).toUpperCase()}
-                </div>
-                <div className="min-w-0">
-                  <h3 className="font-serif text-base font-bold text-white leading-tight truncate">{user.name}</h3>
-                  <p className="text-white/40 text-xs mt-0.5">Sanchi Wellness</p>
-                  <span className="inline-block mt-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                    style={{color: '#19e5e4', background: '#19e5e415', border: '1px solid #19e5e430'}}>
-                    Member
-                  </span>
-                </div>
-              </div>
-            </div>
+        <ProfileSidebar 
+          user={user}
+          setUser={setUser}
+          orders={orders}
+          cart={cart}
+          total={total}
+          cartItemCount={cartItemCount}
+          API={API}
+        />
 
-            <div className="px-5 py-4 space-y-2.5">
-              <InfoRow icon={<Mail className="h-3.5 w-3.5" />} color="#19e5e4" bg="#19e5e410" label="Email" value={user.email} truncate />
-              {user.phone && (
-                <InfoRow icon={<Phone className="h-3.5 w-3.5" />} color="#6fea6d" bg="#6fea6d10" label="Phone" value={`+91 ${user.phone}`} />
-              )}
-              <InfoRow icon={<Package className="h-3.5 w-3.5" />} color="#a78bfa" bg="#a78bfa10" label="Orders" value={`${orders.length} placed`} />
-              <InfoRow icon={<ShoppingBag className="h-3.5 w-3.5" />} color="#fb923c" bg="#fb923c10" label="Cart" value={cart.length > 0 ? `${cart.length} item${cart.length > 1 ? 's' : ''} · ₹${total}` : 'Empty'} />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm text-center">
-              <p className="font-serif text-2xl font-bold text-gray-900">{orders.length}</p>
-              <p className="text-gray-400 text-xs mt-0.5">Total Orders</p>
-            </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm text-center">
-              <p className="font-serif text-2xl font-bold text-gray-900">
-                ₹{orders.filter(o => o.status === 'Processing' || o.status === 'Shipped' || o.status === 'Delivered').reduce((s, o) => s + o.totalAmount, 0)}
-              </p>
-              <p className="text-gray-400 text-xs mt-0.5">Total Spent</p>
-            </div>
-          </div>
-
-          {cart.length > 0 && (
-            <div className="rounded-2xl p-5 shadow-sm overflow-hidden relative" style={{background: 'linear-gradient(135deg, #0f172a, #1e293b)'}}>
-              <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle at 80% 20%, #19e5e4, transparent 60%)'}} />
-              <div className="relative">
-                <p className="text-white/50 text-[10px] uppercase tracking-widest mb-1">Ready to order?</p>
-                <p className="font-serif text-white text-lg font-bold mb-0.5">{cart.length} item{cart.length > 1 ? 's' : ''}</p>
-                <p className="font-serif text-2xl font-bold mb-4" style={{color: '#6fea6d'}}>₹{total}</p>
-                <button onClick={() => navigate('/checkout')}
-                  className="w-full text-gray-900 font-bold py-3 rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-2"
-                  style={{background: 'linear-gradient(135deg, #19e5e4, #6fea6d)'}}>
-                  Checkout Now <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-4">
-            <p className="text-amber-700 text-[10px] uppercase tracking-widest font-semibold mb-1">Daily Tip</p>
-            <p className="text-amber-900 text-sm font-medium leading-relaxed">"Consistency is the key to wellness. Small daily habits create lasting change."</p>
-          </div>
-        </div>
       </div>
 
       {/* 🔥 Added id="products" and scroll margin to offset your sticky navbar */}

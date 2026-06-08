@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const { signup, login } = require('../controllers/authController');
+const { signup, login, updateProfile } = require('../controllers/authController');
+const { authMiddleware } = require('../middleware/auth');
 
 // SIGNUP Route
 router.post('/signup', [
@@ -16,5 +17,10 @@ router.post('/login', [
   body('email').isEmail().normalizeEmail().withMessage('Invalid email format'),
   body('password').notEmpty().withMessage('Password is required')
 ], login);
+
+router.put('/update-profile', authMiddleware, [
+  body('name').trim().notEmpty().withMessage('Name field cannot be left empty'),
+  body('phone').matches(/^\d{10}$/).withMessage('Provide a valid 10-digit phone number')
+], updateProfile);
 
 module.exports = router;

@@ -103,3 +103,32 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: "An error occurred during login" });
     }
 };
+
+// @desc    Update User Profile Information
+exports.updateProfile = async (req, res) => {
+    // 🔥 Catch express-validator array errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    const { name, phone } = req.body;
+    const userId = req.userId; // Provided securely by authMiddleware
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ error: "User profile record not found." });
+
+        user.name = name.trim();
+        user.phone = phone;
+        await user.save();
+
+        res.json({
+            success: true,
+            user: { id: user._id, name: user.name, email: user.email, phone: user.phone, role: user.role }
+        });
+    } catch (err) {
+        console.error("Profile Edit Target Error:", err);
+        res.status(500).json({ error: "Failed to update profile changes on server." });
+    }
+};
