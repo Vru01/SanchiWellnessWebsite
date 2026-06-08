@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 
 app.use(cors({
-  origin: ['https://sanchiwellness.com', 'https://www.sanchiwellness.com', 'http://localhost:3000', 'http://localhost:5173'],
+  origin: ['https://sanchiwellness.com', 'https://www.sanchiwellness.com'],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
