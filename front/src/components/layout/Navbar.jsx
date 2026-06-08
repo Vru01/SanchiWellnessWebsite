@@ -79,7 +79,7 @@ export default function Navbar() {
             {user && !isAdmin && (
               <>
                 <NavLink href="/dashboard" scrolled={scrolled} isRouterLink>Dashboard</NavLink>
-                <NavLink href="/dashboard#products" scrolled={scrolled}>Shop</NavLink>
+                <NavLink href="#products" scrolled={scrolled}>Shop</NavLink>
               </>
             )}
             {user && isAdmin && (
@@ -194,7 +194,7 @@ export default function Navbar() {
             {user && !isAdmin && (
               <>
                 <MobileNavLink href="/dashboard" onClick={() => setOpen(false)}>Dashboard</MobileNavLink>
-                <MobileNavLink href="/dashboard#products" onClick={() => setOpen(false)}>
+                <MobileNavLink href="#products" onClick={() => setOpen(false)}>
                   <ShoppingBag className="h-4 w-4" /> Shop
                 </MobileNavLink>
               </>

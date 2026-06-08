@@ -302,7 +302,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="border-t border-gray-200 bg-white">
+      {/* 🔥 Added id="products" and scroll margin to offset your sticky navbar */}
+      <div id="products" className="border-t border-gray-200 bg-white scroll-mt-24">
         <div className="max-w-7xl mx-auto px-6 pt-10 pb-2">
           <span className="text-cyan-600 text-xs tracking-[0.3em] uppercase font-semibold">Continue Shopping</span>
           <h3 className="font-serif text-2xl font-bold text-gray-900 mt-1">Browse Products</h3>
