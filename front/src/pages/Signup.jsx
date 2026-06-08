@@ -15,16 +15,27 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    if (!form.name.trim()||!form.email.trim()||!form.password.trim()) { setError('Please fill in all fields.'); return; }
-    if (form.phone && !/^\d{10}$/.test(form.phone)) { setError('Enter a valid 10-digit phone number.'); return; }
+
+    // 🔥 Updated to make phone mandatory
+    if (!form.name.trim() || !form.email.trim() || !form.password.trim() || !form.phone.trim()) { 
+      setError('Please fill in all fields.'); 
+      return; 
+    }
+    
+    // 🔥 Enforce strict 10-digit format check
+    if (!/^\d{10}$/.test(form.phone)) { 
+      setError('Enter a valid 10-digit phone number.'); 
+      return; 
+    }
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/signup`, {
+      const res = await fetch(`${API_URL}/api/auth/signup`, { // FIXED PATH: /api/auth/signup
         method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(form),
       });
       const data = await res.json();
       if (res.ok) {
-        localStorage.setItem('user', JSON.stringify({id:data.userId, name:form.name, email:form.email, phone:form.phone}));
+        localStorage.setItem('user', JSON.stringify({id:data.user.id, name:data.user.name, email:data.user.email, phone:data.user.phone}));
+        localStorage.setItem('token', data.token); // 🔒 Store JWT token
         setSuccess(true);
         setTimeout(()=>navigate('/dashboard'), 1200);
       } else { setError(data.error||'Signup failed.'); }
@@ -36,12 +47,10 @@ export default function Signup() {
     <div className="min-h-screen flex">
       <LeftPanel />
 
-      {/* Right — form side */}
       <div className="flex-1 flex flex-col min-h-screen" style={{background:'linear-gradient(160deg,#f7fff7 0%,#f0fffe 50%,#f7f0ff 100%)'}}>
         <div className="h-1 w-full" style={{background:'linear-gradient(90deg,#6fea6d,#19e5e4)'}}/>
 
         <div className="flex-1 flex flex-col justify-center px-6 sm:px-10 md:px-16 lg:px-14 py-10">
-          {/* Mobile logo */}
           <div className="lg:hidden mb-8 flex items-center gap-3">
             <img src="/logo.png" alt="Sanchi Wellness" className="w-10 h-10 rounded-full object-cover shadow ring-2 ring-white"/>
             <span className="font-serif text-xl font-bold">
@@ -74,7 +83,6 @@ export default function Signup() {
                   <p className="text-gray-400 text-sm">Start your wellness journey today</p>
                 </div>
 
-                {/* Card */}
                 <div className="bg-white rounded-3xl shadow-xl border border-white p-7" style={{boxShadow:'0 8px 40px rgba(111,234,109,0.10), 0 2px 8px rgba(0,0,0,0.06)'}}>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <AuthInput label="Full Name" icon={<User className="h-4 w-4"/>}>
@@ -89,15 +97,16 @@ export default function Signup() {
                         placeholder="your@email.com"/>
                     </AuthInput>
 
-                    {/* Phone */}
                     <div>
-                      <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 flex items-center gap-1.5 font-semibold">
-                        Phone <span className="text-gray-300 normal-case tracking-normal text-[11px] font-normal">(optional)</span>
+                      {/* 🔥 Visual indicator changed from (optional) to * */}
+                      <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-semibold">
+                        Phone Number *
                       </label>
                       <div className="relative group">
                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-300 group-focus-within:text-[#6fea6d] transition-colors"/>
                         <span className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-300 text-sm select-none border-r border-gray-200 pr-2.5">+91</span>
-                        <input type="tel" value={form.phone}
+                        {/* 🔥 Added the required property */}
+                        <input type="tel" value={form.phone} required
                           onChange={e=>{const v=e.target.value.replace(/\D/g,''); if(v.length<=10) setForm(f=>({...f,phone:v}));}}
                           maxLength={10}
                           className="w-full border-2 border-gray-100 text-gray-900 placeholder-gray-300 rounded-xl pl-20 pr-4 py-3.5 text-sm focus:outline-none transition-all bg-gray-50/60 hover:border-gray-200 focus:border-[#6fea6d]"
@@ -105,7 +114,6 @@ export default function Signup() {
                       </div>
                     </div>
 
-                    {/* Password */}
                     <div>
                       <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-semibold">Password</label>
                       <div className="relative group">
@@ -139,7 +147,6 @@ export default function Signup() {
                   <Link to="/login" className="font-semibold" style={{color:'#19e5e4'}}>Sign in</Link>
                 </p>
 
-                {/* Trust row */}
                 <div className="flex items-center justify-center gap-5 mt-5 flex-wrap">
                   {[{icon:<ShieldCheck className="h-3.5 w-3.5"/>,label:'Secure',color:'#19e5e4'},{icon:<Leaf className="h-3.5 w-3.5"/>,label:'100% Natural',color:'#6fea6d'},{icon:<Zap className="h-3.5 w-3.5"/>,label:'Fast Delivery',color:'#fbbf24'}].map(({icon,label,color})=>(
                     <div key={label} className="flex items-center gap-1.5 text-[11px]" style={{color}}>

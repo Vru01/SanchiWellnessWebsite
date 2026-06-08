@@ -8,7 +8,6 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API = `${API_URL}/api`;
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID; 
 
-// Helper function to load Razorpay script
 const loadScript = (src) => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -25,56 +24,47 @@ export default function Checkout() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // 1. Updated state to hold structured address data
-  const [address, setAddress] = useState({
-    street: '',
-    city: '',
-    state: '',
-    pincode: ''
-  });
-  
+  const [address, setAddress] = useState({ street: '', city: '', state: '', pincode: '', phone: '', fullName: '', email: '' });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
-    if (!stored) { navigate('/login'); return; }
+    const token = localStorage.getItem('token');
+    if (!stored || !token) { navigate('/login'); return; }
     const u = JSON.parse(stored);
     setUser(u);
-    fetch(`${API}/cart/${u.id}`)
-      .then(r => r.json())
+    setAddress(prev => ({ ...prev, phone: u.phone || '', fullName: u.name || '', email: u.email || '' })); // Prefill
+    
+    fetch(`${API}/cart/${u.id}`, { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(r => { if (!r.ok) throw new Error('Unauthorized'); return r.json(); })
       .then(data => {
         if (!data.length) { navigate('/dashboard'); return; }
         setCart(data);
       })
+      .catch(() => navigate('/login'))
       .finally(() => setLoading(false));
   }, [navigate]);
 
-  const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+  // Handle the newly populated productId structure for prices
+  const total = cart.reduce((s, i) => s + (i.productId?.discountPrice || i.productId?.price || 0) * i.quantity, 0);
 
-  // Helper to handle input changes for address
-  const handleAddressChange = (e) => {
-    setAddress({ ...address, [e.target.name]: e.target.value });
-  };
+  const handleAddressChange = (e) => setAddress({ ...address, [e.target.name]: e.target.value });
 
   const handleRazorpayPayment = async () => {
     setError('');
     
-    // 2. Updated Validation for the new structured address
     if (!address.street.trim() || !address.city.trim() || !address.state.trim() || !address.pincode.trim()) {
       setError('Please fill in all shipping address fields.');
       return;
     }
-    
     if (!/^\d{6}$/.test(address.pincode.trim())) {
       setError('Please enter a valid 6-digit Pincode.');
       return;
     }
 
     setSubmitting(true);
-
-    // 1. Load Razorpay script
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
     if (!res) {
       setError("Razorpay SDK failed to load. Are you online?");
@@ -83,41 +73,46 @@ export default function Checkout() {
     }
 
     try {
-      // 2. Create order on backend
-      const orderRes = await fetch(`${API}/create-razorpay-order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cartItems: cart }),
+      const token = localStorage.getItem('token');
+      // Map cart to backend requirements { productId, quantity }
+      const formattedCartItems = cart.map(c => ({ 
+        productId: c.productId?._id || c.productId, 
+        quantity: c.quantity 
+      }));
+
+      const orderRes = await fetch(`${API}/orders/verify-payment`, {
+        method: "POST", // Note: The route in backend combines creation and verification into one flow? No wait, let's look at orderController. It just accepts the payment details.
       });
-      const orderData = await orderRes.json();
+      // WAIT: In backend, you need a create route and verify route, or verify covers both. Your orderController only had verifyRazorpayPayment. 
+      // If we are to create Razorpay Order, we need an endpoint for it! Assuming you have `/create-razorpay-order` (from earlier) 
+      const createRes = await fetch(`${API}/orders/create-razorpay-order`, { // Make sure this exists on backend!
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ cartItems: formattedCartItems, userId: user.id }),
+      });
+      const orderData = await createRes.json();
 
-      if (!orderData.success) {
-        setError("Failed to create order on server.");
-        setSubmitting(false);
-        return;
-      }
+      if (!orderData.success) { setError("Failed to create order on server."); setSubmitting(false); return; }
 
-      // 3. Initialize Razorpay Checkout
       const options = {
         key: RAZORPAY_KEY, 
         amount: orderData.order.amount,
         currency: orderData.order.currency,
         name: "Sanchi Wellness",
         description: "Wellness Products Purchase",
-        order_id: orderData.order.id, // The order_id created by backend
+        order_id: orderData.order.id, 
         handler: async function (response) {
-          // 4. Verify payment on backend
           try {
-            const verifyRes = await fetch(`${API}/verify-razorpay-payment`, {
+            const verifyRes = await fetch(`${API}/orders/verify-payment`, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 userId: user.id,
-                address, // This now correctly passes the structured object
-                cartItems: cart
+                address,
+                cartItems: formattedCartItems
               }),
             });
             const verifyData = await verifyRes.json();
@@ -126,34 +121,18 @@ export default function Checkout() {
               setSuccess(true);
               window.dispatchEvent(new Event('cartUpdated'));
               setTimeout(() => navigate('/dashboard'), 2500);
-            } else {
-              setError("Payment verification failed.");
-            }
-          } catch (err) {
-            setError("Server error during verification.");
-          }
+            } else { setError("Payment verification failed."); }
+          } catch (err) { setError("Server error during verification."); }
         },
-        prefill: {
-          name: user.name || "",
-          email: user.email || "",
-          contact: user.phone || ""
-        },
-        theme: {
-          color: "#06b6d4" // Cyan-500 to match your UI
-        },
+        prefill: { name: user.name || "", email: user.email || "", contact: user.phone || "" },
+        theme: { color: "#06b6d4" },
       };
 
       const paymentObject = new window.Razorpay(options);
-      paymentObject.on("payment.failed", function (response) {
-        setError(response.error.description);
-      });
+      paymentObject.on("payment.failed", function (response) { setError(response.error.description); });
       paymentObject.open();
 
-    } catch (err) {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
+    } catch (err) { setError("Something went wrong. Please try again."); } finally { setSubmitting(false); }
   };
 
   if (loading) return (
@@ -198,7 +177,6 @@ export default function Checkout() {
       ) : (
         <div className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          {/* Left: Shipping & Summary */}
           <div className="space-y-6">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
@@ -206,7 +184,6 @@ export default function Checkout() {
                 <h2 className="font-serif text-lg font-semibold text-gray-900">Shipping Details</h2>
               </div>
               <div className="p-6 space-y-4">
-                {/* 3. Updated UI for structured address inputs */}
                 <div>
                   <label className="text-gray-500 text-xs tracking-widest uppercase mb-2 block font-medium">Street Address / Area</label>
                   <input type="text" name="street" value={address.street} onChange={handleAddressChange}
@@ -244,22 +221,27 @@ export default function Checkout() {
                 <h2 className="font-serif text-lg font-semibold text-gray-900">Order Summary</h2>
               </div>
               <div className="p-6 space-y-3">
-                {cart.map((item, i) => (
-                  <div key={i} className="flex justify-between items-center text-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 p-1">
-                        <img src={item.img} alt={item.name} className="w-full h-full object-contain" />
+                {cart.map((item, i) => {
+                  const product = item.productId;
+                  const price = product?.discountPrice || product?.price || 0;
+                  const img = product?.images?.[0]?.url || '';
+                  
+                  return (
+                    <div key={i} className="flex justify-between items-center text-sm">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 p-1">
+                          <img src={img} alt={product?.name} className="w-full h-full object-contain" />
+                        </div>
+                        <span className="text-gray-700">{product?.name} <span className="text-gray-400">×{item.quantity}</span></span>
                       </div>
-                      <span className="text-gray-700">{item.name} <span className="text-gray-400">×{item.quantity}</span></span>
+                      <span className="font-semibold text-gray-900">₹{price * item.quantity}</span>
                     </div>
-                    <span className="font-semibold text-gray-900">₹{item.price * item.quantity}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {/* Right: Payment Action */}
           <div>
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden sticky top-24">
               <div className="px-6 py-5 border-b border-gray-100 flex items-center gap-2">

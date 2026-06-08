@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/home/Footer';
-import { Trash2, Edit, Plus, Image as ImageIcon, Loader2, X, AlertCircle, CheckCircle2, XCircle, Clock, Package, ShoppingBag, TrendingUp, Phone, MapPin } from 'lucide-react';
+import { Trash2, Edit, Plus, Image as ImageIcon, Loader2, X, AlertCircle, CheckCircle2, XCircle, Clock, Package, ShoppingBag, TrendingUp, Phone, MapPin, Truck } from 'lucide-react';
 import { toast } from '@/components/ui/Toast';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -11,12 +11,12 @@ const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'sanchi_w
 const EMPTY = { id: '', name: '', price: '', discountPrice: '', category: '', description: '', img: '', tag: '' };
 
 const StatusBadge = ({ status }) => {
-  if (status === 'Paid') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200"><CheckCircle2 className="h-3 w-3" />{status}</span>;
-  if (status === 'Rejected') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200"><XCircle className="h-3 w-3" />{status}</span>;
+  if (status === 'Processing' || status === 'Shipped' || status === 'Delivered') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200"><CheckCircle2 className="h-3 w-3" />{status}</span>;
+  if (status === 'Cancelled' || status === 'Refunded') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200"><XCircle className="h-3 w-3" />{status}</span>;
   return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-yellow-50 text-yellow-700 border border-yellow-200"><Clock className="h-3 w-3" />{status}</span>;
 };
 
-const borderAccent = (s) => s === 'Paid' ? 'border-l-green-500' : s === 'Rejected' ? 'border-l-red-400' : 'border-l-yellow-400';
+const borderAccent = (s) => (s === 'Processing' || s === 'Shipped') ? 'border-l-green-500' : (s === 'Cancelled') ? 'border-l-red-400' : 'border-l-yellow-400';
 
 export default function AdminPanel() {
   const [tab, setTab] = useState('orders');
@@ -28,22 +28,114 @@ export default function AdminPanel() {
   const [isEditing, setIsEditing] = useState(false);
   const [product, setProduct] = useState(EMPTY);
   const [formError, setFormError] = useState('');
+  
+  // NEW: Shipmozo Dispatch Modal State
+  const [dispatchModal, setDispatchModal] = useState({ isOpen: false, orderId: '', weight: 500, length: 15, width: 10, height: 5 });
 
   const fetchAll = async () => {
     setLoading(true);
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      window.location.href = '/login';
+      return;
+    }
+
     try {
-      const [oRes, pRes] = await Promise.all([fetch(`${API}/admin/all-orders`), fetch(`${API}/products`)]);
-      setOrders(await oRes.json());
-      setProducts(await pRes.json());
-    } finally { setLoading(false); }
+      const [oRes, pRes] = await Promise.all([
+        fetch(`${API}/orders/admin/all`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${API}/products`)
+      ]);
+      
+      const oData = await oRes.json();
+      const pData = await pRes.json();
+
+      if (!oRes.ok) {
+        toast.error(oData.error || "Access Denied");
+        if (oRes.status === 401 || oRes.status === 403) window.location.href = '/login';
+        return;
+      }
+
+      setOrders(oData);
+      setProducts(pData);
+    } catch (err) {
+      console.error("Fetch Error:", err);
+      toast.error("Failed to load admin data");
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   useEffect(() => { fetchAll(); }, []);
 
   const updateStatus = async (orderId, status) => {
-    await fetch(`${API}/admin/update-status`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orderId, status }) });
+    const token = localStorage.getItem('token');
+    await fetch(`${API}/orders/admin/update-status`, { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
+      body: JSON.stringify({ orderId, status }) 
+    });
     fetchAll();
     toast.success(`Order marked as ${status}`);
+  };
+
+  // NEW: Handle Shipmozo Dispatch
+  const handleDispatch = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    try {
+        const res = await fetch(`${API}/orders/admin/dispatch`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({
+                orderId: dispatchModal.orderId,
+                packageWeight: dispatchModal.weight,
+                length: dispatchModal.length,
+                width: dispatchModal.width,
+                height: dispatchModal.height
+            })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            toast.success(`Dispatched! AWB: ${data.awb}`);
+            setDispatchModal({ ...dispatchModal, isOpen: false });
+            fetchAll(); 
+        } else {
+            toast.error(data.error || "Failed to dispatch via Shipmozo");
+        }
+    } catch (err) {
+        toast.error("Server error during dispatch");
+    }
+  };
+
+  // NEW: Smart Cancel (Handles both Local & Shipmozo cancellations)
+  const handleCancelOrder = async (order) => {
+    if (!confirm('Are you sure you want to cancel this order?')) return;
+    
+    // If it has an AWB, we must cancel it on Shipmozo first!
+    if (order.shipmentDetails?.awbNumber) {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch(`${API}/orders/admin/cancel`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ orderId: order._id })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+          toast.success("Cancelled on Shipmozo & Database!");
+          fetchAll();
+        } else {
+          toast.error(data.error || "Failed to cancel on Shipmozo");
+        }
+      } catch (err) {
+        toast.error("Server error during cancellation");
+      }
+    } else {
+      // If it was never pushed to Shipmozo, just cancel locally
+      updateStatus(order._id, 'Cancelled');
+    }
   };
 
   const handleImageUpload = async (e) => {
@@ -65,10 +157,27 @@ export default function AdminPanel() {
   const handleProductSubmit = async (e) => {
     e.preventDefault();
     setFormError('');
-    const { id, ...payload } = product;
-    const url = isEditing ? `${API}/products/admin/update/${id}` : `${API}/products/admin/add`;
+    const token = localStorage.getItem('token');
+    
+    const payload = {
+      name: product.name,
+      price: product.price,
+      discountPrice: product.discountPrice || undefined,
+      category: product.category,
+      description: product.description,
+      tag: product.tag || undefined,
+      images: [{ url: product.img }], 
+      shippingDetails: { weight: 500 },
+      isActive: true
+    };
+
+    const url = isEditing ? `${API}/products/admin/update/${product.id}` : `${API}/products/admin/add`;
     try {
-      const res = await fetch(url, { method: isEditing ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const res = await fetch(url, { 
+        method: isEditing ? 'PUT' : 'POST', 
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
+        body: JSON.stringify(payload) 
+      });
       if (res.ok) { setShowForm(false); fetchAll(); toast.success(isEditing ? 'Product updated!' : 'Product created!'); }
       else { const d = await res.json(); setFormError(d.error || 'Operation failed.'); }
     } catch { setFormError('Server error.'); }
@@ -76,31 +185,38 @@ export default function AdminPanel() {
 
   const deleteProduct = async (id) => {
     if (!confirm('Delete this product?')) return;
-    await fetch(`${API}/products/admin/delete/${id}`, { method: 'DELETE' });
+    const token = localStorage.getItem('token');
+    await fetch(`${API}/products/admin/delete/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
     fetchAll();
     toast.info('Product deleted');
   };
 
   const openEdit = (p) => {
-    setProduct({ id: p._id, name: p.name, price: p.price, discountPrice: p.discountPrice || '', category: p.category, description: p.description, img: p.img, tag: p.tag || '' });
+    setProduct({ 
+      id: p._id, name: p.name, price: p.price, discountPrice: p.discountPrice || '', 
+      category: p.category, description: p.description, 
+      img: p.images?.[0]?.url || p.img || '',
+      tag: p.tag || '' 
+    });
     setIsEditing(true); setFormError(''); setShowForm(true);
   };
 
   const deleteOrder = async (orderId) => {
     if (!confirm('Delete this order permanently? This cannot be undone.')) return;
-    await fetch(`${API}/admin/delete-order/${orderId}`, { method: 'DELETE' });
+    const token = localStorage.getItem('token');
+    await fetch(`${API}/orders/admin/delete-order/${orderId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
     fetchAll();
     toast.info('Order deleted');
   };
+
   const openAdd = () => { setProduct(EMPTY); setIsEditing(false); setFormError(''); setShowForm(true); };
   const calcDiscount = (orig, disc) => (!disc || Number(disc) >= Number(orig)) ? null : Math.round(((orig - disc) / orig) * 100);
   const getEmail = (u) => !u || typeof u === 'string' ? '' : u.email;
   const getPhone = (u) => !u || typeof u === 'string' ? '' : u.phone || '';
 
   const getName = (u) => !u ? 'Unknown' : typeof u === 'string' ? `ID:${u.slice(-4)}` : u.name;
-  const revenue = orders.filter(o => o.status === 'Paid').reduce((s, o) => s + o.totalAmount, 0);
-
-  const pendingCount = orders.filter(o => o.status === 'Pending Verification').length;
+  const revenue = orders.filter(o => o.status === 'Processing' || o.status === 'Shipped').reduce((s, o) => s + o.totalAmount, 0);
+  const pendingCount = orders.filter(o => o.status === 'Processing').length; // Assuming processing means it needs shipping
 
   if (loading) return (
     <div className="min-h-screen bg-white flex items-center justify-center">
@@ -117,13 +233,28 @@ export default function AdminPanel() {
         <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(circle at 20% 50%, #06b6d4 0%, transparent 50%), radial-gradient(circle at 80% 20%, #16a34a 0%, transparent 40%)'}} />
         <div className="relative max-w-7xl mx-auto">
           <p className="text-white/40 text-xs tracking-[0.3em] uppercase font-semibold mb-2">Admin</p>
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-white mb-8">Control Panel</h1>
+          
+          {/* Flex wrapper to align title left and button right */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <h1 className="font-serif text-3xl md:text-4xl font-bold text-white">Control Panel</h1>
+            
+            {/* 🔥 NEW: Go to Shipmozo Button */}
+            <a 
+              href="https://panel.shipmozo.com/orders/all" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all backdrop-blur-sm shadow-sm active:scale-[0.98] w-fit"
+            >
+              <Truck className="h-4 w-4 text-cyan-400" />
+              Go to Shipmozo
+            </a>
+          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { icon: ShoppingBag, label: 'Total Orders', value: orders.length },
-              { icon: Clock, label: 'Pending', value: pendingCount },
+              { icon: Clock, label: 'To Ship', value: pendingCount },
               { icon: TrendingUp, label: 'Revenue', value: `₹${revenue.toLocaleString()}` },
               { icon: Package, label: 'Products', value: products.length },
             ].map(({ icon: Icon, label, value }) => (
@@ -160,42 +291,32 @@ export default function AdminPanel() {
             {orders.map((order, idx) => (
               <div key={order._id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-                {/* Card header — customer name + date + status */}
                 <div className={`px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 border-l-4 ${borderAccent(order.status)}`}
-                  style={{background: order.status === 'Paid' ? '#f0fdf4' : order.status === 'Rejected' ? '#fff5f5' : '#fffbeb'}}>
+                  style={{background: (order.status === 'Processing' || order.status === 'Shipped') ? '#f0fdf4' : order.status === 'Cancelled' ? '#fff5f5' : '#fffbeb'}}>
                   <div className="flex items-center gap-3 flex-wrap">
-                    {/* Order number */}
                     <span className="text-xs font-bold text-gray-400 bg-white border border-gray-200 px-2 py-0.5 rounded-md">
                       Order #{orders.length - idx}
                     </span>
-                    {/* Customer name */}
                     <span className="font-semibold text-gray-900 text-sm">{getName(order.userId)}</span>
                     <span className="text-gray-300">·</span>
-                    {/* Date */}
                     <span className="text-xs text-gray-400 flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      {' '}
-                      {new Date(order.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                   <StatusBadge status={order.status} />
                 </div>
 
-                {/* Card body — 4 columns */}
                 <div className="p-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-
-                  {/* Payment */}
                   <div className="bg-slate-50 border border-gray-100 rounded-xl p-4">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Payment</p>
                     <p className="font-serif text-2xl font-bold text-gray-900">₹{order.totalAmount}</p>
                     <div className="flex items-center gap-1.5 bg-white border border-gray-100 rounded-lg px-2 py-1.5 mt-2">
                       <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold shrink-0">UTR</span>
-                      <span className="text-xs font-mono text-gray-700 font-semibold truncate">{order.transactionId || '—'}</span>
+                      <span className="text-xs font-mono text-gray-700 font-semibold truncate">{order.paymentDetails?.razorpayPaymentId || '—'}</span>
                     </div>
                   </div>
 
-                  {/* Phone */}
                   <div className="bg-slate-50 border border-gray-100 rounded-xl p-4">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Contact</p>
                     <p className="text-xs text-gray-500 truncate mb-2">{getEmail(order.userId) || '—'}</p>
@@ -209,22 +330,18 @@ export default function AdminPanel() {
                     )}
                   </div>
 
-                  {/* Address */}
                   <div className="bg-slate-50 border border-gray-100 rounded-xl p-4">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Ship To</p>
-                    
                     {order.shippingAddress ? (
                       <div className="flex items-start gap-1.5">
                         <MapPin className="h-3.5 w-3.5 text-gray-400 mt-0.5 shrink-0" />
                         <div className="text-xs text-gray-700 leading-relaxed">
-                          {/* Check if it's the new Object format */}
                           {typeof order.shippingAddress === 'object' ? (
                             <>
                               <p>{order.shippingAddress.street}</p>
                               <p>{order.shippingAddress.city}, {order.shippingAddress.state} - {order.shippingAddress.pincode}</p>
                             </>
                           ) : (
-                            /* Fallback for older orders where address was a string */
                             <p>{order.shippingAddress}</p>
                           )}
                         </div>
@@ -233,18 +350,15 @@ export default function AdminPanel() {
                       <p className="text-gray-300 text-xs italic">No address</p>
                     )}
 
-                    {/* Bonus: Display the new AWB Tracking Number from Shipmozo! */}
-                    {order.awbNumber && (
+                    {order.shipmentDetails?.awbNumber && (
                       <div className="mt-3 pt-2 border-t border-gray-200">
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">AWB Tracking</p>
-                        <p className="text-xs font-mono text-cyan-600 font-semibold">{order.awbNumber}</p>
+                        <p className="text-xs font-mono text-cyan-600 font-semibold">{order.shipmentDetails.awbNumber}</p>
                       </div>
                     )}
                   </div>
 
-                  {/* Items + actions */}
                   <div className="flex flex-col gap-3">
-                    {/* Items list */}
                     <div className="bg-slate-50 border border-gray-100 rounded-xl p-4 flex-1">
                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Items</p>
                       <div className="space-y-1.5">
@@ -259,35 +373,39 @@ export default function AdminPanel() {
                       </div>
                     </div>
 
-                    {/* Status actions — always visible */}
                     <div className="bg-slate-50 border border-gray-100 rounded-xl p-3 space-y-2">
                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Update Status</p>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 flex-wrap">
+                        
+                        {/* PROCESSING BUTTON */}
                         <button
-                          onClick={() => updateStatus(order._id, 'Paid')}
-                          disabled={order.status === 'Paid'}
-                          className="flex-1 py-2 rounded-lg text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                          style={order.status === 'Paid'
+                          onClick={() => updateStatus(order._id, 'Processing')}
+                          disabled={order.status === 'Processing' || order.status === 'Shipped'}
+                          className="flex-1 py-2 px-1 rounded-lg text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                          style={(order.status === 'Processing' || order.status === 'Shipped')
                             ? {background:'#f0fdf4', color:'#16a34a', border:'1px solid #bbf7d0'}
                             : {background:'linear-gradient(135deg,#19e5e4,#6fea6d)', color:'#0f172a'}}>
-                          ✓ Paid
+                          ✓ Processing
                         </button>
+                        
+                        {/* CANCEL BUTTON */}
                         <button
-                          onClick={() => updateStatus(order._id, 'Rejected')}
-                          disabled={order.status === 'Rejected'}
-                          className="flex-1 py-2 rounded-lg text-xs font-bold border border-red-200 text-red-500 hover:bg-red-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent">
-                          ✕ Reject
+                          onClick={() => handleCancelOrder(order)}
+                          disabled={order.status === 'Cancelled'}
+                          className="flex-1 py-2 px-1 rounded-lg text-xs font-bold border border-red-200 text-red-500 hover:bg-red-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                          ✕ Cancel
                         </button>
-                        {order.status !== 'Pending Verification' && (
+
+                        {/* NEW: DISPATCH (SHIPMOZO) BUTTON */}
+                        {order.status === 'Processing' && order.shipmentDetails?.awbNumber !== "Awaiting Courier Assignment" && (
                           <button
-                            onClick={() => updateStatus(order._id, 'Pending Verification')}
-                            className="flex-1 py-2 rounded-lg text-xs font-bold border border-yellow-200 text-yellow-600 hover:bg-yellow-50 transition-all">
-                            ↺ Pending
+                            onClick={() => setDispatchModal({ isOpen: true, orderId: order._id, weight: 500, length: 15, width: 10, height: 5 })}
+                            className="w-full py-2 mt-1 rounded-lg text-xs font-bold transition-all bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 flex justify-center items-center gap-1.5">
+                            <Truck className="h-3.5 w-3.5" /> Dispatch via Shipmozo
                           </button>
                         )}
                       </div>
 
-                      {/* Delete */}
                       <button
                         onClick={() => deleteOrder(order._id)}
                         className="w-full py-2 rounded-lg text-xs font-bold border border-gray-200 text-gray-400 hover:border-red-300 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center gap-1.5">
@@ -315,10 +433,12 @@ export default function AdminPanel() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map(p => {
                 const disc = calcDiscount(p.price, p.discountPrice);
+                const imageUrl = p.images?.[0]?.url || p.img;
+
                 return (
                   <div key={p._id} className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:border-cyan-200 transition-all group flex flex-col">
                     <div className="relative h-64 bg-gradient-to-br from-cyan-50/50 to-green-50/50 overflow-hidden">
-                      <img src={p.img} alt={p.name} className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300" />
+                      <img src={imageUrl} alt={p.name} className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300" />
                       {disc && (
                         <div className="absolute top-2 left-2 bg-rose-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">
                           {disc}% OFF
@@ -357,7 +477,7 @@ export default function AdminPanel() {
         )}
       </div>
 
-      {/* Product Modal */}
+      {/* Product Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl my-4">
@@ -429,6 +549,46 @@ export default function AdminPanel() {
               <button type="submit" disabled={uploading}
                 className="w-full bg-gradient-to-r from-cyan-500 to-green-600 hover:from-cyan-600 hover:to-green-700 text-white font-bold py-4 rounded-xl transition-all text-sm shadow-md shadow-cyan-200 disabled:opacity-60">
                 {uploading ? 'Uploading...' : isEditing ? 'Save Changes' : 'Create Product'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* NEW: SHIPMOZO DISPATCH MODAL */}
+      {dispatchModal.isOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="font-serif text-xl font-bold">Shipmozo Dispatch</h2>
+              <button onClick={() => setDispatchModal({...dispatchModal, isOpen: false})} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <X className="h-4 w-4 text-gray-500" />
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mb-4">Enter physical package dimensions to generate a shipping label and tracking AWB.</p>
+            
+            <form onSubmit={handleDispatch} className="space-y-4">
+              <div>
+                <label className="text-xs text-gray-500 uppercase font-bold">Total Weight (grams)</label>
+                <input type="number" required value={dispatchModal.weight} onChange={e => setDispatchModal({...dispatchModal, weight: e.target.value})} className="w-full border border-gray-200 rounded-lg p-2 text-sm mt-1 focus:ring-2 focus:ring-cyan-100 focus:border-cyan-400 outline-none" />
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <div>
+                  <label className="text-xs text-gray-500 uppercase font-bold">L (cm)</label>
+                  <input type="number" required value={dispatchModal.length} onChange={e => setDispatchModal({...dispatchModal, length: e.target.value})} className="w-full border border-gray-200 rounded-lg p-2 text-sm mt-1 focus:ring-2 focus:ring-cyan-100 focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 uppercase font-bold">W (cm)</label>
+                  <input type="number" required value={dispatchModal.width} onChange={e => setDispatchModal({...dispatchModal, width: e.target.value})} className="w-full border border-gray-200 rounded-lg p-2 text-sm mt-1 focus:ring-2 focus:ring-cyan-100 focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 uppercase font-bold">H (cm)</label>
+                  <input type="number" required value={dispatchModal.height} onChange={e => setDispatchModal({...dispatchModal, height: e.target.value})} className="w-full border border-gray-200 rounded-lg p-2 text-sm mt-1 focus:ring-2 focus:ring-cyan-100 focus:border-cyan-400 outline-none" />
+                </div>
+              </div>
+              
+              <button type="submit" className="w-full mt-4 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold flex justify-center items-center gap-2 transition-colors">
+                <Truck className="h-4 w-4" /> Push to Shipmozo
               </button>
             </form>
           </div>

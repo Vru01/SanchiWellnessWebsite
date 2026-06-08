@@ -18,12 +18,13 @@ export default function Login() {
     if (!form.email.trim() || !form.password.trim()) { setError('Please fill in all fields.'); return; }
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/login`, {
+      const res = await fetch(`${API_URL}/api/auth/login`, { // FIXED PATH: /api/auth/login
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form),
       });
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token); // 🔒 Store JWT token
         navigate(data.user.email === ADMIN_EMAIL ? '/admin' : '/dashboard');
       } else { setError(data.error || 'Login failed.'); }
     } catch { setError('Server connection failed.'); }
@@ -121,7 +122,6 @@ export default function Login() {
   );
 }
 
-// Shared left panel
 function LeftPanel({ badge, heading, sub, pills, quote, tealFirst }) {
   return (
     <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden flex-col"
@@ -159,7 +159,6 @@ function LeftPanel({ badge, heading, sub, pills, quote, tealFirst }) {
   );
 }
 
-// Shared input wrapper
 function AuthInput({ label, icon, children }) {
   return (
     <div>

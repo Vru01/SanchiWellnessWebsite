@@ -9,6 +9,7 @@ function ProductModal({ product, onClose, onAddToCart, addedId }) {
   const discount = product.discountPrice && Number(product.discountPrice) < Number(product.price)
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : null;
   const isAdded = addedId === product._id;
+  const imageUrl = product.images?.[0]?.url || product.img; // Match new schema
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
@@ -17,7 +18,7 @@ function ProductModal({ product, onClose, onAddToCart, addedId }) {
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Image */}
           <div className="relative bg-gradient-to-br from-cyan-50 to-green-50 p-8 flex items-center justify-center min-h-[280px]">
-            <img src={product.img} alt={product.name} className="w-full max-h-64 object-contain" />
+            <img src={imageUrl} alt={product.name} className="w-full max-h-64 object-contain" />
             {discount && (
               <div className="absolute top-4 left-4 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
                 {discount}% OFF
@@ -97,15 +98,21 @@ export default function ProductSection({ onAddToCart }) {
 
   const handleAdd = async (product) => {
     const stored = localStorage.getItem('user');
-    if (!stored) { navigate('/login'); return; }
+    const token = localStorage.getItem('token');
+    
+    if (!stored || !token) { navigate('/login'); return; }
     const user = JSON.parse(stored);
+    
     if (onAddToCart) {
       onAddToCart(product);
     } else {
       await fetch(`${API_URL}/api/cart/add`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, product: { id: product._id, name: product.name, price: product.discountPrice || product.price, img: product.img } }),
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ userId: user.id, productId: product._id }), // Matches new Schema
       });
       window.dispatchEvent(new Event('cartUpdated'));
     }
@@ -157,13 +164,14 @@ export default function ProductSection({ onAddToCart }) {
               const discount = product.discountPrice && Number(product.discountPrice) < Number(product.price)
                 ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : null;
               const isAdded = addedId === product._id;
+              const imageUrl = product.images?.[0]?.url || product.img; // Match new schema
 
               return (
                 <div key={product._id} className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-cyan-200 flex flex-col cursor-pointer"
                   onClick={() => setSelectedProduct(product)}>
                   {/* Image */}
                   <div className="relative h-72 bg-gradient-to-br from-cyan-50/50 to-green-50/50 overflow-hidden">
-                    <img src={product.img} alt={product.name} className="w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-500" />
+                    <img src={imageUrl} alt={product.name} className="w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-500" />
                     {discount && (
                       <div className="absolute top-3 left-3 bg-rose-500 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
                         {discount}% OFF

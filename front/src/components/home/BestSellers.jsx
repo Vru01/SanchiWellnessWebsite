@@ -25,13 +25,22 @@ export default function BestSellers() {
 
   const handleAdd = async (product) => {
     const stored = localStorage.getItem('user');
-    if (!stored) { navigate('/login'); return; }
+    const token = localStorage.getItem('token');
+    
+    if (!stored || !token) { navigate('/login'); return; }
+    
     const user = JSON.parse(stored);
+    
+    // Updated to match the new optimized Cart Schema & Auth Middleware
     await fetch(`${API_URL}/api/cart/add`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user.id, product: { id: product._id, name: product.name, price: product.discountPrice || product.price, img: product.img } }),
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ userId: user.id, productId: product._id }),
     });
+    
     window.dispatchEvent(new Event('cartUpdated'));
     setAddedId(product._id);
     toast.success(`${product.name} added to cart!`);
@@ -61,6 +70,9 @@ export default function BestSellers() {
             const isAdded = addedId === product._id;
             const discount = product.discountPrice && Number(product.discountPrice) < Number(product.price)
               ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : null;
+              
+            // Match new Schema Image structure
+            const imageUrl = product.images?.[0]?.url || product.img;
 
             return (
               <div key={product._id} className="group relative bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 hover:border-cyan-200 hover:shadow-xl transition-all duration-300 flex flex-col">
@@ -70,7 +82,7 @@ export default function BestSellers() {
                   </div>
                 )}
                 <div className="h-52 bg-gradient-to-br from-cyan-50 to-green-50 flex items-center justify-center p-4 overflow-hidden">
-                  <img src={product.img} alt={product.name} className="h-full w-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                  <img src={imageUrl} alt={product.name} className="h-full w-full object-contain group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-5 flex flex-col flex-grow">
                   <span className="text-cyan-600 text-[10px] font-semibold tracking-widest uppercase mb-1">{product.category}</span>

@@ -1,42 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+const { body } = require('express-validator');
+const { signup, login } = require('../controllers/authController');
 
-// SIGNUP
-router.post('/signup', async (req, res) => {
-    const { name, email, password, phone } = req.body;
-    try {
-        const existingUser = await User.findOne({ email });
-        if (existingUser) return res.status(400).json({ error: "Email already exists" });
+// SIGNUP Route
+router.post('/signup', [
+  body('email').isEmail().normalizeEmail().withMessage('Invalid email format'),
+  body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
+  body('name').trim().notEmpty().withMessage('Name is required'),
+  body('phone').optional().matches(/^\d{10}$/).withMessage('Phone must be 10 digits')
+], signup);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ name, email, password: hashedPassword, phone: phone || '' });
-        await newUser.save();
-
-        res.status(201).json({ message: "User created successfully", userId: newUser._id });
-    } catch (error) {
-        res.status(500).json({ error: "Server error" });
-    }
-});
-
-// LOGIN
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ error: "User not found" });
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ error: "Invalid password" });
-
-        res.json({ 
-            message: "Login successful", 
-            user: { id: user._id, name: user.name, email: user.email, phone: user.phone || '' } 
-        });
-    } catch (err) {
-        res.status(500).json({ error: "Server error" });
-    }
-});
+// LOGIN Route
+router.post('/login', [
+  body('email').isEmail().normalizeEmail().withMessage('Invalid email format'),
+  body('password').notEmpty().withMessage('Password is required')
+], login);
 
 module.exports = router;

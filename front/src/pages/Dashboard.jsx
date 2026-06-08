@@ -10,9 +10,9 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API = `${API_URL}/api`;
 
 const StatusBadge = ({ status }) => {
-  if (status === 'Paid') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200"><CheckCircle2 className="h-3 w-3" />{status}</span>;
-  if (status === 'Rejected') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200"><XCircle className="h-3 w-3" />{status}</span>;
-  return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-yellow-50 text-yellow-700 border border-yellow-200"><Clock className="h-3 w-3" />{status}</span>;
+  if (status === 'Processing' || status === 'Shipped' || status === 'Delivered') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200"><CheckCircle2 className="h-3 w-3" />{status}</span>;
+  if (status === 'Cancelled' || status === 'Refunded') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200"><XCircle className="h-3 w-3" />{status}</span>;
+  return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-yellow-50 text-yellow-700 border border-yellow-200"><Clock className="h-3 w-3" />{status.replace('_', ' ')}</span>;
 };
 
 export default function Dashboard() {
@@ -33,48 +33,67 @@ export default function Dashboard() {
 
   const fetchCart = async (id) => {
     setCartLoading(true);
-    try { const r = await fetch(`${API}/cart/${id}`); if (r.ok) setCart(await r.json()); }
+    const token = localStorage.getItem('token');
+    try { 
+      const r = await fetch(`${API}/cart/${id}`, { headers: { 'Authorization': `Bearer ${token}` } }); 
+      if (r.ok) setCart(await r.json()); 
+    }
     finally { setCartLoading(false); }
   };
 
   const fetchOrders = async (id) => {
-    try { const r = await fetch(`${API}/orders/${id}`); if (r.ok) setOrders(await r.json()); } catch {}
+    const token = localStorage.getItem('token');
+    try { 
+      const r = await fetch(`${API}/orders/user/${id}`, { headers: { 'Authorization': `Bearer ${token}` } }); 
+      if (r.ok) setOrders(await r.json()); 
+    } catch {}
   };
 
   const addToCart = async (product) => {
     if (!user) return;
-    const id = product.productId || product._id || product.id;
+    const token = localStorage.getItem('token');
+    const id = product.productId?._id || product._id || product.id;
     await fetch(`${API}/cart/add`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user.id, product: { id, name: product.name, price: product.discountPrice || product.price, img: product.img } }),
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ userId: user.id, productId: id }),
     });
     fetchCart(user.id);
     window.dispatchEvent(new Event('cartUpdated'));
-    toast.success(`${product.name} added to cart!`);
+    toast.success(`${product.name || 'Item'} added to cart!`);
   };
 
   const decreaseQty = async (productId) => {
-    await fetch(`${API}/cart/decrease`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: user.id, productId }) });
+    const token = localStorage.getItem('token');
+    await fetch(`${API}/cart/decrease`, { 
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
+      body: JSON.stringify({ userId: user.id, productId }) 
+    });
     fetchCart(user.id);
   };
 
   const removeItem = async (productId, name) => {
-    await fetch(`${API}/cart/remove`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: user.id, productId }) });
+    const token = localStorage.getItem('token');
+    await fetch(`${API}/cart/remove`, { 
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
+      body: JSON.stringify({ userId: user.id, productId }) 
+    });
     fetchCart(user.id);
     window.dispatchEvent(new Event('cartUpdated'));
     toast.info(`${name || 'Item'} removed from cart`);
   };
 
-  const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+  const total = cart.reduce((s, item) => {
+    const price = item.productId?.discountPrice || item.productId?.price || 0;
+    return s + (price * item.quantity);
+  }, 0);
+
   if (!user) return null;
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      {/* Header */}
       <div className="relative bg-gray-900 pt-24 pb-14 px-6 overflow-hidden">
-        {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(circle at 20% 50%, #06b6d4 0%, transparent 50%), radial-gradient(circle at 80% 20%, #16a34a 0%, transparent 40%)'}} />
         <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div>
@@ -97,9 +116,7 @@ export default function Dashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Cart */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -121,33 +138,41 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {cart.map(item => (
-                    <div key={item.productId} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                      <div className="w-16 h-16 rounded-lg bg-white border border-gray-100 p-1.5 shrink-0">
-                        <img src={item.img} alt={item.name} className="w-full h-full object-contain" />
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <h4 className="font-semibold text-gray-900 text-sm truncate">{item.name}</h4>
-                        <p className="text-gray-400 text-xs mt-0.5">₹{item.price} each</p>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <div className="flex items-center bg-white border border-gray-200 rounded-lg shadow-sm">
-                          <button onClick={() => decreaseQty(item.productId)} disabled={item.quantity <= 1}
-                            className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-700 disabled:opacity-30 transition-colors">
-                            <Minus className="h-3 w-3" />
-                          </button>
-                          <span className="w-8 text-center text-sm font-semibold text-gray-900">{item.quantity}</span>
-                          <button onClick={() => addToCart(item)} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-colors">
-                            <Plus className="h-3 w-3" />
+                  {cart.map(item => {
+                    const product = item.productId;
+                    if (!product) return null; // Prevents crashing if product was deleted from DB
+                    const price = product.discountPrice || product.price || 0;
+                    const name = product.name || 'Loading...';
+                    const img = product.images?.[0]?.url || '';
+
+                    return (
+                      <div key={item._id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <div className="w-16 h-16 rounded-lg bg-white border border-gray-100 p-1.5 shrink-0">
+                          <img src={img} alt={name} className="w-full h-full object-contain" />
+                        </div>
+                        <div className="flex-grow min-w-0">
+                          <h4 className="font-semibold text-gray-900 text-sm truncate">{name}</h4>
+                          <p className="text-gray-400 text-xs mt-0.5">₹{price} each</p>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <div className="flex items-center bg-white border border-gray-200 rounded-lg shadow-sm">
+                            <button onClick={() => decreaseQty(product._id)} disabled={item.quantity <= 1}
+                              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-700 disabled:opacity-30 transition-colors">
+                              <Minus className="h-3 w-3" />
+                            </button>
+                            <span className="w-8 text-center text-sm font-semibold text-gray-900">{item.quantity}</span>
+                            <button onClick={() => addToCart(product)} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-colors">
+                              <Plus className="h-3 w-3" />
+                            </button>
+                          </div>
+                          <span className="font-bold text-gray-900 text-sm w-16 text-right">₹{price * item.quantity}</span>
+                          <button onClick={() => removeItem(product._id, name)} className="text-gray-300 hover:text-red-500 transition-colors ml-1">
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
-                        <span className="font-bold text-gray-900 text-sm w-16 text-right">₹{item.price * item.quantity}</span>
-                        <button onClick={() => removeItem(item.productId, item.name)} className="text-gray-300 hover:text-red-500 transition-colors ml-1">
-                          <Trash2 className="h-4 w-4" />
-                        </button>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
 
                   <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
                     <span className="font-semibold text-gray-600">Total</span>
@@ -162,7 +187,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Orders */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="px-6 py-5 border-b border-gray-100 flex items-center gap-2">
               <Package className="h-5 w-5 text-green-600" />
@@ -177,31 +201,30 @@ export default function Dashboard() {
               ) : (
                 <div className="space-y-4">
                   {orders.map(order => (
-                    <div key={order.id} className="border border-gray-100 rounded-xl p-4 hover:border-cyan-200 hover:bg-cyan-50/20 transition-colors">
+                    <div key={order._id} className="border border-gray-100 rounded-xl p-4 hover:border-cyan-200 hover:bg-cyan-50/20 transition-colors">
                       <div className="flex justify-between items-start mb-3">
                         <div>
-                          <p className="font-semibold text-gray-900 text-sm">#{String(order.id).slice(-6).toUpperCase()}</p>
-                          <p className="text-gray-400 text-xs mt-0.5">{new Date(order.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                          <p className="font-semibold text-gray-900 text-sm">#{String(order._id).slice(-6).toUpperCase()}</p>
+                          <p className="text-gray-400 text-xs mt-0.5">{new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                           
-                          {/* NEW: Customer Tracking ID Display */}
-                          {order.awbNumber && (
+                          {order.shipmentDetails?.awbNumber && (
                             <div className="mt-2 inline-flex items-center gap-1.5 bg-cyan-50 text-cyan-700 border border-cyan-100 px-2.5 py-1 rounded-md">
                               <Truck className="h-3 w-3" />
-                              <span className="text-xs font-semibold">Tracking AWB: <span className="font-mono tracking-wider">{order.awbNumber}</span></span>
+                              <span className="text-xs font-semibold">Tracking AWB: <span className="font-mono tracking-wider">{order.shipmentDetails.awbNumber}</span></span>
                             </div>
                           )}
                           
                         </div>
                         <div className="text-right">
-                          <p className="font-bold text-gray-900 text-sm mb-1">₹{order.total}</p>
+                          <p className="font-bold text-gray-900 text-sm mb-1">₹{order.totalAmount}</p>
                           <StatusBadge status={order.status} />
                         </div>
                       </div>
                       <div className="bg-gray-50 rounded-lg p-3 space-y-1">
                         {order.items.map((item, i) => (
                           <div key={i} className="flex justify-between text-xs text-gray-500">
-                            <span>{item.name} <span className="text-gray-300">×{item.qty}</span></span>
-                            <span>₹{item.price * item.qty}</span>
+                            <span>{item.name} <span className="text-gray-300">×{item.quantity}</span></span>
+                            <span>₹{item.price * item.quantity}</span>
                           </div>
                         ))}
                       </div>
@@ -213,16 +236,11 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-5">
-
-          {/* Profile Card */}
           <div className="rounded-2xl shadow-sm border border-gray-100 overflow-hidden bg-white">
-            {/* Top section — dark with avatar inside */}
             <div className="px-5 pt-5 pb-4 relative" style={{background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 70%, #0f2027 100%)'}}>
               <div className="absolute inset-0 pointer-events-none" style={{backgroundImage: 'radial-gradient(circle at 10% 80%, #19e5e425 0%, transparent 50%), radial-gradient(circle at 90% 20%, #6fea6d18 0%, transparent 50%)'}} />
               <div className="relative flex items-center gap-4">
-                {/* Avatar */}
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg text-xl font-bold text-white shrink-0"
                   style={{background: 'linear-gradient(135deg, #19e5e4, #6fea6d)'}}>
                   {user.name.charAt(0).toUpperCase()}
@@ -238,7 +256,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Info rows */}
             <div className="px-5 py-4 space-y-2.5">
               <InfoRow icon={<Mail className="h-3.5 w-3.5" />} color="#19e5e4" bg="#19e5e410" label="Email" value={user.email} truncate />
               {user.phone && (
@@ -249,7 +266,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Quick stats */}
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm text-center">
               <p className="font-serif text-2xl font-bold text-gray-900">{orders.length}</p>
@@ -257,13 +273,12 @@ export default function Dashboard() {
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm text-center">
               <p className="font-serif text-2xl font-bold text-gray-900">
-                ₹{orders.filter(o => o.status === 'Paid').reduce((s, o) => s + o.total, 0)}
+                ₹{orders.filter(o => o.status === 'Processing' || o.status === 'Shipped' || o.status === 'Delivered').reduce((s, o) => s + o.totalAmount, 0)}
               </p>
               <p className="text-gray-400 text-xs mt-0.5">Total Spent</p>
             </div>
           </div>
 
-          {/* Checkout CTA */}
           {cart.length > 0 && (
             <div className="rounded-2xl p-5 shadow-sm overflow-hidden relative" style={{background: 'linear-gradient(135deg, #0f172a, #1e293b)'}}>
               <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle at 80% 20%, #19e5e4, transparent 60%)'}} />
@@ -280,7 +295,6 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* Wellness tip */}
           <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-4">
             <p className="text-amber-700 text-[10px] uppercase tracking-widest font-semibold mb-1">Daily Tip</p>
             <p className="text-amber-900 text-sm font-medium leading-relaxed">"Consistency is the key to wellness. Small daily habits create lasting change."</p>
@@ -288,7 +302,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Shop */}
       <div className="border-t border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-6 pt-10 pb-2">
           <span className="text-cyan-600 text-xs tracking-[0.3em] uppercase font-semibold">Continue Shopping</span>
