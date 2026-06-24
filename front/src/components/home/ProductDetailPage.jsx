@@ -281,26 +281,39 @@ export default function ProductDetailPage() {
                     {/* Main content: Tabs + Benefits */}
                     <div className="lg:col-span-2 space-y-8">
                         {/* Tabs */}
-                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="flex border-b border-slate-100">
-                                {tabs.map((tab) => (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-4 text-sm font-bold transition-colors ${activeTab === tab.id
-                                            ? 'text-cyan-600 border-b-2 border-cyan-500 bg-cyan-50/30'
-                                            : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-                                            }`}
-                                    >
-                                        <tab.icon className="h-4 w-4" />
-                                        {tab.label}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="p-6 text-slate-700 leading-relaxed">
-                                {tabs.find((t) => t.id === activeTab)?.content}
-                            </div>
-                        </div>
+                        {/* Upgraded Responsive Tabs Block */}
+                        {/* Upgraded Responsive Tabs Block - Premium Cyan Accent with Dark Base */}
+<div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_25px_rgba(0,0,0,0.01)] overflow-hidden">
+    
+    {/* Header Navigation Tab Switcher Row */}
+    <div className="flex border-b border-slate-100 bg-slate-50/20 overflow-x-auto scrollbar-none">
+        <div className="flex w-full min-w-[320px] sm:min-w-0">
+            {tabs.map((tab) => (
+                <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3.5 sm:py-4 text-xs sm:text-sm font-bold transition-all whitespace-nowrap relative ${
+                        activeTab === tab.id
+                            ? 'text-cyan-600 bg-white border-b-2 border-cyan-500 font-black'
+                            : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50/50'
+                    }`}
+                >
+                    <tab.icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 transition-colors ${
+                        activeTab === tab.id ? 'text-cyan-500' : 'text-slate-400'
+                    }`} />
+                    <span>{tab.label}</span>
+                </button>
+            ))}
+        </div>
+    </div>
+
+    {/* Content Area Panel */}
+    <div className="p-5 sm:p-6 text-slate-600 leading-relaxed font-medium text-xs sm:text-sm transition-opacity duration-200">
+        <p className="whitespace-pre-line">
+            {tabs.find((t) => t.id === activeTab)?.content}
+        </p>
+    </div>
+</div>
 
                         {/* Benefits / Key Features */}
                         {extraInfo.sections && extraInfo.sections.length > 0 && (
@@ -342,24 +355,26 @@ export default function ProductDetailPage() {
                     {/* Sidebar: Highlights & Usage */}
                     <div className="space-y-6 lg:sticky lg:top-8">
                         {/* Suggested Usage */}
-                        <div className="bg-gradient-to-br from-amber-50/80 to-orange-50/60 p-6 rounded-2xl border-2 border-amber-200/70 shadow-md shadow-amber-200/20 relative overflow-hidden">
-                            <div className="absolute right-0 bottom-0 w-32 h-32 bg-amber-200/30 rounded-full blur-2xl pointer-events-none" />
+                        <div className="bg-gradient-to-br from-amber-50 to-orange-100 p-6 rounded-2xl border border-amber-200 shadow-sm relative overflow-hidden">
+                            <div className="absolute right-0 bottom-0 w-24 h-24 bg-amber-200/40 rounded-full blur-xl pointer-events-none" />
 
                             <div className="flex items-center gap-2 mb-3">
-                                <div className="p-2 bg-amber-100 rounded-xl border border-amber-200">
-                                    <Clock className="h-5 w-5 text-amber-700" />
+                                <div className="p-1.5 bg-amber-50 rounded-lg border border-amber-200">
+                                    <Clock className="h-4 w-4 text-amber-800" />
                                 </div>
-                                <span className="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full uppercase tracking-wider">
-                                    Recommended
+                                <span className="text-[10px] font-black tracking-widest text-amber-800 uppercase block">
+                                    Intake Guide
                                 </span>
                             </div>
 
-                            <h3 className="open-serif text-2xl font-extrabold text-slate-900 mb-3 tracking-tight">
+                            {/* Fixed typo 'open-serif' to 'font-serif' and explicitly locked color */}
+                            <h3 className="font-serif text-xl font-black text-slate-900 mb-3 tracking-tight">
                                 Suggested Usage
                             </h3>
 
-                            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-amber-200/50 shadow-inner">
-                                <p className="text-base font-semibold text-slate-800 leading-relaxed">
+                            {/* Locked the background to a solid bg-white and explicitly set high-contrast text to override system schemes */}
+                            <div className="bg-white rounded-xl p-4 border border-amber-200/60 shadow-inner">
+                                <p className="text-sm font-bold text-slate-800 leading-relaxed">
                                     {extraInfo.suggestedUsage}
                                 </p>
                             </div>

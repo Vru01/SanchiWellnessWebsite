@@ -32,18 +32,18 @@ export default function ProductSection({ onAddToCart }) {
   const handleAdd = async (product) => {
     const stored = localStorage.getItem('user');
     const token = localStorage.getItem('token');
-    
+
     if (!stored || !token) { navigate('/login'); return; }
     const user = JSON.parse(stored);
-    
+
     if (onAddToCart) {
       onAddToCart(product);
     } else {
       await fetch(`${API_URL}/api/cart/add`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ userId: user.id, productId: product._id }),
       });
@@ -82,11 +82,10 @@ export default function ProductSection({ onAddToCart }) {
           <div className="flex flex-wrap gap-2 justify-center mb-10">
             {!onAddToCart && categories.map(cat => (
               <button key={cat} onClick={() => setFilter(cat)}
-                className={`px-4 py-2.5 rounded-2xl text-sm font-medium transition-all ${
-                  filter === cat
+                className={`px-4 py-2.5 rounded-2xl text-sm font-medium transition-all ${filter === cat
                     ? 'bg-gradient-to-r from-cyan-500 to-green-600 text-white shadow-md shadow-cyan-200'
                     : 'bg-white text-gray-600 border border-gray-200 hover:border-cyan-300 hover:text-cyan-600 shadow-sm'
-                }`}>
+                  }`}>
                 {cat}
               </button>
             ))}
@@ -103,6 +102,7 @@ export default function ProductSection({ onAddToCart }) {
                 <div key={product._id} className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-cyan-200 flex flex-col cursor-pointer"
                   onClick={() => navigate(`/product/${product.slug}`)}>
                   {/* Image */}
+                  {/* Image Section inside filtered.map */}
                   <div className="relative h-72 bg-gradient-to-br from-cyan-50/50 to-green-50/50 overflow-hidden">
                     <img src={imageUrl} alt={product.name} className="w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-500" />
                     {discount && (
@@ -115,8 +115,12 @@ export default function ProductSection({ onAddToCart }) {
                         {product.tag}
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+
+                    {/* UPGRADED: Added pointer-events-none to prevent touch trapping on mobile */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                    {/* UPGRADED: Added pointer-events-none so mobile taps fall straight through to the main onClick handler */}
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 pointer-events-none">
                       <span className="bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
                         Click to view details
                       </span>
@@ -138,11 +142,10 @@ export default function ProductSection({ onAddToCart }) {
                       </div>
                       <button
                         onClick={e => { e.stopPropagation(); handleAdd(product); }}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm ${
-                          isAdded
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm ${isAdded
                             ? 'bg-green-600 text-white shadow-green-200'
                             : 'bg-gradient-to-r from-cyan-500 to-green-600 text-white hover:from-cyan-600 hover:to-green-700 shadow-cyan-200'
-                        }`}>
+                          }`}>
                         {isAdded ? <><Check className="h-4 w-4" /> Added</> : <><ShoppingCart className="h-4 w-4" /> Add to Cart</>}
                       </button>
                     </div>
