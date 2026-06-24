@@ -39,10 +39,12 @@ export default function ProductDetailPage() {
     const [activeTab, setActiveTab] = useState('description');
 
     useEffect(() => {
+        // UPGRADED FIX: Force the mobile browser window to jump to the absolute top on page load
+        window.scrollTo(0, 0);
+
         fetch(`${API_URL}/api/products`)
             .then(r => { if (!r.ok) throw new Error(); return r.json(); })
             .then(data => {
-                // UPGRADED: Smart fallback that matches by slug OR by backend ID string
                 const foundProduct = data.find(p => p.slug === id || p._id === id);
 
                 if (foundProduct) {
@@ -283,37 +285,35 @@ export default function ProductDetailPage() {
                         {/* Tabs */}
                         {/* Upgraded Responsive Tabs Block */}
                         {/* Upgraded Responsive Tabs Block - Premium Cyan Accent with Dark Base */}
-<div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_25px_rgba(0,0,0,0.01)] overflow-hidden">
-    
-    {/* Header Navigation Tab Switcher Row */}
-    <div className="flex border-b border-slate-100 bg-slate-50/20 overflow-x-auto scrollbar-none">
-        <div className="flex w-full min-w-[320px] sm:min-w-0">
-            {tabs.map((tab) => (
-                <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3.5 sm:py-4 text-xs sm:text-sm font-bold transition-all whitespace-nowrap relative ${
-                        activeTab === tab.id
-                            ? 'text-cyan-600 bg-white border-b-2 border-cyan-500 font-black'
-                            : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50/50'
-                    }`}
-                >
-                    <tab.icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 transition-colors ${
-                        activeTab === tab.id ? 'text-cyan-500' : 'text-slate-400'
-                    }`} />
-                    <span>{tab.label}</span>
-                </button>
-            ))}
-        </div>
-    </div>
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_25px_rgba(0,0,0,0.01)] overflow-hidden">
 
-    {/* Content Area Panel */}
-    <div className="p-5 sm:p-6 text-slate-600 leading-relaxed font-medium text-xs sm:text-sm transition-opacity duration-200">
-        <p className="whitespace-pre-line">
-            {tabs.find((t) => t.id === activeTab)?.content}
-        </p>
-    </div>
-</div>
+                            {/* Header Navigation Tab Switcher Row */}
+                            <div className="flex border-b border-slate-100 bg-slate-50/20 overflow-x-auto scrollbar-none">
+                                <div className="flex w-full min-w-[320px] sm:min-w-0">
+                                    {tabs.map((tab) => (
+                                        <button
+                                            key={tab.id}
+                                            onClick={() => setActiveTab(tab.id)}
+                                            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3.5 sm:py-4 text-xs sm:text-sm font-bold transition-all whitespace-nowrap relative ${activeTab === tab.id
+                                                ? 'text-cyan-600 bg-white border-b-2 border-cyan-500 font-black'
+                                                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50/50'
+                                                }`}
+                                        >
+                                            <tab.icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 transition-colors ${activeTab === tab.id ? 'text-cyan-500' : 'text-slate-400'
+                                                }`} />
+                                            <span>{tab.label}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Content Area Panel */}
+                            <div className="p-5 sm:p-6 text-slate-600 leading-relaxed font-medium text-xs sm:text-sm transition-opacity duration-200">
+                                <p className="whitespace-pre-line">
+                                    {tabs.find((t) => t.id === activeTab)?.content}
+                                </p>
+                            </div>
+                        </div>
 
                         {/* Benefits / Key Features */}
                         {extraInfo.sections && extraInfo.sections.length > 0 && (
