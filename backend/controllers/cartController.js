@@ -8,7 +8,7 @@ exports.getCart = async (req, res) => {
         // populate brings in the real-time name, images, and price from the Product collection
         const cartItems = await CartItem.find({ userId: req.params.userId })
             .populate('productId', 'name price discountPrice images slug');
-            
+
         res.json(cartItems);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch cart' });
@@ -17,7 +17,7 @@ exports.getCart = async (req, res) => {
 
 exports.addToCart = async (req, res) => {
     const { userId, productId } = req.body;
-    
+
     try {
         if (req.userId !== userId) return res.status(403).json({ error: 'Unauthorized' });
 
@@ -30,7 +30,7 @@ exports.addToCart = async (req, res) => {
         const item = await CartItem.findOneAndUpdate(
             { userId, productId },
             { $inc: { quantity: 1 } },
-            { new: true, upsert: true } // upsert creates it if it doesn't exist
+            { returnDocument: 'after', upsert: true } // UPGRADED: Replaced 'new: true' with 'returnDocument: 'after''
         );
 
         res.json({ message: "Added to cart", item });
@@ -43,14 +43,14 @@ exports.addToCart = async (req, res) => {
 // @route   POST /api/cart/decrease
 exports.decreaseQty = async (req, res) => {
     const { userId, productId } = req.body;
-    
+
     try {
         if (req.userId !== userId) {
             return res.status(403).json({ error: 'Unauthorized' });
         }
 
         const item = await CartItem.findOne({ userId, productId });
-        
+
         if (!item) {
             return res.status(404).json({ error: "Item not found in cart" });
         }
@@ -74,7 +74,7 @@ exports.decreaseQty = async (req, res) => {
 // @route   POST /api/cart/remove
 exports.removeItem = async (req, res) => {
     const { userId, productId } = req.body;
-    
+
     try {
         if (req.userId !== userId) {
             return res.status(403).json({ error: 'Unauthorized' });

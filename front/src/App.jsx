@@ -5,6 +5,7 @@ import Signup from '@/pages/Signup';
 import Dashboard from '@/pages/Dashboard';
 import Checkout from '@/pages/Checkout';
 import AdminPanel from '@/pages/AdminPanel';
+import ProductDetailPage from '@/components/home/ProductDetailPage';
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
         <Route path="/dashboard" element={<CustomerRoute><Dashboard /></CustomerRoute>} />
         <Route path="/checkout" element={<CustomerRoute><Checkout /></CustomerRoute>} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
       </Routes>
     </Router>
   );
