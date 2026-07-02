@@ -28,11 +28,20 @@ app.use(cors({
   credentials: true
 }));
 
-// Rate limiters
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
+// --- PRODUCTION DUAL-LAYER RATE LIMITERS ---
+
+// 1. Loose Catalog Read Limiter (Handles multiple concurrent component fetches like BestSellers & ProductSection)
+const catalogReadLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 450, // Raised to allow high-frequency page browsing and filtering safely
+  message: 'Too many catalog views from this IP, please try again in a few minutes.'
+});
+
+// 2. Secure Transaction Limiter (Protects database writes from brute-force bot spam)
+const secureTransactionLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
   max: 100, 
-  message: 'Too many requests from this IP, please try again later.'
+  message: 'Too many operations from this IP, please try again later.'
 });
 
 const authLimiter = rateLimit({
@@ -51,10 +60,11 @@ mongoose.connect(process.env.MONGO_URI)
 
 // --- USE ROUTES ---
 app.get('/', (req, res) => res.json({ status: 'ok', service: 'Sanchi Wellness API' }));
+
 app.use('/api/auth', authLimiter, authRoutes);
-app.use('/api/products', limiter, productRoutes);      
-app.use('/api/cart', limiter, cartRoutes);             
-app.use('/api/orders', limiter, orderRoutes);          
+app.use('/api/products', catalogReadLimiter, productRoutes);      // 🟢 Uses the loose read configuration
+app.use('/api/cart', secureTransactionLimiter, cartRoutes);             // 🔒 Protected write route
+app.use('/api/orders', secureTransactionLimiter, orderRoutes);          // 🔒 Protected write route
 
 // --- GLOBAL ERROR HANDLER ---
 app.use(errorHandler);

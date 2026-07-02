@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation} from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import ProductSection from '@/components/home/ProductSection';
 import Footer from '@/components/home/Footer';
@@ -10,6 +10,10 @@ import ProfileSidebar from '@/components/ProfileSidebar';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API = `${API_URL}/api`;
 
+// Request cache guards shield your IP limit during heavy profile sidebar updates
+let isFetchingCartData = false;
+let isFetchingOrderHistory = false;
+
 const StatusBadge = ({ status }) => {
   if (status === 'Processing' || status === 'Shipped' || status === 'Delivered') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200"><CheckCircle2 className="h-3 w-3" />{status}</span>;
   if (status === 'Cancelled' || status === 'Refunded') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200"><XCircle className="h-3 w-3" />{status}</span>;
@@ -18,6 +22,7 @@ const StatusBadge = ({ status }) => {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -25,7 +30,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
-    const token = localStorage.getItem('token'); // 🔥 Added token safety check
+    const token = localStorage.getItem('token'); 
 
     // If either the user object or token is missing, wipe local storage clean and redirect
     if (!stored || !token) {
@@ -47,13 +52,32 @@ export default function Dashboard() {
     }
   }, [navigate]);
 
+  // Replace the hash scrolling useEffect in Dashboard.jsx with this:
+  useEffect(() => {
+    if (location.hash === "#products") {
+      const timer = setTimeout(() => {
+        const element = document.getElementById("products");
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 700);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
+
   const fetchCart = async (id) => {
+    if (isFetchingCartData) return;
+    isFetchingCartData = true;
     setCartLoading(true);
     const token = localStorage.getItem('token');
     try { 
       const r = await fetch(`${API}/cart/${id}`, { headers: { 'Authorization': `Bearer ${token}` } }); 
       
-      // 🔥 NEW: If token is expired or invalid, boot them out safely
+      // If token is expired or invalid, boot them out safely
       if (r.status === 401) {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
@@ -67,17 +91,22 @@ export default function Dashboard() {
     catch (err) {
       console.error(err);
     }
-    finally { setCartLoading(false); }
+    finally { 
+      setCartLoading(false); 
+      isFetchingCartData = false;
+    }
   };
 
   const fetchOrders = async (id) => {
+    if (isFetchingOrderHistory) return;
+    isFetchingOrderHistory = true;
     const token = localStorage.getItem('token');
     try { 
       const r = await fetch(`${API}/orders/user/${id}`, { 
         headers: { 'Authorization': `Bearer ${token}` } 
       }); 
 
-      // 🔥 IF TOKEN IS EXPIRED (Backend throws 401): Wipe session and force re-login
+      // IF TOKEN IS EXPIRED (Backend throws 401): Wipe session and force re-login
       if (r.status === 401) {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
@@ -89,6 +118,8 @@ export default function Dashboard() {
       if (r.ok) setOrders(await r.json()); 
     } catch (err) {
       console.error("Order history retrieval failed:", err);
+    } finally {
+      isFetchingOrderHistory = false;
     }
   };
   
@@ -293,7 +324,6 @@ export default function Dashboard() {
 
       </div>
 
-      {/* 🔥 Added id="products" and scroll margin to offset your sticky navbar */}
       <div id="products" className="border-t border-gray-200 bg-white scroll-mt-24">
         <div className="max-w-7xl mx-auto px-6 pt-10 pb-2">
           <span className="text-cyan-600 text-xs tracking-[0.3em] uppercase font-semibold">Continue Shopping</span>

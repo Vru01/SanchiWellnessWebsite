@@ -1,454 +1,576 @@
-// src/data/extendedProductDetails.js
-
 export const EXTENDED_PRODUCT_DETAILS = {
   // 1. AMBROSIA Multi-Berry Juice
-  "6a23278599a2f8a2da9204f6": {
-    summary: "Daily Multi-Berry Juice helps nourish your body with powerful antioxidants, supports immunity, promotes heart and brain health, enhances energy, supports healthy skin, and contributes to overall wellness for the entire family.",
-    suggestedUsage: "Consume 15 ml once or twice daily. Can be taken directly or mixed with water. Best consumed consistently as part of a balanced diet and healthy lifestyle.",
-    badge: "100% Natural · Antioxidant Rich",
+  "ambrosia-juice": {
+    id: "6a23278599a2f8a2da9204f6",
+    slug: "ambrosia-juice",
+    name: "AMBROSIA Premium Multi-Berry Juice",
+    category: "Superfood Nutrition Stack",
+    price: 1299,
+    discountPrice: 999,
+    imageGallery: [
+      "/product-assets/Ambrosia-1.jpeg",
+      "/product-assets/Ambrosia-2.jpg"
+    ],
+    summary: "Discover the ultimate vitality blend with Ambrosia Premium Multi-Berry Juice. Formulated to nourish your cells with highly concentrated natural antioxidants, this powerful wellness elixir shields your body from daily oxidative stress, stabilizes structural metabolic functions, enhances natural cellular energy output, and supports pristine cardiovascular and cognitive performance for comprehensive multi-generation family wellness.",
+    suggestedUsage: "Measure out 15 ml to 30 ml of Ambrosia Multi-Berry Juice daily. You can consume it directly for a highly concentrated antioxidant surge or dilute it smoothly into a glass of lukewarm whole water. For peak physiological absorption, integrate it consistently first thing in the morning on an empty stomach.",
+    badge: "100% Pure Plant Active · Radical Scavenger",
     highlights: [
-      { title: "Key Nutrients Found", items: ["Vitamin C", "Vitamin A", "Potassium", "Manganese", "Anthocyanins", "Flavonoids", "Polyphenols", "Natural fruit antioxidants"] }
+      { 
+        title: "Key Biochemical Nutrients", 
+        items: ["Vitamin C Complex", "Active Bio-Vitamin A", "Organic Potassium Strains", "Manganese Minerals", "Anthocyanins Matrices", "Polyphenols Core"] 
+      }
     ],
     sections: [
       {
-        title: "Rich Source of Antioxidants",
-        points: ["Protect cells from oxidative stress", "Reduce damage caused by free radicals", "Support healthy aging", "Promote overall wellness"]
+        title: "Defensive Cell Protection & Anti-Aging",
+        points: [
+          "Neutralizes Free Radicals: Actively stabilizes damaged internal cell bonds to limit progressive environmental breakdown.",
+          "Supports Cellular Longevity: Delivers clean plant-based polyphenols required to encourage natural skin brightness and youth retention.",
+          "Combats Oxidative Stress: Shields essential vital organ tissue layers against modern city pollution and biological strain parameters."
+        ]
       },
       {
-        title: "Supports Immune & Heart Health",
-        points: ["Naturally rich in Vitamin C, Polyphenols, and plant nutrients", "Supports normal immune system function and defense mechanisms", "Supports healthy blood circulation and blood vessel function", "Contributes to cardiovascular wellness within the normal range"]
-      },
-      {
-        title: "Energy, Brain & Digestion",
-        points: ["Helps reduce feelings of fatigue and supports daily energy levels", "Associated with better cognitive performance, focus, and concentration", "Contains natural fruit compounds that support gut health and digestive comfort"]
-      },
-      {
-        title: "Skin, Eye & Weight Wellness",
-        points: ["Supports collagen production for healthy-looking skin", "Protects eye tissues from environmental oxidative stress to support vision", "Provides low-fat nourishment to satisfy sweet cravings naturally"]
+        title: "Cardiovascular Support & Cognitive Focus",
+        points: [
+          "Optimizes Vascular Flow: Supports standard arterial health parameters, encouraging clear micro-circulation channels.",
+          "Clears Biological Brain Fog: Natural active compounds clear metabolic sluggishness to promote sharper daily concentration patterns.",
+          "Reinforces Gastrointestinal Integrity: Gentle fruit extracts nourish helpful gut microflora environments for smooth assimilation."
+        ]
       }
     ]
   },
 
   // 2. MALE MIGHT (30 Tablets Pack)
-  "6a23278599a2f8a2da9204fa": {
-    summary: "Specially formulated for men over 35 to target performance drops, address energy depletion, and actively revitalize stamina, desire, and confidence naturally.",
-    suggestedUsage: "Take one tablet daily after your night meal. Use regularly for optimal results.",
-    badge: "Stamina Support · Performance Booster",
+  "male-might-30-caps": {
+    id: "6a23278599a2f8a2da9204fa",
+    slug: "male-might-30-caps",
+    name: "MALE MIGHT Premium Stamina Stack (30 Tablets)",
+    category: "Male Vitality Framework",
+    price: 1599,
+    discountPrice: 1199,
+    imageGallery: [
+      "/product-assets/Male-might-1.jpeg",
+      "/product-assets/male-might-30Tablets-2.jpg"
+    ],
+    summary: "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
+    suggestedUsage: "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
+    badge: "Clinical Strength · Peak Testosterone Support",
     highlights: [
-      { title: "Pack Size", items: ["30 Tablets"] },
-      { title: "Target Group", items: ["Men Over 35"] }
+      { title: "Standard Pack Volume", items: ["30 Hard Tablets"] },
+      { title: "Target Age Range", items: ["Men Over 35 & Athletes"] }
     ],
     sections: [
       {
-        title: "Common Issues Solved",
+        title: "Targeted Resolution of Performance Concerns",
         points: [
-          "Libido Support: Re-ignites interest in sex and counters difficulties feeling aroused.",
-          "Premature Ejaculation: Actively helps manage performance duration naturally.",
-          "Erectile Dysfunction: Helps achieve and maintain consistent performance-level responses."
+          "Libido Stabilization: Directly revitalizes deep performance desire, countering stress-related fatigue lines.",
+          "Endurance Regulation: Strengthens nervous feedback channels to naturally support endurance and stamina.",
+          "Structural Response Support: Promotes clean microvascular circulation to optimize physical response stability when required."
         ]
       },
       {
-        title: "Triple Action Performance",
-        points: ["✅ Boosts Libido", "✅ Helps Prevent Premature Ejaculation", "✅ Combats Erectile Dysfunction"]
-      }
-    ]
-  },
-
-  // 3. MALE MIGHT (10 Capsules Pack)
-  "6a23278599a2f8a2da9204f8": {
-    summary: "Specially formulated for men over 35 to target performance drops, address energy depletion, and actively revitalize stamina, desire, and confidence naturally.",
-    suggestedUsage: "Take one tablet daily after your night meal. Use regularly for optimal results.",
-    badge: "Stamina Support · Performance Booster",
-    highlights: [
-      { title: "Pack Size", items: ["10 Capsules"] },
-      { title: "Target Group", items: ["Men Over 35"] }
-    ],
-    sections: [
-      {
-        title: "Common Issues Solved",
+        title: "Triple-Action Vitality Matrix",
         points: [
-          "Libido Support: Re-ignites interest in sex and counters difficulties feeling aroused.",
-          "Premature Ejaculation: Actively helps manage performance duration naturally.",
-          "Erectile Dysfunction: Helps achieve and maintain consistent performance-level responses."
-        ]
-      },
-      {
-        title: "Triple Action Performance",
-        points: ["✅ Boosts Libido", "✅ Helps Prevent Premature Ejaculation", "✅ Combats Erectile Dysfunction"]
-      }
-    ]
-  },
-
-  // 4. TURBO FLUSH Triphala
-  "6a27af0e16cf6681a3de2cf1": {
-    summary: "TURBO FLUSH Triphala is a traditional Ayurvedic herbal blend made from three fruits: Amalaki (Amla), Bibhitaki, and Haritaki. It has a long history of traditional use and shows exceptional promise for complete digestive health.",
-    suggestedUsage: "Consume as traditionally directed. Best taken with warm water before bedtime or early morning.",
-    badge: "Traditional Ayurvedic Blend",
-    highlights: [
-      { title: "Three-Fruit Blend", items: ["Amalaki (Amla)", "Bibhitaki", "Haritaki"] }
-    ],
-    sections: [
-      {
-        title: "Digestive Health",
-        points: ["May help support regular bowel movements", "Traditionally used to relieve occasional constipation", "May promote healthy overall digestion and gut function"]
-      },
-      {
-        title: "Antioxidant & Anti-Inflammatory Effects",
-        points: ["Contains polyphenols and high Vitamin C values natively sourced from Amla", "Antioxidants help shield cells from environmental oxidative stress", "The pure herbal compounds help naturally mitigate markers of inflammation"]
-      },
-      {
-        title: "Safety Considerations",
-        points: ["Common side effects can include temporary diarrhea, stomach cramps, gas, or loose stools at higher doses", "Pregnant or breastfeeding individuals should consult a healthcare professional before use"]
-      }
-    ]
-  },
-
-  // 5. THICK BONES Calcium with Vitamin D3
-  "6a27aed016cf6681a3de2cc1": {
-    summary: "Daily consumption of THICK BONES Calcium with Vitamin D3 can provide several health benefits, especially when taken in the recommended dosage to support structure, longevity, and posture.",
-    suggestedUsage: "Follow the dosage instructions on the packaging label. Best consumed daily as directed by your healthcare professional.",
-    badge: "Bone Density Support",
-    highlights: [
-      { title: "Pack Size", items: ["100 Chewable Tablets"] },
-      { title: "Key Synergy", items: ["Calcium + Vitamin D3"] }
-    ],
-    sections: [
-      {
-        title: "Bone Density & Osteoporosis Support",
-        points: [
-          "Stronger Bones: Calcium is the primary mineral that builds and maintains bones, while Vitamin D3 helps the body absorb it effectively.",
-          "Reduces Risk of Osteoporosis: Helps slow age-related bone loss, reducing structural risks of fractures and brittle conditions.",
-          "Ideal for Target Groups: Highly beneficial for adults over 35, postmenopausal women, and older demographics."
-        ]
-      },
-      {
-        title: "Dental Protection & Muscle Function",
-        points: [
-          "Supports Healthy Teeth: Strengthens baseline tooth enamel and helps maintain healthy gums alongside overall dental wellbeing.",
-          "Improves Muscle Function: Essential for everyday muscle contraction and relaxation rhythms, helping reduce sudden muscle cramps or weakness.",
-          "Balance Regulation: Vitamin D3 natively supports muscle strength, feedback balance, and posture stability."
-        ]
-      },
-      {
-        title: "Nerve, Immunity & Heart Health",
-        points: [
-          "Supports Nerve Function: Calcium safely transmits vital signals between the brain and the rest of the body for correct nervous coordination.",
-          "Enhances Immunity: Vitamin D3 plays an important role in systemic immune regulation to reinforce defense mechanisms.",
-          "May Support Heart Health: Contributes to balanced cardiovascular function, helping regulate basic heartbeat signatures and normal blood vessel responses."
-        ]
-      },
-      {
-        title: "Aging, Mobility & Joint Wellness",
-        points: [
-          "Helps During Aging: Counters natural declines in mineral absorption over time to extend independent physical mobility.",
-          "Supports Joint Mobility: While it doesn't directly address joint friction, building stronger bone and muscle structures takes pressure off joint centers.",
-          "Deficiency Prevention: Reliably fills daily nutritional gaps when sunlight exposure or whole food items are lacking."
+          "Hormonal Optimization: Supports natural testosterone generation loops safely without synthetic additives.",
+          "Cortisol Reduction: Actively blocks day-to-day corporate work stress from draining physical stamina scores.",
+          "Rapid Recovery Modulation: Accelerates structural muscular repair cycles following intense physical exertion."
         ]
       }
     ]
   },
 
-  // 6. AMLA Herbal Tablet
-  "6a27b09d16cf6681a3de2df0": {
-    summary: "Daily consumption of Amla (Indian Gooseberry) tablets may provide several health benefits because amla is naturally rich in vitamin C, antioxidants, and protective plant compounds.",
-    suggestedUsage: "Follow the dosage mentioned on the product label. Commonly, 1–2 tablets daily after meals are used, but the exact dose depends on the tablet strength.",
-    badge: "100% Pure Indian Gooseberry",
+  "male-might-10-caps": {
+    id: "6a23278599a2f8a2da9204fa",
+    slug: "male-might-10-caps",
+    name: "MALE MIGHT Premium Stamina Stack (10 Tablets)",
+    category: "Male Vitality Framework",
+    price: 599,
+    discountPrice: 1199,
+    imageGallery: [
+      "/product-assets/Male-might-1.jpeg",
+      "/product-assets/male-might-30Tablets-2.jpg"
+    ],
+    summary: "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
+    suggestedUsage: "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
+    badge: "Clinical Strength · Peak Testosterone Support",
     highlights: [
-      { title: "Pack Size", items: ["60 Herbal Tablets"] },
-      { title: "High Value Element", items: ["Natural Vitamin C Core"] }
+      { title: "Standard Pack Volume", items: ["10 Hard Tablets"] },
+      { title: "Target Age Range", items: ["Men Over 35 & Athletes"] }
     ],
     sections: [
       {
-        title: "Immune Strength & Digestive Performance",
+        title: "Targeted Resolution of Performance Concerns",
         points: [
-          "Supports Immunity: Loaded with native vitamin C and phytonutrients to strengthen the body's baseline defenses against oxidative strain.",
-          "Improves Digestion: Encourages clean bowel movements, assists gut environment health, and actively cuts down on excess acidity or bloating."
+          "Libido Stabilization: Directly revitalizes deep performance desire, countering stress-related fatigue lines.",
+          "Endurance Regulation: Strengthens nervous feedback channels to naturally support endurance and stamina.",
+          "Structural Response Support: Promotes clean microvascular circulation to optimize physical response stability when required."
         ]
       },
       {
-        title: "Dermatological, Hair & Anti-Aging Care",
+        title: "Triple-Action Vitality Matrix",
         points: [
-          "Supports Healthy Skin: Accelerates natural collagen production, enhances overall skin elasticity, and blocks free-radical environmental stressors.",
-          "Promotes Hair Health: Culturally used to maintain dark hair pigments, counteract early hair fall, and fuel follicular roots with oxygen-rich nutrients."
-        ]
-      },
-      {
-        title: "Vital Organ Systems (Heart, Eye & Liver)",
-        points: [
-          "Supports Heart Health: Maintains clean blood vessel performance and safeguards the biological cardiovascular system from oxidative degradation.",
-          "Supports Liver Function: High antioxidant levels protect delicate liver tissues and cells from environmental toxic waste values.",
-          "Eye Health Support: Delivers essential nutrition profiles required to protect internal eye tissues from long-term optical strain."
-        ]
-      },
-      {
-        title: "Blood Sugar, Metabolism & Precautions",
-        points: [
-          "Blood Sugar Management: Helps maintain steady metabolic blood sugar levels when tracked alongside strict balanced nutrition (Not a substitute for medical prescriptions).",
-          "Important Precautions: Individuals with diabetes should track blood sugar as amla may increase glucose drop sensitivity. If using prescription blood-thinners or navigating pregnancy/nursing, consult a physician before usage."
+          "Hormonal Optimization: Supports natural testosterone generation loops safely without synthetic additives.",
+          "Cortisol Reduction: Actively blocks day-to-day corporate work stress from draining physical stamina scores.",
+          "Rapid Recovery Modulation: Accelerates structural muscular repair cycles following intense physical exertion."
         ]
       }
     ]
   },
 
-  // 7. VITA-MAXX WOMEN Multivitamin
-  "6a23278599a2f8a2da92050c": {
-    summary: "Daily consumption of a Vita-MaxX women multivitamin tablet can help fill nutritional gaps and support overall health, especially when the diet is not consistently balanced.",
-    suggestedUsage: "Take 1 tablet daily after breakfast or lunch with plenty of water. Avoid taking on an empty stomach unless directed otherwise by your physician.",
-    badge: "Complete Female Vitality Stack",
+  // 3. TURBO FLUSH Triphala
+  "turbo-flush": {
+    id: "6a27af0e16cf6681a3de2cf1",
+    slug: "turbo-flush",
+    name: "TURBO FLUSH Balanced Triphala Blend",
+    category: "Digestive Restoration Stack",
+    price: 899,
+    discountPrice: 649,
+    imageGallery: [
+      "/product-assets/turbo-flush-2.jpg"
+    ],
+    summary: "Cleanse, rebuild, and protect your internal gastrointestinal tract with Turbo Flush Triphala. Combining the pristine values of three traditional fruits, this clinical-grade detoxification formula purges impacted waste matter, tones the intestinal walls, regulates standard bowel movements, and effectively eliminates persistent acidity and bloating.",
+    suggestedUsage: "Take 1 to 2 tablets nightly before bedtime. For optimal cleansing results, consume with a cup of warm water to accelerate systemic waste dissolution while you sleep.",
+    badge: "Traditional Ayurvedic Detox · Certified Pure",
     highlights: [
-      { title: "Focus Group", items: ["Women's Biological Health"] },
-      { title: "Fortified With", items: ["Iron, Folic Acid & Biotin"] }
+      { title: "Traditional Sourcing Elements", items: ["Organic Amalaki", "Wild Bibhitaki", "Pure Haritaki Core"] }
     ],
     sections: [
       {
-        title: "Metabolic Energy & Immune Defense",
+        title: "Gastrointestinal Reset & Comfort",
         points: [
-          "Supports Energy Production: High concentration B-complex vitamins (B6, B12) safely process dietary choices into active muscular energy to reduce daytime exhaustion.",
-          "Strengthens Immunity: Merges Vitamin C, D, E, Zinc, and Selenium to build defensive parameters against simple seasonal infections."
-        ]
-      },
-      {
-        title: "Skeletal Strength & Outer Aesthetic Elements",
-        points: [
-          "Improves Bone Health: Combines Calcium, Vitamin D3, Vitamin K, and Magnesium to preserve critical bone density, which naturally decreases with age.",
-          "Skin, Hair & Nails: Biotin, Vitamin C, Vitamin E, and Zinc cooperate to encourage glowing skin, smooth hair growth, reduce nail brittleness, and aid collagen generation."
-        ]
-      },
-      {
-        title: "Reproductive & Blood Level Normalization",
-        points: [
-          "Supports Reproductive Health: Supplying essential Folic Acid requirements, which is a major nutritional building block for females of childbearing age.",
-          "Maintains Healthy Blood Levels: Correct ratio parameters of Iron, Folic Acid, and Vitamin B12 prevent nutritional anemia and boost cellular oxygen transport lines."
-        ]
-      },
-      {
-        title: "Systemic Well-Being & Stress Care",
-        points: [
-          "Heart & Brain Protection: B vitamins regulate safe homocysteine records while Iodine, Zinc, and active micronutrients bolster memory processing, clarity, and clear mental focus.",
-          "Stressful Lifestyles: Intended as an insurance policy to successfully smooth out micronutrient deficits brought on by daily structural pressures, career travel, or hurried eating schedules."
-        ]
-      },
-      {
-        title: "Important Dietary Disclaimer",
-        points: [
-          "A multivitamin is an accessory supplement, never a comprehensive replacement for diverse raw meals. Regular integration of seasonal fruits, leafy greens, proteins, and healthy fatty acids remains mandatory for true health results."
+          "Relieves Chronic Constipation: Softens waste smoothly without developing dependency or irritating thin mucosal layers.",
+          "Eradicates Bloating & Gas: Neutralizes excess digestive acidity loops to prevent painful post-meal stomach swelling.",
+          "Tones Intestinal Mucosa: Strengthens the underlying muscular framework of the colon to encourage regular morning evacuation rhythms."
         ]
       }
     ]
   },
 
-  // 8. VITA-MAXX MEN Multivitamin
-  "6a23278599a2f8a2da92050a": {
-    summary: "Daily consumption of a Vita-MaxX Men multivitamin tablet can help fill nutritional gaps and support overall health, especially if your diet is not always balanced.",
-    suggestedUsage: "Take 1 tablet daily after breakfast or lunch with plenty of water. Avoid taking on an empty stomach unless directed otherwise.",
-    badge: "Active Men's Performance Formula",
+  // 4. AMLA Herbal Tablet
+  "amla": {
+    id: "6a27b09d16cf6681a3de2df0",
+    slug: "amla",
+    name: "AMLA Certified Pure Indian Gooseberry (60 Tablets)",
+    category: "Immune Armor Core",
+    price: 799,
+    discountPrice: 549,
+    imageGallery: [
+      "/product-assets/Amla-1.jpeg",
+      "/product-assets/Amla-60Tablets-2.jpg"
+    ],
+    summary: "Supercharge your immune system natively with our premium Amla formulation. Sourced from high-yield, organic Indian Gooseberries, each tablet provides a massive dosage of natural Vitamin C and bioflavonoids to defend cells against environmental pathogens and support healthy collagen generation.",
+    suggestedUsage: "Consume 1 tablet twice daily immediately following your primary morning and evening meals with water.",
+    badge: "100% Bioavailable Vitamin C · Cellular Shield",
     highlights: [
-      { title: "Focus Group", items: ["Men's High Performance"] },
-      { title: "Fortified With", items: ["Zinc, Selenium & Magnesium"] }
+      { title: "Serving Package Size", items: ["60 Concentrated Tablets"] },
+      { title: "Antioxidant Rating", items: ["High Polyphenol Potency"] }
     ],
     sections: [
       {
-        title: "Physical Performance, Energy & Muscle",
+        title: "Immune Fortification & Skin Synthesis",
         points: [
-          "Supports Energy Production: Advanced B-complex strains (B6, B12) fuel core metabolic conversions to keep energy thresholds clean all day.",
-          "Muscle & Bone Health: Matches Vitamin D, Calcium, Magnesium, and Zinc to speed up overall physical muscle contraction, performance outputs, and bone tissue repairs."
-        ]
-      },
-      {
-        title: "Immune Stabilization & Cellular Armor",
-        points: [
-          "Boosts Immunity: Direct dosages of Vitamins C, D, E, alongside Zinc and Selenium build robust defense parameters.",
-          "Provides Antioxidant Protection: Employs cellular scavengers to isolate and shield metabolic pathways from oxidative decay brought on by city pollution, physiological aging, and muscle breakdown."
-        ]
-      },
-      {
-        title: "Cardio, Mental Sharpness & Male Vitality",
-        points: [
-          "Improves Heart Health: Essential Magnesium and active B elements keep total blood circulation pathways fluid and defend cardiac cells.",
-          "Enhances Brain Function: Micronutrients clear up brain fog to reinforce long-term concentration thresholds, decision-making logic, and memory recall.",
-          "Male Reproductive Health: Zinc and Selenium provide crucial foundational support for standard testosterone generation, prostate safety, and overall male vitality parameters."
-        ]
-      },
-      {
-        title: "Stress Adaptation & Lifestyle Guidance",
-        points: [
-          "Modern Environment Shield: Ideal for busy professional environments where chronic stress or erratic restaurant dining disrupts daily diet qualities.",
-          "Important Note: This product achieves peak results when layered directly over clean lifestyle choices like protein-dense nutrition, structured workout routines, deep sleep schedules, and consistent clean hydration."
+          "Accelerates Immune Defense: Equips white blood cells with the necessary tools to shield against seasonal elements.",
+          "Promotes Dermal Collagen: Encourages skin cell elasticity frameworks, smoothing out structural fine lines naturally.",
+          "Protects Follicular Roots: Feeds hair roots with rich nutrients to maintain natural dark pigment configurations."
         ]
       }
     ]
   },
 
-  // 9. COW COLOSTRUM
-  "6a23278599a2f8a2da9204fe": {
-    summary: "Daily consumption of cow colostrum tablets may provide several health benefits because colostrum is the first milk produced by cows after giving birth and contains proteins, antibodies, growth factors, vitamins, and minerals.",
-    suggestedUsage: "Follow the dosage instructions on the product label or your healthcare provider's advice. Consistency is important; benefits are generally seen with regular daily use over several weeks.",
-    badge: "First Milk Immuno-Sourcing",
+  // 5. COW COLOSTRUM
+  "piyoosh": {
+    id: "6a23278599a2f8a2da9204fe",
+    slug: "piyoosh",
+    name: "COW COLOSTRUM Immunoglobulin Stack",
+    category: "Bio-Immune Superfood",
+    price: 1499,
+    discountPrice: 1149,
+    imageGallery: [
+      "/product-assets/Cow-Colostrum-1.jpeg",
+      "/product-assets/Cow-Colostrum-2.jpg"
+    ],
+    summary: "Experience the profound immune-building power of Cow Colostrum. Sourced exclusively from the primary milk harvest within hours of birth, this dense nutritional matrix delivers active antibodies, growth factors, and a complete amino chain layout to repair leaky gut structures, ignite metabolic recovery, and lock in system-wide durability.",
+    suggestedUsage: "Take 1 tablet daily with warm water or milk early in the morning, or precisely directed by your sports science consultant.",
+    badge: "First-Milk Sourced · Maximum IgG Concentration",
     highlights: [
-      { title: "Bioactive Agents", items: ["Immunoglobulins (IgG)", "Natural Growth Factors", "Essential Amino Acids"] }
+      { title: "Bioactive Content Profile", items: ["Active Immunoglobulins (IgG)", "Natural IGF-1 Factors", "Complete Essential Aminos"] }
     ],
     sections: [
       {
-        title: "Immune Armor & Digestive Integration",
+        title: "Intestinal Repair & Rapid Athletic Recovery",
         points: [
-          "Supports Immune Health: Densely packed with powerful immunoglobulins (antibodies) that assist the body's internal defense shield against simple pathogen arrays.",
-          "Improves Gut Health: Utilizes unique structural growth factors to preserve and repair thin digestive tract linings, supporting proper colon safety and regular nutrient updates."
-        ]
-      },
-      {
-        title: "Athletic Recovery, Power & Stamina",
-        points: [
-          "Enhances Strength: Concentrates highly bioavailable proteins and amino chains to repair small muscular tears following vigorous sports or general work strain.",
-          "Skeletal Support: Contains rare systemic tissue builders that help structural elements grow stronger alongside regular Calcium-D3 inputs."
-        ]
-      },
-      {
-        title: "Anti-Aging Aesthetics & Metabolic Energy",
-        points: [
-          "Promotes Healthy Skin: Special growth factors inside the first milk promote rapid dermal repair cycles to maintain healthy, elastic skin cell matrices.",
-          "Vitality Boost: Users consistently report a visible reduction in chronic day-to-day exhaustion lines and cleaner natural energy balances with scheduled administration."
-        ]
-      },
-      {
-        title: "Target Profiles & Crucial Safety Warning",
-        points: [
-          "Who May Benefit: Perfect for physically active fitness individuals, adults recovering from systemic fatigue or physical illness, and aging individuals looking to support immunity.",
-          "Absolute Safety Precautions: Do not use if you have a diagnosed systemic allergy to dairy items, milk proteins, or lactose issues. If handling explicit chronic medical conditions, or dealing with pregnancy/nursing, secure clearing from your healthcare expert first."
+          "Seals Leaky Intestinal Linings: Growth factors rebuild cellular gaps in the gut wall, maximizing daily nutrient absorption.",
+          "Speeds Up Lean Muscle Repair: Helps body recovery systems rebuild small muscular fiber tears rapidly after intense training.",
+          "Counteracts Systemic Fatigue: Restores baseline cellular energy stores to reduce afternoon exhaustion valleys."
         ]
       }
     ]
   },
 
-  // 10. ASHWAGANDHA
-  "6a27b07016cf6681a3de2dbb": {
-    summary: "Daily Ashwagandha supplementation at recommended doses is generally well tolerated and may help improve stress management, energy, sleep quality, and overall wellness.",
-    suggestedUsage: "Take 1 Tablet twice a day. Often taken after meals with water.",
-    badge: "Premium Adaptogenic Herb",
+  // 6. VITA-MAXX WOMEN
+  "vita-maxx-women": {
+    id: "6a23278599a2f8a2da92050c",
+    slug: "vita-maxx-women",
+    name: "VITA-MAXX WOMEN Premium Daily Multivitamin",
+    category: "Female Biological Stack",
+    price: 1399,
+    discountPrice: 1049,
+    imageGallery: [
+      "/product-assets/Vita-Max-Women-1.jpeg",
+      "/product-assets/vta-max-women-2.jpg"
+    ],
+    summary: "Bridge structural nutritional gaps completely with Vita-MaxX Women. Specifically calibrated to align with female biological requirements, this master formula delivers high-potency micro-nutrients, blood-building factors, and anti-aging agents to balance daily metabolic output, support skeletal bone density, and revitalize energy.",
+    suggestedUsage: "Take 1 tablet daily immediately after breakfast with water. Avoid taking on an empty stomach.",
+    badge: "Complete Micronutrient Shield · Fortified with Iron & Biotin",
     highlights: [
-      { title: "Pack Size", items: ["60 Tablets"] },
-      { title: "Core Property", items: ["Natural Cortisol Reducer"] }
+      { title: "Fortification Systems", items: ["High Iron Ratio", "Folic Acid Blend", "Pure Biotin Extensions"] }
     ],
     sections: [
       {
-        title: "Stress Management & Mood Balance",
+        title: "Energy Processing & Aesthetic Wellness",
         points: [
-          "Reduces Stress and Anxiety: Helps lower cortisol (the stress hormone) directly in the body.",
-          "Emotional Wellness: Promotes a calmer mind and supports better overall emotional balance.",
-          "Anxiety Relief: Can actively help reduce everyday symptoms of mild anxiety and lifestyle stress."
-        ]
-      },
-      {
-        title: "Energy, Stamina & Sleep",
-        points: [
-          "Improves Energy and Stamina: Supports physical endurance, systemic vitality, and reduces physical fatigue parameters.",
-          "Natural Adaptogen: Enhances the body's natural resilience to safely cope with daily environmental and mental strain.",
-          "Enhances Sleep Quality: Helps improve sleep onset speeds and sleep efficiency, especially for stress-related sleep disturbances."
-        ]
-      },
-      {
-        title: "Targeted Men's & Women's Support",
-        points: [
-          "Supports Men's Health: Helps maintain healthy testosterone levels in some men, backing reproductive health, physical strength, and muscle recovery.",
-          "Supports Women's Health: Helps manage stress-induced fatigue and sudden mood fluctuations, supporting everyday vigor."
-        ]
-      },
-      {
-        title: "Immunity, Metabolism & Muscles",
-        points: [
-          "Supports Immunity: Contains organic chemical compounds that help strengthen the immune system and resilience against illness.",
-          "Blood Sugar Control: May support healthy glucose metabolism when combined with a balanced diet and regular exercise.",
-          "Muscle Growth & Antioxidants: Improves muscle strength when combined with resistance training and fights off oxidative joint stress."
+          "Drives Cellular Energy: B-Complex strains handle food processing smoothly to combat systemic exhaustion.",
+          "Preserves Bone Density Frameworks: Pairs Calcium, D3, and Vitamin K to preserve critical skeletal structures as hormone levels shift.",
+          "Nourishes Outer Layer Elements: High biotin ratios support strong nail growth and vibrant hair textures."
         ]
       }
     ]
   },
 
-  // 11. KARELA
-  "6a27b0dc16cf6681a3de2e26": {
-    summary: "Daily consumption of a Karela (Bitter Gourd) tablet as directed provides bioactive compounds such as charantin, polypeptide-P, and antioxidants studied for blood sugar, metabolism, and overall health.",
-    suggestedUsage: "Take 1 tablet twice daily after meals. Consistent use along with a healthy diet generally provides better results.",
-    badge: "Metabolic Sugar Defense",
+  // 7. VITA-MAXX MEN
+  "vita-maxx-men": {
+    id: "6a23278599a2f8a2da92050a",
+    slug: "vita-maxx-men",
+    name: "VITA-MAXX MEN High-Performance Multivitamin",
+    category: "Male Metabolic Stack",
+    price: 1399,
+    discountPrice: 1049,
+    imageGallery: [
+      "/product-assets/Vita-Max-Men-1.jpeg",
+      "/product-assets/vita-max-man-2.jpg"
+    ],
+    summary: "Engineered specifically for high-stress corporate lifestyles and elite physical performance profiles. Vita-MaxX Men provides an exhaustive complex of essential vitamins, trace minerals, and deep cellular shields to clean out metabolic waste, optimize focus, and secure prostate and cardiac system endurance.",
+    suggestedUsage: "Take 1 tablet daily post-meal (breakfast or lunch) with plenty of clean hydration.",
+    badge: "Active Performance Calibration · Zinc & Magnesium Rich",
     highlights: [
-      { title: "Pack Size", items: ["60 Tablets"] },
-      { title: "Timeline Expectation", items: ["2-4 Wks: Digestion", "4-8 Wks: Sugar Check", "2-3 Mos: Metabolic Wellness"] }
+      { title: "Target Focus Parameters", items: ["Metabolic Conversion", "Free Radical Cleanout", "Male Endocrine Sourcing"] }
     ],
     sections: [
       {
-        title: "Glucose Control & Weight Strategy",
+        title: "Muscle Recovery & Stress Protection",
         points: [
-          "Healthy Blood Sugar Levels: Most commonly used for blood sugar management because its active compounds can mimic insulin profiles to improve glucose utilization.",
-          "Reduces Spikes: Helps blunt harsh post-meal blood sugar surges.",
-          "Weight Management: Low-calorie plant compounds and fiber-like effects help control frequent appetite spikes and support healthy metabolism."
-        ]
-      },
-      {
-        title: "Digestive, Liver & Heart Health",
-        points: [
-          "Improves Digestion: Traditionally used in Ayurveda to stimulate digestive enzymes, reducing common instances of constipation, bloating, and indigestion.",
-          "Supports Liver Health: Antioxidants protect liver cells from oxidative stress. Widely used as a liver-supportive herb.",
-          "Supports Heart Health: Helps maintain healthy cholesterol and triglyceride parameters. Potassium elements protect cardiovascular channels."
-        ]
-      },
-      {
-        title: "Immune Protection & Mandatory Precautions",
-        points: [
-          "Boosts Immunity: Packed with antioxidants and Vitamin C-related nutrients from bitter gourd extracts to combat free radicals.",
-          "Critical Warnings: Daily use may cause excessively low blood sugar if you already take prescription diabetes medication. Pregnant women must avoid karela supplements entirely unless advised by a doctor."
+          "Accelerates Physical Muscular Repair: Targeted Zinc and Magnesium help clear metabolic burn quickly after heavy workouts.",
+          "Clears Brain Fog: Active micronutrients bolster long-term cognitive processing and daily focus under tight deadlines.",
+          "Protects Blood Circulation Paths: Active B-group components preserve vascular walls, keeping blood flow clean."
         ]
       }
     ]
   },
 
-  // 12. JAMUN
-  "6a27b10316cf6681a3de2e5d": {
-    summary: "Jamun (Syzygium cumini), also known as Indian blackberry, is widely used in traditional Ayurvedic medicine. Utilizing standardized seed extracts, daily use offers dynamic supportive glucose and liver defense.",
-    suggestedUsage: "Follow the dosage recommended on the product label or by your healthcare professional. Commonly taken after meals with water. Do not exceed the recommended dosage.",
-    badge: "Standardized Seed Extract",
+  // 8. THICK BONES
+  "thick-bones": {
+    id: "6a27aed016cf6681a3de2cc1",
+    slug: "thick-bones",
+    name: "THICK BONES Advanced Calcium Synergy (100 Tablets)",
+    category: "Structural Longevity Framework",
+    price: 1199,
+    discountPrice: 899,
+    imageGallery: [
+      "/product-assets/Thick-Bones-2.jpg"
+    ],
+    summary: "Preserve posture, protect bone structure, and secure mobility. Thick Bones pairs highly bioavailable Calcium structures with a precise concentration of Vitamin D3 to maximize mineral absorption rates, slow down age-related bone mineral depletion, and prevent brittle structures.",
+    suggestedUsage: "Chew or swallow 1 tablet daily after meals, or as explicitly directed by your orthopedic surgeon.",
+    badge: "Bone Density Booster · High Absorption Matrix",
     highlights: [
-      { title: "Pack Size", items: ["60 Tablets"] },
-      { title: "Key Bio-Actives", items: ["Jamboline", "Ellagic Acid"] }
+      { title: "Quantity Matrix", items: ["100 Chewable Tablets"] },
+      { title: "Synergy Elements", items: ["Calcium Core + High D3 Vector"] }
     ],
     sections: [
       {
-        title: "Sugar Metabolism & Radical Protection",
+        title: "Osteoporosis Prevention & Muscle Coordination",
         points: [
-          "Healthy Blood Sugar Levels: Contains jamboline and ellagic acid within the seeds to support normal, balanced glucose metabolism.",
-          "Rich in Antioxidants: Contains anthocyanins, flavonoids, and polyphenols to actively combat cellular oxidative stress caused by free radicals."
-        ]
-      },
-      {
-        title: "Gastrointestinal & Heart Performance",
-        points: [
-          "Supports Digestive Health: Improves standard digestion parameters and is traditionally utilized to treat occasional diarrhea and indigestion bugs.",
-          "Supports Heart Health: Protects thin blood vessel structures and aids healthy cholesterol markers when linked to an active lifestyle.",
-          "Weight Management: Works to naturally curb sudden, frequent hunger cravings to assist your exercise routines."
-        ]
-      },
-      {
-        title: "Liver, Skin & Important Guidelines",
-        points: [
-          "Liver & Skin Support: Antioxidants shield liver filters and promote structural clarity for a healthier skin complexion.",
-          "Immunity Boost: Plant elements fuel natural white blood cell resilience.",
-          "Crucial Precautions: If you have diabetes and use blood sugar-lowering medications, track metrics carefully as jamun can increase glucose drops. Pregnant or breastfeeding women should consult a healthcare expert before initialization."
+          "Slows Down Age Mineral Loss: Highly critical for adults over 35 to reduce sudden structural fracture risks.",
+          "Mitigates Night Muscle Cramps: Stabilizes baseline muscle contraction and relaxation patterns safely.",
+          "Protects Enamel Durability: Delivers direct mineral updates to safeguard underlying teeth configurations."
         ]
       }
     ]
+  },
+
+  // 9. KARELA
+  "karela": {
+    id: "6a27b0dc16cf6681a3de2e26",
+    slug: "karela",
+    name: "KARELA Pure Metabolic Sugar Defense",
+    category: "Metabolic Stabilization Stack",
+    price: 849,
+    discountPrice: 599,
+    imageGallery: [
+      "/product-assets/karela-2.jpg"
+    ],
+    summary: "Regulate glucose fluctuations naturally with Karela Sugar Defense. Standardized to contain precise quantities of Charantin and Polyphenols, this herbal extraction works to mimic natural insulin patterns, improve muscle glucose uptake, and block post-meal blood sugar spikes.",
+    suggestedUsage: "Take 1 tablet twice daily, preferably 20 minutes prior to your heavy lunch and dinner cycles.",
+    badge: "Standardized Charantin Extract · Insulin Mimicking Strains",
+    highlights: [
+      { title: "Bottle Package Volume", items: ["60 Herbal Caplets"] }
+    ],
+    sections: [
+      {
+        title: "Glucose Management & Liver Detox",
+        points: [
+          "Blunts Post-Meal Glycemic Surges: Prevents heavy energy crashes caused by fast blood sugar swings.",
+          "Protects Liver Filtration Arrays: High natural antioxidant markers clear metabolic toxins from delicate liver filters.",
+          "Suppresses Unnatural Appetite Spikes: Minimizes false sugar cravings to assist clean body fat management protocols."
+        ]
+      }
+    ]
+  },
+
+  // 10. JAMUN
+  "jamun": {
+    id: "6a27b10316cf6681a3de2e5d",
+    slug: "jamun",
+    name: "JAMUN Standardized Seed Extract Defense",
+    category: "Pancreatic Optimization Core",
+    price: 849,
+    discountPrice: 599,
+    imageGallery: [
+      "/product-assets/Jamun-2.jpg"
+    ],
+    summary: "Harness the ancient therapeutic values of Syzygium cumini seeds. Our Jamun formula extracts pure Jamboline and Ellagic Acid to help regulate glucose conversion processes, optimize pancreatic insulin generation, and guard blood vessels from structural sugar damage.",
+    suggestedUsage: "Take 1 tablet daily immediately following your heaviest carbohydrate meal with water.",
+    badge: "Standardized Jamboline · Vascular Defense System",
+    highlights: [
+      { title: "Key Bio-Actives Included", items: ["Pure Jamboline", "Active Ellagic Acids"] }
+    ],
+    sections: [
+      {
+        title: "Starch Conversion Regulation & Cell Shielding",
+        points: [
+          "Blocks Starch-to-Sugar Breakdown: Regulates the speed at which your body processes complex carbohydrates into glucose.",
+          "Protects Delicate Microvascular Layers: Safeguards vision filters and kidney cell walls from sugar stress parameters.",
+          "Stimulates Pancreatic Activity: Supports clean beta-cell performance variables naturally over time."
+        ]
+      }
+    ]
+  },
+
+  // 11. ASHWAGANDHA
+  "ashwagandha": {
+    id: "6a27b07016cf6681a3de2dbb",
+    slug: "ashwagandha",
+    name: "ASHWAGANDHA Premium Stress Adaptogen",
+    category: "Nervous System Calibration",
+    price: 999,
+    discountPrice: 699,
+    imageGallery: [
+      "/product-assets/ashwagandha-1.jpg"
+    ],
+    summary: "Lower systemic cortisol and restore cognitive harmony. Our Ashwagandha formula delivers concentrated withanolides to regulate the overactive adrenal system, ease mild chronic anxiety, improve natural sleep deep cycles, and restore whole-body mental clarity.",
+    suggestedUsage: "Take 1 tablet twice daily after major meals, or 1 tablet before bedtime mixed with warm water or milk.",
+    badge: "Concentrated Withanolides Matrix · Deep Cortisol Minimizer",
+    highlights: [
+      { title: "Core Extraction Standard", items: ["High Percentage Withanolide Potency"] }
+    ],
+    sections: [
+      {
+        title: "Adrenal Reset & Neurological Calming",
+        points: [
+          "Suppresses Systemic Cortisol: Directly tones down active stress hormones to minimize mental anxiety triggers.",
+          "Deepens Slow-Wave Sleep Cycles: Accelerates sleep onset speed, helping you wake up without morning sluggishness.",
+          "Builds Physical Vigor: Supports natural lean muscle recovery and structural energy synthesis."
+        ]
+      }
+    ]
+  },
+
+  // 12. ALOE VERA GEL
+  "aloe-aura": {
+    id: "aloe-vera-gel-static-id",
+    slug: "aloe-aura",
+    name: "Pure Soothing Aloe Vera Gel",
+    category: "Organic Skincare",
+    price: 499,
+    discountPrice: 349,
+    imageGallery: ["/product-assets/aloe-vera-gel-1.jpg"],
+    summary: "Nourish and hydrate your skin naturally. This lightweight, fast-absorbing Aloe Vera Gel delivers deep moisture, calms inflammation, soothes sunburns, and heals irritated skin boundaries, leaving a clean, non-greasy protective field.",
+    suggestedUsage: "Apply generously to your face, body, or hair roots as needed. Smooth gently until completely absorbed.",
+    badge: "100% Organic Moisture Shield",
+    highlights: [{ title: "Formulation Focus", items: ["Hydration", "Skin Repair", "Cooling Relief"] }],
+    sections: [{ title: "Dermatological Benefits", points: ["Deep Skin Hydration without blocking pores.", "Calms razor bumps, redness, and occasional skin breakouts."] }]
+  },
+
+  // 13. ASPIRE CHARCOAL FACE WASH
+  "aspire-face-wash": {
+    id: "aspire-face-wash-static-id",
+    slug: "aspire-face-wash",
+    name: "ASPIRE Activated Charcoal Face Wash",
+    category: "Premium Men's Grooming",
+    price: 599,
+    discountPrice: 449,
+    imageGallery: ["/product-assets/aspire-charcoal-face-wash-1.jpg"],
+    summary: "Draw out deep-seated impurities, pollution microparticles, and excess facial oil. Formulated with high-absorption activated charcoal, this clarifying facial cleanser detoxifies your skin matrix, prevents breakouts, and leaves your face feeling incredibly refreshed.",
+    suggestedUsage: "Squeeze a small drop onto wet palms, work into a rich lather, massage gently in circular patterns, and rinse thoroughly.",
+    badge: "Deep Pores Detoxification",
+    highlights: [{ title: "Active Compounds", items: ["Activated Charcoal Strains", "Cleansing Agents"] }],
+    sections: [{ title: "Pore Management", points: ["Acts like an impurity magnet to remove dirt.", "Balances sebum protection paths to eliminate sticky shine."] }]
+  },
+
+  // 14. ASPIRE SOAP
+  "aspire-glow-soap": {
+    id: "aspire-soap-static-id",
+    slug: "aspire-glow-soap",
+    name: "ASPIRE Premium Artisan Soap Bar",
+    category: "Premium Bathing",
+    price: 299,
+    discountPrice: 199,
+    imageGallery: ["/product-assets/aspire-soap-1.jpg"],
+    summary: "Transform your daily bath into a therapeutic ritual. This artisan cleansing bar hydrates while washing away surface residue, preserving vital outer-layer lipids to protect you from body odor and scratchy dryness.",
+    suggestedUsage: "Lather smoothly over wet skin during your bath or shower, then rinse cleanly away with lukewarm water.",
+    badge: "Rich Nourishing Lather",
+    highlights: [{ title: "Bathing Standard", items: ["Artisan Crafted", "Skin Conditioning"] }],
+    sections: [{ title: "Skin Wellness", points: ["Cleanses completely without stripping essential moisture filters.", "Infused with botanical aromatic notes for extended daytime freshness."] }]
+  },
+
+  // 15. BLOSSOM CARE
+  "blossom-care": {
+    id: "blossom-care-static-id",
+    slug: "blossom-care",
+    name: "BLOSSOM CARE Advanced Hair Tonic",
+    category: "Follicular Treatment",
+    price: 899,
+    discountPrice: 699,
+    imageGallery: ["/product-assets/blossom-care-1.jpg"],
+    summary: "Reinvigorate your hair from root to tip. Blossom Care addresses thinning zones and brittle strands by feeding hair follicles with vital micro-nutrients, promoting standard thickness parameters.",
+    suggestedUsage: "Apply several drops uniformly across your clean scalp layout. Massage firmly using your fingertips for 3 to 5 minutes.",
+    badge: "Hair Thickness Support",
+    highlights: [{ title: "Target Focus", items: ["Follicular Vigor", "Scalp Conditioning"] }],
+    sections: [{ title: "Structural Hair Protection", points: ["Reduces sudden hair fall lines caused by routine daily grooming strain.", "Rebuilds damaged strand configurations for a sleek, glossy finish."] }]
+  },
+
+  // 16. LIBERTY
+  "liberty": {
+    id: "liberty-remedy-static-id",
+    slug: "liberty",
+    name: "LIBERTY Soothing Joint Balm",
+    category: "Mobility Relief",
+    price: 499,
+    discountPrice: 349,
+    imageGallery: ["/product-assets/liberty-1.jpg"],
+    summary: "Reclaim independent mobility and ease joint stiffness. Liberty delivers fast-acting, deep-penetrating warmth directly to sore muscle centers and stressed joint areas, speeding up recovery after strenuous movement.",
+    suggestedUsage: "Rub a small amount onto target joint junctions. Apply gentle friction patterns until completely absorbed.",
+    badge: "Fast-Acting Muscle Warming",
+    highlights: [{ title: "Application Area", items: ["Muscle Knots", "Joint Junctions", "Stiff Zones"] }],
+    sections: [{ title: "Vascular Penetration", points: ["Triggers localized circulation paths to soothe internal discomfort nodes.", "Perfect for active lifestyles, running routines, and age-related physical tightness."] }]
+  },
+
+  // 17. RISING STAR
+  "rising-star": {
+    id: "rising-star-static-id",
+    slug: "rising-star",
+    name: "RISING STAR Daytime Energy Booster",
+    category: "Metabolic Supplement",
+    price: 999,
+    discountPrice: 749,
+    imageGallery: ["/product-assets/Rising-Star-1.jpg"],
+    summary: "Power through your demanding routines without relying on shaky caffeine jolts. Rising Star optimizes your natural cellular energy pathways (ATP generation) to sustain clear focus and physical stamina from morning to evening.",
+    suggestedUsage: "Take 1 tablet daily with breakfast or your morning wellness shake.",
+    badge: "Steady Focus · Zero Caffeine Crashes",
+    highlights: [{ title: "Energy Blueprint", items: ["Cellular Stamina", "No Post-Peak Exhaustion"] }],
+    sections: [{ title: "Metabolic Drive", points: ["Keeps blood sugar parameters steady to prevent late-afternoon energy dips.", "Supports clear mental processing during intense professional workloads."] }]
+  },
+
+  // 18. SAAVI
+  "saavi": {
+    id: "saavi-skin-static-id",
+    slug: "saavi",
+    name: "SAAVI Cellular Radiance Serum",
+    category: "Advanced Skincare",
+    price: 1199,
+    discountPrice: 899,
+    imageGallery: ["/product-assets/saavi-1.jpg"],
+    summary: "Brighten your skin tone and correct hyperpigmentation naturally. Saavi layers active antioxidant plant extracts directly over your skin cell matrix to fade dark spots and shield against sun damage.",
+    suggestedUsage: "Smooth 2 to 3 drops across your cleansed face and neck before applying your evening night moisturizer.",
+    badge: "Advanced Brightening Correction",
+    highlights: [{ title: "Serum Profile", items: ["Dermal Lightening", "UV Stress Shield"] }],
+    sections: [{ title: "Pigment Control", points: ["Gently balances spot discoloration arrays to support natural radiance.", "Accelerates surface skin cell renewal cycles for smoother texture."] }]
+  },
+
+  // 19. SAVIOUR
+  "saviour": {
+    id: "saviour-balm-static-id",
+    slug: "saviour",
+    name: "SAVIOUR Emergency First-Aid Skin Cream",
+    category: "Skin Treatment",
+    price: 399,
+    discountPrice: 279,
+    imageGallery: ["/product-assets/saviour-1.jpg"],
+    summary: "A multi-purpose rescue balm for minor skin issues. Saviour forms a breathable protective barrier over chafed skin, minor scratches, extreme dryness, and minor rashes, supporting rapid cell healing.",
+    suggestedUsage: "Cleanse the target skin zone thoroughly and apply a thin layer of cream. Repeat twice daily.",
+    badge: "First-Line Protective Field",
+    highlights: [{ title: "Cream Profile", items: ["Irritation Soothing", "Moisture Seal"] }],
+    sections: [{ title: "Barrier Function", points: ["Defends vulnerable skin tissues from airborne particles.", "Relieves itchiness and scratchy dry patches instantly."] }]
+  },
+
+  // 20. VIRALITY MAX
+  "virility-maxx": {
+    id: "virility-maxx-static-id",
+    slug: "virility-maxx",
+    name: "VIRILITY MAXX Comprehensive Performance Stack",
+    category: "Male Vitality Framework",
+    price: 1699,
+    discountPrice: 1299,
+    imageGallery: ["/product-assets/virality-max-30Tablets-1.jpg"],
+    summary: "Max out your daily energy and physical vitality metrics. Virility Max combines standard adaptogenic herbal concentrates to optimize male metabolic output, build training stamina, and protect systemic hormonal baselines.",
+    suggestedUsage: "Take 1 tablet daily with lukewarm water following your post-workout meal or breakfast cycle.",
+    badge: "Maximum Energy Calibration",
+    highlights: [{ title: "Stack Metric", items: ["30 Concentrated Tablets", "Metabolic Conditioning"] }],
+    sections: [{ title: "Endocrine Endurance", points: ["Supports standard performance outputs during demanding physical training.", "Alleviates structural muscle fatigue lines to shorten your recovery windows."] }]
+  },
+
+  // 21. WILD ROOTS
+  "wild-roots": {
+    id: "wild-roots-static-id",
+    slug: "wild-roots",
+    name: "WILD ROOTS Organic Hair Elixir Oil",
+    category: "Scalp Treatment",
+    price: 699,
+    discountPrice: 499,
+    imageGallery: ["/product-assets/wild-roots-1.jpg"],
+    summary: "Nourish your scalp and roots with cold-pressed organic oils. Wild Roots delivers deep hydration to dry, flaky skin layers, eliminating dandruff flakes and anchoring hair shafts firmly within their roots.",
+    suggestedUsage: "Massage a generous amount directly into your scalp. Leave on for at least 2 hours or overnight before rinsing.",
+    badge: "Cold-Pressed Root Sourcing",
+    highlights: [{ title: "Oil Treatment Profile", items: ["Anti-Dandruff Properties", "Shaft Conditioning"] }],
+    sections: [{ title: "Scalp Optimization", points: ["Eliminates dry flakes by restoring essential scalp hydration parameters.", "Locks in moisture across hair cuticles to prevent frizzy split ends."] }]
   }
 };
 
-export function getExtendedDetails(product) {
-  if (!product) return null;
-  const targetId = String(product._id);
+// Replace the helper function at the bottom of extendedProductDetails.js with this:
+export function getCombinedProductData(backendProduct) {
+  if (!backendProduct) return null;
 
-  if (EXTENDED_PRODUCT_DETAILS[targetId]) {
-    return EXTENDED_PRODUCT_DETAILS[targetId];
-  }
+  // Use the backend properties as the absolute baseline truth
+  const targetSearchKey = backendProduct.slug || backendProduct._id;
+  const values = Object.values(EXTENDED_PRODUCT_DETAILS);
 
+  // Locate the matching static layout enhancements block
+  const staticBlock = values.find(p => 
+    String(p.slug).toLowerCase() === String(targetSearchKey).toLowerCase() || 
+    String(p.id).toLowerCase() === String(targetSearchKey).toLowerCase()
+  ) || values[0]; // Fallback safely to index 0 block to prevent crashing
+
+  // Hybrid Merge: Return backend live values but layer local assets and text summary over it
   return {
-    summary: product.description || "Premium health formulation crafted for holistic body wellness.",
-    suggestedUsage: "Use daily as directed on the packaging label.",
-    badge: "Premium Wellness",
-    highlights: [],
-    sections: [{ title: "About Product", points: [product.description || "No extended details provided yet."] }]
+    ...backendProduct, // Takes live price, discountPrice, name, stock, and category directly from DB
+    id: backendProduct._id,
+    summary: staticBlock.summary,
+    suggestedUsage: staticBlock.suggestedUsage,
+    badge: staticBlock.badge,
+    highlights: staticBlock.highlights,
+    sections: staticBlock.sections,
+    // Safely prioritize local high-res asset folder pictures over backend links
+    imageGallery: staticBlock.imageGallery && staticBlock.imageGallery.length > 0 
+      ? staticBlock.imageGallery 
+      : [backendProduct.images?.[0]?.url || backendProduct.img].filter(Boolean)
   };
 }
