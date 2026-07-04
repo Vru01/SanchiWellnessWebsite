@@ -13,7 +13,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     ],
     summary: "Discover the ultimate vitality blend with Ambrosia Premium Multi-Berry Juice. Formulated to nourish your cells with highly concentrated natural antioxidants, this powerful wellness elixir shields your body from daily oxidative stress, stabilizes structural metabolic functions, enhances natural cellular energy output, and supports pristine cardiovascular and cognitive performance for comprehensive multi-generation family wellness.",
     suggestedUsage: "Measure out 15 ml to 30 ml of Ambrosia Multi-Berry Juice daily. You can consume it directly for a highly concentrated antioxidant surge or dilute it smoothly into a glass of lukewarm whole water. For peak physiological absorption, integrate it consistently first thing in the morning on an empty stomach.",
-    badge: "100% Pure Plant Active · Radical Scavenger",
+    badge: "100% Pure Plant Active",
     highlights: [
       { 
         title: "Key Biochemical Nutrients", 
@@ -54,7 +54,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     ],
     summary: "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
     suggestedUsage: "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
-    badge: "Clinical Strength · Peak Testosterone Support",
+    badge: "Peak Testosterone Support",
     highlights: [
       { title: "Standard Pack Volume", items: ["30 Hard Tablets"] },
       { title: "Target Age Range", items: ["Men Over 35 & Athletes"] }
@@ -92,7 +92,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     ],
     summary: "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
     suggestedUsage: "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
-    badge: "Clinical Strength · Peak Testosterone Support",
+    badge: "Peak Testosterone Support",
     highlights: [
       { title: "Standard Pack Volume", items: ["10 Hard Tablets"] },
       { title: "Target Age Range", items: ["Men Over 35 & Athletes"] }
@@ -191,7 +191,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     ],
     summary: "Experience the profound immune-building power of Cow Colostrum. Sourced exclusively from the primary milk harvest within hours of birth, this dense nutritional matrix delivers active antibodies, growth factors, and a complete amino chain layout to repair leaky gut structures, ignite metabolic recovery, and lock in system-wide durability.",
     suggestedUsage: "Take 1 tablet daily with warm water or milk early in the morning, or precisely directed by your sports science consultant.",
-    badge: "First-Milk Sourced · Maximum IgG Concentration",
+    badge: "Milk Sourced - Maximum IgG Concentration",
     highlights: [
       { title: "Bioactive Content Profile", items: ["Active Immunoglobulins (IgG)", "Natural IGF-1 Factors", "Complete Essential Aminos"] }
     ],
@@ -221,7 +221,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     ],
     summary: "Bridge structural nutritional gaps completely with Vita-MaxX Women. Specifically calibrated to align with female biological requirements, this master formula delivers high-potency micro-nutrients, blood-building factors, and anti-aging agents to balance daily metabolic output, support skeletal bone density, and revitalize energy.",
     suggestedUsage: "Take 1 tablet daily immediately after breakfast with water. Avoid taking on an empty stomach.",
-    badge: "Complete Micronutrient Shield · Fortified with Iron & Biotin",
+    badge: "Complete Micronutrient Shield",
     highlights: [
       { title: "Fortification Systems", items: ["High Iron Ratio", "Folic Acid Blend", "Pure Biotin Extensions"] }
     ],
@@ -251,7 +251,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     ],
     summary: "Engineered specifically for high-stress corporate lifestyles and elite physical performance profiles. Vita-MaxX Men provides an exhaustive complex of essential vitamins, trace minerals, and deep cellular shields to clean out metabolic waste, optimize focus, and secure prostate and cardiac system endurance.",
     suggestedUsage: "Take 1 tablet daily post-meal (breakfast or lunch) with plenty of clean hydration.",
-    badge: "Active Performance Calibration · Zinc & Magnesium Rich",
+    badge: "Active Performance Calibration",
     highlights: [
       { title: "Target Focus Parameters", items: ["Metabolic Conversion", "Free Radical Cleanout", "Male Endocrine Sourcing"] }
     ],
@@ -280,7 +280,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     ],
     summary: "Preserve posture, protect bone structure, and secure mobility. Thick Bones pairs highly bioavailable Calcium structures with a precise concentration of Vitamin D3 to maximize mineral absorption rates, slow down age-related bone mineral depletion, and prevent brittle structures.",
     suggestedUsage: "Chew or swallow 1 tablet daily after meals, or as explicitly directed by your orthopedic surgeon.",
-    badge: "Bone Density Booster · High Absorption Matrix",
+    badge: "Bone Density Booster",
     highlights: [
       { title: "Quantity Matrix", items: ["100 Chewable Tablets"] },
       { title: "Synergy Elements", items: ["Calcium Core + High D3 Vector"] }
@@ -432,20 +432,52 @@ export const EXTENDED_PRODUCT_DETAILS = {
     sections: [{ title: "Skin Wellness", points: ["Cleanses completely without stripping essential moisture filters.", "Infused with botanical aromatic notes for extended daytime freshness."] }]
   },
 
-  // 15. BLOSSOM CARE
+  // 15. BLOSSOM CARE V-Wash for Women
   "blossom-care": {
     id: "blossom-care-static-id",
     slug: "blossom-care",
-    name: "BLOSSOM CARE Advanced Hair Tonic",
-    category: "Follicular Treatment",
+    name: "BLOSSOM CARE Premium Intimate V-Wash",
+    category: "Intimate Hygiene Care",
     price: 899,
     discountPrice: 699,
-    imageGallery: ["/product-assets/blossom-care-1.jpg"],
-    summary: "Reinvigorate your hair from root to tip. Blossom Care addresses thinning zones and brittle strands by feeding hair follicles with vital micro-nutrients, promoting standard thickness parameters.",
-    suggestedUsage: "Apply several drops uniformly across your clean scalp layout. Massage firmly using your fingertips for 3 to 5 minutes.",
-    badge: "Hair Thickness Support",
-    highlights: [{ title: "Target Focus", items: ["Follicular Vigor", "Scalp Conditioning"] }],
-    sections: [{ title: "Structural Hair Protection", points: ["Reduces sudden hair fall lines caused by routine daily grooming strain.", "Rebuilds damaged strand configurations for a sleek, glossy finish."] }]
+    imageGallery: [
+      "/product-assets/blossom-care-2.jpeg",
+      "/product-assets/blossom-care-1.jpg"
+    ],
+    summary: "Specially formulated for women's daily intimate wellness. Blossom Care V.Wash naturally works to prevent unpleasant odors, discomfort, persistent itching, dryness, and irritation. Enriched with skin-nourishing botanical extracts, it reinforces your body's natural defensive boundaries, preventing common intimate health issues before they even begin.",
+    suggestedUsage: "Gently squeeze the bottle to take a few concentrated drops of Blossom Care V.Wash onto your clean palm. Apply externally to the intimate area during your daily shower routine, lather softly, and wash away thoroughly with plenty of clean water.",
+    badge: "Enriched with Sea Buckthorn & Tea Tree Oil",
+    highlights: [
+      { 
+        title: "Key Botanical & Therapeutic Ingredients", 
+        items: [
+          "Pure Aloe Vera Juice", 
+          "Organic Sea Buckthorn Oil", 
+          "Natural Tea Tree Oil", 
+          "Lactic Acid (pH Balancer)", 
+          "Gentle Cocamidopropyl Betaine", 
+          "Soothing Sorbitol Matrix"
+        ] 
+      }
+    ],
+    sections: [
+      {
+        title: "Advanced Soothing & Odor Prevention",
+        points: [
+          "Eliminates Unpleasant Odors: Natural Tea Tree Oil provides active, long-lasting antimicrobial freshness down there.",
+          "Calms Daily Irritation: Pure Aloe Vera extracts work to soothe localized itchiness, swelling, and persistent scratchy dryness.",
+          "Gentle Surface Cleansing: Uses delicate, soap-free foaming agents to clean hyper-sensitive layers without stripping away protective lipids."
+        ]
+      },
+      {
+        title: "Pristine pH Balancing & Long-term Defense",
+        points: [
+          "Optimized Lactic Acid Core: Maintains the precise acidic pH baseline required to keep helpful microflora healthy.",
+          "Sea Buckthorn Protection: Densely feeds vulnerable tissues with protective vitamins and fatty acids to accelerate barrier repair.",
+          "Proactive Care Framework: Safeguards structural wellness defenses to prevent common discomforts before they can take root."
+        ]
+      }
+    ]
   },
 
   // 16. LIBERTY
@@ -464,36 +496,118 @@ export const EXTENDED_PRODUCT_DETAILS = {
     sections: [{ title: "Vascular Penetration", points: ["Triggers localized circulation paths to soothe internal discomfort nodes.", "Perfect for active lifestyles, running routines, and age-related physical tightness."] }]
   },
 
-  // 17. RISING STAR
+  // 17. RISING STAR Nutri Powder with Chocolate
   "rising-star": {
     id: "rising-star-static-id",
     slug: "rising-star",
-    name: "RISING STAR Daytime Energy Booster",
-    category: "Metabolic Supplement",
+    name: "RISING STAR Premium Nutri Powder (Delicious Chocolate Flavor)",
+    category: "Kids Nutrition & Growth",
     price: 999,
     discountPrice: 749,
-    imageGallery: ["/product-assets/Rising-Star-1.jpg"],
-    summary: "Power through your demanding routines without relying on shaky caffeine jolts. Rising Star optimizes your natural cellular energy pathways (ATP generation) to sustain clear focus and physical stamina from morning to evening.",
-    suggestedUsage: "Take 1 tablet daily with breakfast or your morning wellness shake.",
-    badge: "Steady Focus · Zero Caffeine Crashes",
-    highlights: [{ title: "Energy Blueprint", items: ["Cellular Stamina", "No Post-Peak Exhaustion"] }],
-    sections: [{ title: "Metabolic Drive", points: ["Keeps blood sugar parameters steady to prevent late-afternoon energy dips.", "Supports clear mental processing during intense professional workloads."] }]
+    imageGallery: [
+      "/product-assets/rising-star-1.jpeg", 
+      "/product-assets/Rising-Star-2.jpg"
+    ],
+    summary: "Fuel their greatness with Rising Star Nutri Powder. Formulated specifically as a complete nutritional drink mix for active, growing kids, this delicious chocolate-flavored health supplement packs a powerful punch with 22% high-quality protein per serving. It provides an exhaustive matrix of vital vitamins and minerals to support structural bone strength, robust immunity, daily cognitive development, and consistent physical energy.",
+    suggestedUsage: "Take 1-2 scoops of Rising Star Nutri Powder daily. Mix smoothly into a glass of lukewarm or cold milk, stir thoroughly until fully dissolved, and serve. Ideal as a morning fuel boost or a refreshing post-playtime recovery drink.",
+    badge: "Complete Nutrition for Active Kids",
+    highlights: [
+      { 
+        title: "Macro & Structural Growth Nutrients", 
+        items: [
+          "Total Protein (from 35% concentration source)", 
+          "Dietary Fiber & FOS (Fructo-Oligosaccharides)", 
+          "Calcium, Magnesium & Vitamin D for Bone Density", 
+          "DHA for Cognitive Support",
+          "Essential Zinc, Selenium & Iron", 
+          "Digestive Enzymes Complex"
+        ] 
+      },
+      {
+        title: "Full Vitamin & Mineral Spectrum",
+        items: [
+          "Vitamins A, C, E Complex",
+          "Complete B-Vitamins (B1, B2, B6, B12, Niacinamide, Biotin, Pantothenic Acid)",
+          "Vital Aminos & Factors (Taurine, L-Carnitine, Inositol, Choline)",
+          "Trace Minerals (Iodine, Manganese, Copper, Chromium, Potassium, Sodium)"
+        ]
+      }
+    ],
+    sections: [
+      {
+        title: "Healthy Growth, Muscle & Bone Development",
+        points: [
+          "High Protein Density: Delivers 22% protein per serving to support optimal muscle building and tissue repair during rapid growth phases.",
+          "Stronger Skeletal Base: Synergizes Calcium, Magnesium, and Vitamin D to build dense, strong bones and healthy teeth for active lifestyles.",
+          "Brain & Visual Support: Enriched with DHA, Choline, and Iron to support concentration, memory retention, and mental sharpness."
+        ]
+      },
+      {
+        title: "Immunity Booster & Easy Digestion",
+        points: [
+          "Advanced Immune Defense: Combines Vitamins A, C, E, Zinc, and Selenium to form a robust shield against common seasonal bugs.",
+          "Smooth Gut Support: Integrates FOS (prebiotics) and active Digestive Enzymes to encourage seamless nutrient absorption and easy digestion without bloating.",
+          "Balanced Clean Energy: Provides essential carbohydrates, healthy fats (MUFA/PUFA), and B-vitamins to convert food into steady physical stamina without sudden sugar crashes."
+        ]
+      }
+    ]
   },
 
-  // 18. SAAVI
-  "saavi": {
+  // 18. SAAVI Women Care Syrup
+  "saavi-skin": {
     id: "saavi-skin-static-id",
     slug: "saavi",
-    name: "SAAVI Cellular Radiance Serum",
-    category: "Advanced Skincare",
+    name: "SAAVI Premium Ayurvedic Women Care Syrup (Sugar-Free)",
+    category: "Women's Wellness & Vitality",
     price: 1199,
     discountPrice: 899,
-    imageGallery: ["/product-assets/saavi-1.jpg"],
-    summary: "Brighten your skin tone and correct hyperpigmentation naturally. Saavi layers active antioxidant plant extracts directly over your skin cell matrix to fade dark spots and shield against sun damage.",
-    suggestedUsage: "Smooth 2 to 3 drops across your cleansed face and neck before applying your evening night moisturizer.",
-    badge: "Advanced Brightening Correction",
-    highlights: [{ title: "Serum Profile", items: ["Dermal Lightening", "UV Stress Shield"] }],
-    sections: [{ title: "Pigment Control", points: ["Gently balances spot discoloration arrays to support natural radiance.", "Accelerates surface skin cell renewal cycles for smoother texture."] }]
+    imageGallery: [
+      "/product-assets/saavi-1.jpeg",
+      "/product-assets/saavi-2.jpg"
+    ],
+    summary: "Nourish, protect, and empower your health at every stage of life. Saavi Women Care Syrup is a premium, sugar-free Ayurvedic restorative tonic expertly formulated for college girls, active women, and homemakers alike. Blending high-potency traditional herbs like Ashoka Chhal and Lodhra, this revitalizing tonic targets internal hormonal imbalances, purifies and supports hemoglobin counts, reinforces immunity, and fights fatigue to bring back natural radiance across your skin and hair.",
+    suggestedUsage: "Take 10 ml to 15 ml (approximately 2 to 3 teaspoons) of Saavi Women Care Syrup twice daily after primary meals, or as explicitly directed by your health advisor.",
+    badge: "Hormonal Balance & Energy · Sugar Free Base",
+    highlights: [
+      { 
+        title: "Active Herbal Composition (Per 10 ml)", 
+        items: [
+          "Ashoka Chhal (Saraca indica) – 1100 mg", 
+          "Lodhra (Symplocos racemosa) – 500 mg", 
+          "Utkambal (Abroma augusta) – 100 mg", 
+          "Nagkesar (Mesua ferrea) – 100 mg",
+          "Ashwagandha & Punarnava – 100 mg each",
+          "Manjeeth & Maajufal Matrix – 20 mg each"
+        ] 
+      },
+      {
+        title: "Holistic Health Pillars",
+        items: [
+          "Hormonal Equilibrium",
+          "Blood & Hemoglobin Support",
+          "Energy, Stamina & Vitality",
+          "Skin, Hair & Overall Wellness"
+        ]
+      }
+    ],
+    sections: [
+      {
+        title: "Hormonal Optimization & Internal Cycle Regulation",
+        points: [
+          "Balances Natural Cycles: Uses a heavy dosage of Ashoka Chhal and Lodhra to regulate irregular periodic cycles and ease severe menstrual discomfort.",
+          "Combats Mood Swings: Adaptogens like Ashwagandha settle overactive nervous exhaustion and manage stress patterns natively.",
+          "Astringent Tissue Toning: Active herbal ingredients provide deep pelvic tissue strengthening and reduce frequent inner fluid imbalances."
+        ]
+      },
+      {
+        title: "Blood Purification, Vital Energy & Radiance",
+        points: [
+          "Hemoglobin Booster: Punarnava, Manjeeth, and supportive herbal compounds optimize micro-circulation health and naturally guard blood count metrics.",
+          "Fights Persistent Fatigue: Regenerates raw physical endurance and clears brain fog, making it perfect for busy active lifestyles or demanding college routines.",
+          "Nourishes Skin & Hair: Deep cellular purification channels direct vital metabolic nutrients straight to your hair roots and outer skin layers for a healthy glow."
+        ]
+      }
+    ]
   },
 
   // 19. SAVIOUR
@@ -512,37 +626,114 @@ export const EXTENDED_PRODUCT_DETAILS = {
     sections: [{ title: "Barrier Function", points: ["Defends vulnerable skin tissues from airborne particles.", "Relieves itchiness and scratchy dry patches instantly."] }]
   },
 
-  // 20. VIRALITY MAX
+  // 20. VIRALITY MAXX Cellular Energy & Fertility Stack
   "virility-maxx": {
     id: "virility-maxx-static-id",
     slug: "virility-maxx",
-    name: "VIRILITY MAXX Comprehensive Performance Stack",
+    name: "VIRALITY MAXX Sperm Count & Cellular Energy Support",
     category: "Male Vitality Framework",
     price: 1699,
     discountPrice: 1299,
-    imageGallery: ["/product-assets/virality-max-30Tablets-1.jpg"],
-    summary: "Max out your daily energy and physical vitality metrics. Virility Max combines standard adaptogenic herbal concentrates to optimize male metabolic output, build training stamina, and protect systemic hormonal baselines.",
-    suggestedUsage: "Take 1 tablet daily with lukewarm water following your post-workout meal or breakfast cycle.",
-    badge: "Maximum Energy Calibration",
-    highlights: [{ title: "Stack Metric", items: ["30 Concentrated Tablets", "Metabolic Conditioning"] }],
-    sections: [{ title: "Endocrine Endurance", points: ["Supports standard performance outputs during demanding physical training.", "Alleviates structural muscle fatigue lines to shorten your recovery windows."] }]
+    imageGallery: [
+      "/product-assets/virality-maxx-2.jpeg",
+      "/product-assets/virality-max-30Tablets-1.jpg"
+    ],
+    summary: "Empower your cellular vitality and reproductive health from the inside out. Virality Maxx delivers a high-potency 100 mg dosage of Coenzyme Q10 (CoQ10), an essential enzyme absolutely required for basic cellular function across vital organs, including reproductive cells, the heart, kidneys, and skeletal muscles. Because natural CoQ10 levels decline steadily with age and can be further depleted by certain statin medications, this targeted formulation directly restores your body's cellular battery to promote male fertility, boost sperm volume, and enhance daily physical endurance.",
+    suggestedUsage: "Take 1 to 2 capsules twice a day with water, or follow the explicit dosage guidelines provided by your attending physician.",
+    badge: "Premium CoQ10 Power · Supports Male Fertility",
+    highlights: [
+      { 
+        title: "Active Ingredient Profile", 
+        items: [
+          "Pure Coenzyme Q10 (CoQ10) – 100 mg per capsule"
+        ] 
+      },
+      {
+        title: "Core Health Milestones",
+        items: [
+          "Boosts Sperm Volume & Quality",
+          "Supports Male Fertility Pathways",
+          "Promotes Vitality & Cellular ATP",
+          "Protects Critical Cardiovascular Tissues"
+        ]
+      }
+    ],
+    sections: [
+      {
+        title: "Reproductive Vitality & Cellular Sperm Support",
+        points: [
+          "Optimizes Sperm Volume: Supplies the heavy cellular energy needed to improve critical sperm count, structure, and forward motility parameters natively.",
+          "Protects Reproductive Cells: Acts as a high-grade lipid antioxidant, shielding sensitive reproductive cellular structures from routine free radical destruction.",
+          "Counteracts Age & Statin Depletion: Efficiently replenishes bio-energetic enzyme pools that naturally diminish due to aging or the daily side effects of statin therapy."
+        ]
+      },
+      {
+        title: "Systemic Organ Energy & Muscular Endurance",
+        points: [
+          "Fuel for the Heart & Kidneys: Delivers concentrated cellular ATP power to your body's most demanding vital organs to promote healthy long-term performance.",
+          "Skeletal Muscle Conditioning: Maximizes recovery speeds within high-stress skeletal muscle tissue fibers, helping to lower daily physical exhaustion.",
+          "Purity Safeguarded: Clinically formulated in a clean, state-of-the-art framework to supply consistent stamina and metabolic vigor throughout the day."
+        ]
+      }
+    ]
   },
 
-  // 21. WILD ROOTS
+  // 21. WILD ROOTS Anti Hair Fall Shampoo
   "wild-roots": {
     id: "wild-roots-static-id",
     slug: "wild-roots",
-    name: "WILD ROOTS Organic Hair Elixir Oil",
-    category: "Scalp Treatment",
+    name: "WILD ROOTS Premium Anti Hair Fall Shampoo",
+    category: "Hair & Scalp Therapeutics",
     price: 699,
     discountPrice: 499,
-    imageGallery: ["/product-assets/wild-roots-1.jpg"],
-    summary: "Nourish your scalp and roots with cold-pressed organic oils. Wild Roots delivers deep hydration to dry, flaky skin layers, eliminating dandruff flakes and anchoring hair shafts firmly within their roots.",
-    suggestedUsage: "Massage a generous amount directly into your scalp. Leave on for at least 2 hours or overnight before rinsing.",
-    badge: "Cold-Pressed Root Sourcing",
-    highlights: [{ title: "Oil Treatment Profile", items: ["Anti-Dandruff Properties", "Shaft Conditioning"] }],
-    sections: [{ title: "Scalp Optimization", points: ["Eliminates dry flakes by restoring essential scalp hydration parameters.", "Locks in moisture across hair cuticles to prevent frizzy split ends."] }]
-  }
+    imageGallery: [
+      "/product-assets/wild-roots-2.jpeg",
+      "/product-assets/wild-roots-1.jpg"
+    ],
+    summary: "Experience a perfect blend of powerful, nurturing plant-based actives. Wild Roots Anti Hair Fall Shampoo delivers exceptionally gentle cleansing using premium coconut-based cleansers. Fortified with structural Silk and Wheat Proteins, this advanced therapy shampoo actively repairs weak cuticles, helps prevent hair fall, adds natural shine, and deeply targets dry, itchy scalps and dandruff flaking by removing the synthetic buildup layer left behind by commercial chemical products.",
+    suggestedUsage: "Wet your hair thoroughly and take an appropriate quantity of this Herbal Shampoo onto your palms. Massage it evenly into the scalp and hair shafts until a rich, dense lather is formed, allowing the botanical nutrients to absorb. Rinse thoroughly with plenty of clear, fresh water.",
+    badge: "Sulphate & Paraben Free · Silk & Wheat Proteins",
+    highlights: [
+      { 
+        title: "Active Strengthening & Clean Sourcing", 
+        items: [
+          "Pure Aloe Vera Juice Base", 
+          "Fortifying Silk Proteins", 
+          "Structural Wheat Proteins", 
+          "Gentle Coconut-Derived Cleansers", 
+          "Cocomono Ethanol Amide Matrix", 
+          "Advanced Polyquat-7 Conditioning"
+        ] 
+      },
+      {
+        title: "Purity & Safeguard Standards",
+        items: [
+          "100% Paraben Free Shield",
+          "Sulphate & Toxin Free Formulation",
+          "Cruelty Free & Plant Powered",
+          "Chemical Layer Detoxification"
+        ]
+      }
+    ],
+    sections: [
+      {
+        title: "Hair Fall Prevention & Structural Core Repair",
+        points: [
+          "Dual Protein Reinforcement: Employs Silk and Wheat proteins to interlock within damaged hair strands, drastically cutting down on breakage and split ends.",
+          "Follicle & Root Fortification: Feeds deep nutritional elements to hair roots to stimulate healthy follicle development and anchor strands securely.",
+          "Adds Vibrant Natural Shine: Gently polishes the outer cuticle layer, restoring a glossy, smooth bounce without relying on heavy synthetic silicones."
+        ]
+      },
+      {
+        title: "Chemical Detoxification & Scalp Rebalancing",
+        points: [
+          "Strips Away Chemical Buildup: Safely dissolves the suffocating layer created by synthetic commercial shampoos, allowing the scalp skin to breathe.",
+          "Soothes Dry & Itchy Scalps: Pure Aloe Vera Juice delivers immediate cellular hydration to calm persistent irritation, redness, and scratchy surface tension.",
+          "Targeted Anti-Dandruff Action: Restores natural moisture balance across flaky scalp boundaries, safely regulating microbial balance to minimize stubborn flakes."
+        ]
+      }
+    ]
+  },
 };
 
 // Replace the helper function at the bottom of extendedProductDetails.js with this:
