@@ -1,121 +1,207 @@
 export const EXTENDED_PRODUCT_DETAILS = {
   // 1. AMBROSIA Multi-Berry Juice
   "ambrosia-juice": {
-    id: "6a23278599a2f8a2da9204f6",
-    slug: "ambrosia-juice",
-    name: "AMBROSIA Premium Multi-Berry Juice",
-    category: "Superfood Nutrition Stack",
-    price: 1299,
-    discountPrice: 999,
-    imageGallery: [
-      "/product-assets/Ambrosia-1.jpeg",
-      "/product-assets/Ambrosia-2.jpg"
-    ],
-    summary: "Discover the ultimate vitality blend with Ambrosia Premium Multi-Berry Juice. Formulated to nourish your cells with highly concentrated natural antioxidants, this powerful wellness elixir shields your body from daily oxidative stress, stabilizes structural metabolic functions, enhances natural cellular energy output, and supports pristine cardiovascular and cognitive performance for comprehensive multi-generation family wellness.",
-    suggestedUsage: "Measure out 15 ml to 30 ml of Ambrosia Multi-Berry Juice daily. You can consume it directly for a highly concentrated antioxidant surge or dilute it smoothly into a glass of lukewarm whole water. For peak physiological absorption, integrate it consistently first thing in the morning on an empty stomach.",
-    badge: "100% Pure Plant Active",
-    highlights: [
-      { 
-        title: "Key Biochemical Nutrients", 
-        items: ["Vitamin C Complex", "Active Bio-Vitamin A", "Organic Potassium Strains", "Manganese Minerals", "Anthocyanins Matrices", "Polyphenols Core"] 
-      }
-    ],
-    sections: [
-      {
-        title: "Defensive Cell Protection & Anti-Aging",
-        points: [
-          "Neutralizes Free Radicals: Actively stabilizes damaged internal cell bonds to limit progressive environmental breakdown.",
-          "Supports Cellular Longevity: Delivers clean plant-based polyphenols required to encourage natural skin brightness and youth retention.",
-          "Combats Oxidative Stress: Shields essential vital organ tissue layers against modern city pollution and biological strain parameters."
-        ]
-      },
-      {
-        title: "Cardiovascular Support & Cognitive Focus",
-        points: [
-          "Optimizes Vascular Flow: Supports standard arterial health parameters, encouraging clear micro-circulation channels.",
-          "Clears Biological Brain Fog: Natural active compounds clear metabolic sluggishness to promote sharper daily concentration patterns.",
-          "Reinforces Gastrointestinal Integrity: Gentle fruit extracts nourish helpful gut microflora environments for smooth assimilation."
-        ]
-      }
-    ]
-  },
+  "id": "6a23278599a2f8a2da9204f6",
+  "slug": "ambrosia-juice",
+  "name": "AMBROSIA Premium Multi-Berry Juice",
+  "category": "Superfood Nutrition Stack",
+  "price": 1299,
+  "discountPrice": 999,
+  "imageGallery": [
+    "/product-assets/Ambrosia-1.jpeg",
+    "/product-assets/Ambrosia-2.jpg"
+  ],
+  "summary": "Discover the ultimate vitality blend with Ambrosia Premium Multi-Berry Juice. Formulated to nourish your cells with highly concentrated natural antioxidants, this powerful wellness elixir shields your body from daily oxidative stress, stabilizes structural metabolic functions, enhances natural cellular energy output, and supports pristine cardiovascular and cognitive performance for comprehensive multi-generation family wellness.",
+  "suggestedUsage": "Measure out 15 ml to 30 ml of Ambrosia Multi-Berry Juice daily. You can consume it directly for a highly concentrated antioxidant surge or dilute it smoothly into a glass of lukewarm whole water. For peak physiological absorption, integrate it consistently first thing in the morning on an empty stomach.",
+  "badge": "100% Pure Plant Active",
+  "highlights": [
+    { 
+      "title": "Key Biochemical Nutrients", 
+      "items": ["Vitamin C Complex", "Active Bio-Vitamin A", "Organic Potassium Strains", "Manganese Minerals", "Anthocyanins Matrices", "Polyphenols Core"] 
+    },
+    {
+      "title": "Full Ingredients Composition",
+      "items": [
+        "Acai Berry",
+        "Blackberry",
+        "Raspberry",
+        "Goji Berry",
+        "Blueberry",
+        "Mulberry",
+        "Cherry",
+        "Cranberry",
+        "Rosemary",
+        "Strawberry",
+        "Seabuckthorns",
+        "Mangosteen",
+        "Black Grapes",
+        "Pomegranate",
+        "Dragon Fruit Pulp",
+        "Grape Seed Extract",
+        "Moringa",
+        "Amla",
+        "Green Tea",
+        "Triphala",
+        "Kalonji",
+        "Ashwagandha",
+        "Milk Thistle",
+        "Garcinia Combogia (Kokum)",
+        "NaturLOCK System Aloe Vera Gel Juice (Imported from Terry Lab., USA)",
+        "Acidity Regulator (INS-330)",
+        "Thickener (INS-415)",
+        "Preservatives (INS-211, INS-202)",
+        "Flavors (Natural Identical Flavors)"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Defensive Cell Protection & Anti-Aging",
+      "points": [
+        "Neutralizes Free Radicals: Actively stabilizes damaged internal cell bonds to limit progressive environmental breakdown.",
+        "Supports Cellular Longevity: Delivers clean plant-based polyphenols required to encourage natural skin brightness and youth retention.",
+        "Combats Oxidative Stress: Shields essential vital organ tissue layers against modern city pollution and biological strain parameters."
+      ]
+    },
+    {
+      "title": "Cardiovascular Support & Cognitive Focus",
+      "points": [
+        "Optimizes Vascular Flow: Supports standard arterial health parameters, encouraging clear micro-circulation channels.",
+        "Clears Biological Brain Fog: Natural active compounds clear metabolic sluggishness to promote sharper daily concentration patterns.",
+        "Reinforces Gastrointestinal Integrity: Gentle fruit extracts nourish helpful gut microflora environments for smooth assimilation."
+      ]
+    }
+  ]
+},
 
   // 2. MALE MIGHT (30 Tablets Pack)
   "male-might-30-caps": {
-    id: "6a23278599a2f8a2da9204fa",
-    slug: "male-might-30-caps",
-    name: "MALE MIGHT Premium Stamina Stack (30 Tablets)",
-    category: "Male Vitality Framework",
-    price: 1599,
-    discountPrice: 1199,
-    imageGallery: [
-      "/product-assets/Male-might-1.jpeg",
-      "/product-assets/male-might-30Tablets-2.jpg"
-    ],
-    summary: "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
-    suggestedUsage: "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
-    badge: "Peak Testosterone Support",
-    highlights: [
-      { title: "Standard Pack Volume", items: ["30 Hard Tablets"] },
-      { title: "Target Age Range", items: ["Men Over 35 & Athletes"] }
-    ],
-    sections: [
-      {
-        title: "Targeted Resolution of Performance Concerns",
-        points: [
-          "Libido Stabilization: Directly revitalizes deep performance desire, countering stress-related fatigue lines.",
-          "Endurance Regulation: Strengthens nervous feedback channels to naturally support endurance and stamina.",
-          "Structural Response Support: Promotes clean microvascular circulation to optimize physical response stability when required."
-        ]
-      },
-      {
-        title: "Triple-Action Vitality Matrix",
-        points: [
-          "Hormonal Optimization: Supports natural testosterone generation loops safely without synthetic additives.",
-          "Cortisol Reduction: Actively blocks day-to-day corporate work stress from draining physical stamina scores.",
-          "Rapid Recovery Modulation: Accelerates structural muscular repair cycles following intense physical exertion."
-        ]
-      }
-    ]
-  },
+  "id": "6a23278599a2f8a2da9204fa",
+  "slug": "male-might-30-caps",
+  "name": "MALE MIGHT Premium Stamina Stack (30 Tablets)",
+  "category": "Male Vitality Framework",
+  "price": 1599,
+  "discountPrice": 1199,
+  "imageGallery": [
+    "/product-assets/male-might-1.jpeg",
+    "/product-assets/male-might-2.jpeg",
+    "/product-assets/male-might-30Tablets-2.jpg"
+  ],
+  "summary": "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
+  "suggestedUsage": "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
+  "badge": "Peak Testosterone Support",
+  "highlights": [
+    { "title": "Standard Pack Volume", "items": ["30 Capsules"] },
+    { "title": "Target Age Range", "items": ["Men Over 35 & Athletes"] },
+    {
+      "title": "Nutritional Facts (Per 500 mg Veg Capsule)",
+      "items": [
+        "Kesar",
+        "Swarn Bhasma",
+        "Shudh Shilajeet",
+        "Safed Musli Tubers",
+        "Kaunch Seed",
+        "Ashwagandha Root",
+        "Gokshura Fruit",
+        "Akarkara Root",
+        "Amla Epicarp",
+        "Shatavari Root",
+        "Guduchi Stem",
+        "Mash Seed",
+        "Makhana Fruit",
+        "Kokilaksh Seed",
+        "Jaiphal Endosperm of dried seed",
+        "Supari Nut",
+        "Vacha Root",
+        "Pippali Fruit",
+        "Tagar Rhizome",
+        "Mulethi Root"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Targeted Resolution of Performance Concerns",
+      "points": [
+        "Libido Stabilization: Directly revitalizes deep performance desire, countering stress-related fatigue lines.",
+        "Endurance Regulation: Strengthens nervous feedback channels to naturally support endurance and stamina.",
+        "Structural Response Support: Promotes clean microvascular circulation to optimize physical response stability when required."
+      ]
+    },
+    {
+      "title": "Triple-Action Vitality Matrix",
+      "points": [
+        "Hormonal Optimization: Supports natural testosterone generation loops safely without synthetic additives.",
+        "Cortisol Reduction: Actively blocks day-to-day corporate work stress from draining physical stamina scores.",
+        "Rapid Recovery Modulation: Accelerates structural muscular repair cycles following intense physical exertion."
+      ]
+    }
+  ]
+},
 
   "male-might-10-caps": {
-    id: "6a23278599a2f8a2da9204fa",
-    slug: "male-might-10-caps",
-    name: "MALE MIGHT Premium Stamina Stack (10 Tablets)",
-    category: "Male Vitality Framework",
-    price: 599,
-    discountPrice: 1199,
-    imageGallery: [
-      "/product-assets/Male-might-1.jpeg",
-      "/product-assets/male-might-30Tablets-2.jpg"
-    ],
-    summary: "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
-    suggestedUsage: "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
-    badge: "Peak Testosterone Support",
-    highlights: [
-      { title: "Standard Pack Volume", items: ["10 Hard Tablets"] },
-      { title: "Target Age Range", items: ["Men Over 35 & Athletes"] }
-    ],
-    sections: [
-      {
-        title: "Targeted Resolution of Performance Concerns",
-        points: [
-          "Libido Stabilization: Directly revitalizes deep performance desire, countering stress-related fatigue lines.",
-          "Endurance Regulation: Strengthens nervous feedback channels to naturally support endurance and stamina.",
-          "Structural Response Support: Promotes clean microvascular circulation to optimize physical response stability when required."
-        ]
-      },
-      {
-        title: "Triple-Action Vitality Matrix",
-        points: [
-          "Hormonal Optimization: Supports natural testosterone generation loops safely without synthetic additives.",
-          "Cortisol Reduction: Actively blocks day-to-day corporate work stress from draining physical stamina scores.",
-          "Rapid Recovery Modulation: Accelerates structural muscular repair cycles following intense physical exertion."
-        ]
-      }
-    ]
-  },
+  "id": "6a23278599a2f8a2da9204fa",
+  "slug": "male-might-10-caps",
+  "name": "MALE MIGHT Premium Stamina Stack (10 Tablets)",
+  "category": "Male Vitality Framework",
+  "price": 599,
+  "discountPrice": 1199,
+  "imageGallery": [
+    "/product-assets/male-might-1.jpeg",
+    "/product-assets/male-might-2.jpeg",
+    "/product-assets/male-might-30Tablets-2.jpg"
+  ],
+  "summary": "Reclaim peak physical control, endurance, and confidence. Male Might is an advanced clinical adaptogenic formulation specifically engineered for men over 35 to target performance drops, address systematic nervous energy depletion, regulate vital male hormonal baselines, and actively revitalize physical stamina.",
+  "suggestedUsage": "Consume exactly one tablet daily. Best taken consistently 30 to 45 minutes following your night meal with a warm glass of water or milk. Use continuously without interruption for a minimum threshold of 8 to 12 weeks to secure permanent biological optimization.",
+  "badge": "Peak Testosterone Support",
+  "highlights": [
+    { "title": "Standard Pack Volume", "items": ["10 Capsules"] },
+    { "title": "Target Age Range", "items": ["Men Over 35 & Athletes"] },
+    {
+      "title": "Nutritional Facts (Per 500 mg Veg Capsule)",
+      "items": [
+        "Kesar",
+        "Swarn Bhasma",
+        "Shudh Shilajeet",
+        "Safed Musli Tubers",
+        "Kaunch Seed",
+        "Ashwagandha Root",
+        "Gokshura Fruit",
+        "Akarkara Root",
+        "Amla Epicarp",
+        "Shatavari Root",
+        "Guduchi Stem",
+        "Mash Seed",
+        "Makhana Fruit",
+        "Kokilaksh Seed",
+        "Jaiphal Endosperm of dried seed",
+        "Supari Nut",
+        "Vacha Root",
+        "Pippali Fruit",
+        "Tagar Rhizome",
+        "Mulethi Root"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Targeted Resolution of Performance Concerns",
+      "points": [
+        "Libido Stabilization: Directly revitalizes deep performance desire, countering stress-related fatigue lines.",
+        "Endurance Regulation: Strengthens nervous feedback channels to naturally support endurance and stamina.",
+        "Structural Response Support: Promotes clean microvascular circulation to optimize physical response stability when required."
+      ]
+    },
+    {
+      "title": "Triple-Action Vitality Matrix",
+      "points": [
+        "Hormonal Optimization: Supports natural testosterone generation loops safely without synthetic additives.",
+        "Cortisol Reduction: Actively blocks day-to-day corporate work stress from draining physical stamina scores.",
+        "Rapid Recovery Modulation: Accelerates structural muscular repair cycles following intense physical exertion."
+      ]
+    }
+  ]
+},
 
   // 3. TURBO FLUSH Triphala
   "turbo-flush": {
@@ -126,6 +212,8 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 899,
     discountPrice: 649,
     imageGallery: [
+      "/product-assets/turbo-flush-1.jpeg",
+      "/product-assets/turbo-flush-2.jpeg",
       "/product-assets/turbo-flush-2.jpg"
     ],
     summary: "Cleanse, rebuild, and protect your internal gastrointestinal tract with Turbo Flush Triphala. Combining the pristine values of three traditional fruits, this clinical-grade detoxification formula purges impacted waste matter, tones the intestinal walls, regulates standard bowel movements, and effectively eliminates persistent acidity and bloating.",
@@ -155,6 +243,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 799,
     discountPrice: 549,
     imageGallery: [
+      "product-assets/amla-1.jpeg",
       "/product-assets/Amla-1.jpeg",
       "/product-assets/Amla-60Tablets-2.jpg"
     ],
@@ -179,93 +268,183 @@ export const EXTENDED_PRODUCT_DETAILS = {
 
   // 5. COW COLOSTRUM
   "piyoosh": {
-    id: "6a23278599a2f8a2da9204fe",
-    slug: "piyoosh",
-    name: "COW COLOSTRUM Immunoglobulin Stack",
-    category: "Bio-Immune Superfood",
-    price: 1499,
-    discountPrice: 1149,
-    imageGallery: [
-      "/product-assets/Cow-Colostrum-1.jpeg",
-      "/product-assets/Cow-Colostrum-2.jpg"
-    ],
-    summary: "Experience the profound immune-building power of Cow Colostrum. Sourced exclusively from the primary milk harvest within hours of birth, this dense nutritional matrix delivers active antibodies, growth factors, and a complete amino chain layout to repair leaky gut structures, ignite metabolic recovery, and lock in system-wide durability.",
-    suggestedUsage: "Take 1 tablet daily with warm water or milk early in the morning, or precisely directed by your sports science consultant.",
-    badge: "Milk Sourced - Maximum IgG Concentration",
-    highlights: [
-      { title: "Bioactive Content Profile", items: ["Active Immunoglobulins (IgG)", "Natural IGF-1 Factors", "Complete Essential Aminos"] }
-    ],
-    sections: [
-      {
-        title: "Intestinal Repair & Rapid Athletic Recovery",
-        points: [
-          "Seals Leaky Intestinal Linings: Growth factors rebuild cellular gaps in the gut wall, maximizing daily nutrient absorption.",
-          "Speeds Up Lean Muscle Repair: Helps body recovery systems rebuild small muscular fiber tears rapidly after intense training.",
-          "Counteracts Systemic Fatigue: Restores baseline cellular energy stores to reduce afternoon exhaustion valleys."
-        ]
-      }
-    ]
-  },
+  "id": "6a23278599a2f8a2da9204fe",
+  "slug": "piyoosh",
+  "name": "COW COLOSTRUM Immunoglobulin Stack",
+  "category": "Bio-Immune Superfood",
+  "price": 1499,
+  "discountPrice": 1149,
+  "imageGallery": [
+    "/product-assets/cow-1.jpeg",
+    "/product-assets/c ow-2.jpeg",
+    "/product-assets/Cow-Colostrum-2.jpg"
+  ],
+  "summary": "Experience the profound immune-building power of Cow Colostrum. Sourced exclusively from the primary milk harvest within hours of birth, this dense nutritional matrix delivers active antibodies, growth factors, and a complete amino chain layout to repair leaky gut structures, ignite metabolic recovery, and lock in system-wide durability.",
+  "suggestedUsage": "1 chewable tab twice a day",
+  "badge": "Milk Sourced - Maximum IgG Concentration",
+  "highlights": [
+    { "title": "Bioactive Content Profile", "items": ["Active Immunoglobulins (IgG)", "Natural IGF-1 Factors", "Complete Essential Aminos"] }
+  ],
+  "sections": [
+    {
+      "title": "Intestinal Repair & Rapid Athletic Recovery",
+      "points": [
+        "Seals Leaky Intestinal Linings: Growth factors rebuild cellular gaps in the gut wall, maximizing daily nutrient absorption.",
+        "Speeds Up Lean Muscle Repair: Helps body recovery systems rebuild small muscular fiber tears rapidly after intense training.",
+        "Counteracts Systemic Fatigue: Restores baseline cellular energy stores to reduce afternoon exhaustion valleys."
+      ]
+    }
+  ]
+},
 
   // 6. VITA-MAXX WOMEN
   "vita-maxx-women": {
-    id: "6a23278599a2f8a2da92050c",
-    slug: "vita-maxx-women",
-    name: "VITA-MAXX WOMEN Premium Daily Multivitamin",
-    category: "Female Biological Stack",
-    price: 1399,
-    discountPrice: 1049,
-    imageGallery: [
-      "/product-assets/Vita-Max-Women-1.jpeg",
-      "/product-assets/vta-max-women-2.jpg"
-    ],
-    summary: "Bridge structural nutritional gaps completely with Vita-MaxX Women. Specifically calibrated to align with female biological requirements, this master formula delivers high-potency micro-nutrients, blood-building factors, and anti-aging agents to balance daily metabolic output, support skeletal bone density, and revitalize energy.",
-    suggestedUsage: "Take 1 tablet daily immediately after breakfast with water. Avoid taking on an empty stomach.",
-    badge: "Complete Micronutrient Shield",
-    highlights: [
-      { title: "Fortification Systems", items: ["High Iron Ratio", "Folic Acid Blend", "Pure Biotin Extensions"] }
-    ],
-    sections: [
-      {
-        title: "Energy Processing & Aesthetic Wellness",
-        points: [
-          "Drives Cellular Energy: B-Complex strains handle food processing smoothly to combat systemic exhaustion.",
-          "Preserves Bone Density Frameworks: Pairs Calcium, D3, and Vitamin K to preserve critical skeletal structures as hormone levels shift.",
-          "Nourishes Outer Layer Elements: High biotin ratios support strong nail growth and vibrant hair textures."
-        ]
-      }
-    ]
-  },
+  "id": "6a23278599a2f8a2da92050c",
+  "slug": "vita-maxx-women",
+  "name": "VITA-MAXX WOMEN Premium Daily Multivitamin",
+  "category": "Female Biological Stack",
+  "price": 1399,
+  "discountPrice": 1049,
+  "imageGallery": [
+    "/product-assets/vita-maxx-women-1.jpeg",
+    "/product-assets/vita-maxx-women-2.jpeg",
+    "/product-assets/Vita-Max-Women-1.jpeg",
+    "/product-assets/vta-max-women-2.jpg"
+  ],
+  "summary": "Bridge structural nutritional gaps completely with Vita-MaxX Women. Specifically calibrated to align with female biological requirements, this master formula delivers high-potency micro-nutrients, blood-building factors, and anti-aging agents to balance daily metabolic output, support skeletal bone density, and revitalize energy.",
+  "suggestedUsage": "Take 10 tablet daily immediately after breakfast with water. Avoid taking on an empty stomach.",
+  "badge": "Complete Micronutrient Shield",
+  "highlights": [
+    { "title": "Fortification Systems", "items": ["High Iron Ratio", "Folic Acid Blend", "Pure Biotin Extensions"] },
+    {
+      "title": "Complete Active Ingredients",
+      "items": [
+        "Thiamine",
+        "Riboflavin",
+        "Niacinamide",
+        "Vitamin E Acetate",
+        "Pyridoxine",
+        "Beta Carotene",
+        "Folic Acid",
+        "Biotin",
+        "Pantothenic Acid",
+        "Calcium",
+        "Zinc",
+        "Iodine",
+        "Magnesium",
+        "Copper",
+        "Molybdenum",
+        "Grape Seed Extract",
+        "Citrus Bioflavonoids",
+        "Alpha Lipoic Acid",
+        "Lycopene",
+        "Lutein",
+        "Zeaxanthin"
+      ]
+    },
+    {
+      "title": "Other Excipients",
+      "items": [
+        "Calcium Carbonate (INS 170(i))",
+        "Dicalcium Phosphate",
+        "Starch (INS 1401)",
+        "Microcrystalline Cellulose (INS 460(i))",
+        "Polyvinyl Pyrrolidone K-30 (INS 1202)",
+        "Sodium Starch Glycolate",
+        "Talc (INS 553(iii))",
+        "Magnesium Stearate",
+        "Ponceau 4R (INS 124)"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Energy Processing & Aesthetic Wellness",
+      "points": [
+        "Drives Cellular Energy: B-Complex strains handle food processing smoothly to combat systemic exhaustion.",
+        "Preserves Bone Density Frameworks: Pairs Calcium, D3, and Vitamin K to preserve critical skeletal structures as hormone levels shift.",
+        "Nourishes Outer Layer Elements: High biotin ratios support strong nail growth and vibrant hair textures."
+      ]
+    }
+  ]
+},
 
   // 7. VITA-MAXX MEN
   "vita-maxx-men": {
-    id: "6a23278599a2f8a2da92050a",
-    slug: "vita-maxx-men",
-    name: "VITA-MAXX MEN High-Performance Multivitamin",
-    category: "Male Metabolic Stack",
-    price: 1399,
-    discountPrice: 1049,
-    imageGallery: [
-      "/product-assets/Vita-Max-Men-1.jpeg",
-      "/product-assets/vita-max-man-2.jpg"
-    ],
-    summary: "Engineered specifically for high-stress corporate lifestyles and elite physical performance profiles. Vita-MaxX Men provides an exhaustive complex of essential vitamins, trace minerals, and deep cellular shields to clean out metabolic waste, optimize focus, and secure prostate and cardiac system endurance.",
-    suggestedUsage: "Take 1 tablet daily post-meal (breakfast or lunch) with plenty of clean hydration.",
-    badge: "Active Performance Calibration",
-    highlights: [
-      { title: "Target Focus Parameters", items: ["Metabolic Conversion", "Free Radical Cleanout", "Male Endocrine Sourcing"] }
-    ],
-    sections: [
-      {
-        title: "Muscle Recovery & Stress Protection",
-        points: [
-          "Accelerates Physical Muscular Repair: Targeted Zinc and Magnesium help clear metabolic burn quickly after heavy workouts.",
-          "Clears Brain Fog: Active micronutrients bolster long-term cognitive processing and daily focus under tight deadlines.",
-          "Protects Blood Circulation Paths: Active B-group components preserve vascular walls, keeping blood flow clean."
-        ]
-      }
-    ]
-  },
+  "id": "6a23278599a2f8a2da92050a",
+  "slug": "vita-maxx-men",
+  "name": "VITA-MAXX MEN High-Performance Multivitamin",
+  "category": "Male Metabolic Stack",
+  "price": 1399,
+  "discountPrice": 1049,
+  "imageGallery": [
+    "/product-assets/vita-maxx-men-1.jpeg",
+    "/product-assets/Vita-Max-Men-1.jpeg",
+    "/product-assets/vita-max-man-2.jpg"
+  ],
+  "summary": "Engineered specifically for high-stress corporate lifestyles and elite physical performance profiles. Vita-MaxX Men provides an exhaustive complex of essential vitamins, trace minerals, and deep cellular shields to clean out metabolic waste, optimize focus, and secure prostate and cardiac system endurance.",
+  "suggestedUsage": "Take 1 tablet daily post-meal (breakfast or lunch) with plenty of clean hydration.",
+  "badge": "Active Performance Calibration",
+  "highlights": [
+    { 
+      "title": "Target Focus Parameters", 
+      "items": ["Metabolic Conversion", "Free Radical Cleanout", "Male Endocrine Sourcing"] 
+    },
+    {
+      "title": "Complete Active Ingredients",
+      "items": [
+        "Thiamine",
+        "Riboflavin",
+        "Niacinamide",
+        "Vitamin E Acetate",
+        "Pyridoxine",
+        "Beta-Carotene",
+        "Folic Acid",
+        "Biotin",
+        "Pantothenic Acid",
+        "Calcium",
+        "Zinc",
+        "Iodine",
+        "Magnesium",
+        "Copper",
+        "Molybdenum",
+        "Inositol",
+        "Panax Ginseng Extract",
+        "Green Tea Extract",
+        "Grape Seed Extract",
+        "Alpha-Lipoic Acid",
+        "Lycopene",
+        "Lutein",
+        "Zeaxanthin",
+        "L-Arginine"
+      ]
+    },
+    {
+      "title": "Other Excipients",
+      "items": [
+        "Calcium Carbonate (INS 170(i))",
+        "Dicalcium Phosphate",
+        "Starch (INS 1400)",
+        "Microcrystalline Cellulose (INS 460(i))",
+        "Polyvinyl Pyrrolidone K-30 (INS 1201)",
+        "Sodium Starch Glycolate (INS 1202)",
+        "Talc (INS 553(iii))",
+        "Magnesium Stearate",
+        "Ponceau 4R (INS 124)"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Muscle Recovery & Stress Protection",
+      "points": [
+        "Accelerates Physical Muscular Repair: Targeted Zinc and Magnesium help clear metabolic burn quickly after heavy workouts.",
+        "Clears Brain Fog: Active micronutrients bolster long-term cognitive processing and daily focus under tight deadlines.",
+        "Protects Blood Circulation Paths: Active B-group components preserve vascular walls, keeping blood flow clean."
+      ]
+    }
+  ]
+},
 
   // 8. THICK BONES
   "thick-bones": {
@@ -276,6 +455,8 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 1199,
     discountPrice: 899,
     imageGallery: [
+      '/product-assets/thick-bones-1.jpeg',
+      "/product-assets/thick-bones-2.jpeg",
       "/product-assets/Thick-Bones-2.jpg"
     ],
     summary: "Preserve posture, protect bone structure, and secure mobility. Thick Bones pairs highly bioavailable Calcium structures with a precise concentration of Vitamin D3 to maximize mineral absorption rates, slow down age-related bone mineral depletion, and prevent brittle structures.",
@@ -306,6 +487,8 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 849,
     discountPrice: 599,
     imageGallery: [
+      "/product-assets/karela-1.jpeg",
+      "/product-assets/karela-02.jpeg",
       "/product-assets/karela-2.jpg"
     ],
     summary: "Regulate glucose fluctuations naturally with Karela Sugar Defense. Standardized to contain precise quantities of Charantin and Polyphenols, this herbal extraction works to mimic natural insulin patterns, improve muscle glucose uptake, and block post-meal blood sugar spikes.",
@@ -335,6 +518,8 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 849,
     discountPrice: 599,
     imageGallery: [
+      "/product-assets/Jamun-1.jpeg",
+      "/product-assets/Jamun-2.jpeg",
       "/product-assets/Jamun-2.jpg"
     ],
     summary: "Harness the ancient therapeutic values of Syzygium cumini seeds. Our Jamun formula extracts pure Jamboline and Ellagic Acid to help regulate glucose conversion processes, optimize pancreatic insulin generation, and guard blood vessels from structural sugar damage.",
@@ -364,6 +549,8 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 999,
     discountPrice: 699,
     imageGallery: [
+      "/product-assets/ashwagandha-1.jpeg",
+      "product-assets/ash-2.jpeg",
       "/product-assets/ashwagandha-1.jpg"
     ],
     summary: "Lower systemic cortisol and restore cognitive harmony. Our Ashwagandha formula delivers concentrated withanolides to regulate the overactive adrenal system, ease mild chronic anxiety, improve natural sleep deep cycles, and restore whole-body mental clarity.",
@@ -392,7 +579,10 @@ export const EXTENDED_PRODUCT_DETAILS = {
     category: "Organic Skincare",
     price: 499,
     discountPrice: 349,
-    imageGallery: ["/product-assets/aloe-vera-gel-1.jpg"],
+    imageGallery: [
+      "/product-assets/aloe-aura-1.jpeg",
+      "/product-assets/aloe-aura-2.jpeg",
+      "/product-assets/aloe-vera-gel-1.jpg"],
     summary: "Nourish and hydrate your skin naturally. This lightweight, fast-absorbing Aloe Vera Gel delivers deep moisture, calms inflammation, soothes sunburns, and heals irritated skin boundaries, leaving a clean, non-greasy protective field.",
     suggestedUsage: "Apply generously to your face, body, or hair roots as needed. Smooth gently until completely absorbed.",
     badge: "100% Organic Moisture Shield",
@@ -408,7 +598,11 @@ export const EXTENDED_PRODUCT_DETAILS = {
     category: "Premium Men's Grooming",
     price: 599,
     discountPrice: 449,
-    imageGallery: ["/product-assets/aspire-charcoal-face-wash-1.jpg"],
+    imageGallery: [
+      "/product-assets/charcoal-face-wash-1.jpeg",
+      "/product-assets/charcoal-face-wash-2.jpeg",
+      "/product-assets/charcoal-face-wash-3.jpeg",
+      "/product-assets/aspire-charcoal-face-wash-1.jpg"],
     summary: "Draw out deep-seated impurities, pollution microparticles, and excess facial oil. Formulated with high-absorption activated charcoal, this clarifying facial cleanser detoxifies your skin matrix, prevents breakouts, and leaves your face feeling incredibly refreshed.",
     suggestedUsage: "Squeeze a small drop onto wet palms, work into a rich lather, massage gently in circular patterns, and rinse thoroughly.",
     badge: "Deep Pores Detoxification",
@@ -424,7 +618,9 @@ export const EXTENDED_PRODUCT_DETAILS = {
     category: "Premium Bathing",
     price: 299,
     discountPrice: 199,
-    imageGallery: ["/product-assets/aspire-soap-1.jpg"],
+    imageGallery: [
+      "/product-assets/aspire-soap-1.jpeg",
+      "/product-assets/aspire-soap-1.jpg"],
     summary: "Transform your daily bath into a therapeutic ritual. This artisan cleansing bar hydrates while washing away surface residue, preserving vital outer-layer lipids to protect you from body odor and scratchy dryness.",
     suggestedUsage: "Lather smoothly over wet skin during your bath or shower, then rinse cleanly away with lukewarm water.",
     badge: "Rich Nourishing Lather",
@@ -451,12 +647,16 @@ export const EXTENDED_PRODUCT_DETAILS = {
       { 
         title: "Key Botanical & Therapeutic Ingredients", 
         items: [
-          "Pure Aloe Vera Juice", 
-          "Organic Sea Buckthorn Oil", 
-          "Natural Tea Tree Oil", 
-          "Lactic Acid (pH Balancer)", 
-          "Gentle Cocamidopropyl Betaine", 
-          "Soothing Sorbitol Matrix"
+          "Aloe Vera Juice",
+          "Sea Buckthorn Oil",
+          "Tea Tree Oil",
+          "Triethanolamine Lauryl Sulphate",
+          "Ammonium Lauryl Sulphate",
+          "Lactic Acid",
+          "Cocamidopropyl Betaine",
+          "Sorbitol",
+          "Fragrance",
+          "Preservative"
         ] 
       }
     ],
@@ -488,7 +688,10 @@ export const EXTENDED_PRODUCT_DETAILS = {
     category: "Mobility Relief",
     price: 499,
     discountPrice: 349,
-    imageGallery: ["/product-assets/liberty-1.jpg"],
+    imageGallery: [
+      "/product-assets/liberty-1.jpeg",
+      "/product-assets/liberty-2.jpeg",
+      "/product-assets/liberty-1.jpg"],
     summary: "Reclaim independent mobility and ease joint stiffness. Liberty delivers fast-acting, deep-penetrating warmth directly to sore muscle centers and stressed joint areas, speeding up recovery after strenuous movement.",
     suggestedUsage: "Rub a small amount onto target joint junctions. Apply gentle friction patterns until completely absorbed.",
     badge: "Fast-Acting Muscle Warming",
@@ -498,117 +701,174 @@ export const EXTENDED_PRODUCT_DETAILS = {
 
   // 17. RISING STAR Nutri Powder with Chocolate
   "rising-star": {
-    id: "rising-star-static-id",
-    slug: "rising-star",
-    name: "RISING STAR Premium Nutri Powder (Delicious Chocolate Flavor)",
-    category: "Kids Nutrition & Growth",
-    price: 999,
-    discountPrice: 749,
-    imageGallery: [
-      "/product-assets/rising-star-1.jpeg", 
-      "/product-assets/Rising-Star-2.jpg"
-    ],
-    summary: "Fuel their greatness with Rising Star Nutri Powder. Formulated specifically as a complete nutritional drink mix for active, growing kids, this delicious chocolate-flavored health supplement packs a powerful punch with 22% high-quality protein per serving. It provides an exhaustive matrix of vital vitamins and minerals to support structural bone strength, robust immunity, daily cognitive development, and consistent physical energy.",
-    suggestedUsage: "Take 1-2 scoops of Rising Star Nutri Powder daily. Mix smoothly into a glass of lukewarm or cold milk, stir thoroughly until fully dissolved, and serve. Ideal as a morning fuel boost or a refreshing post-playtime recovery drink.",
-    badge: "Complete Nutrition for Active Kids",
-    highlights: [
-      { 
-        title: "Macro & Structural Growth Nutrients", 
-        items: [
-          "Total Protein (from 35% concentration source)", 
-          "Dietary Fiber & FOS (Fructo-Oligosaccharides)", 
-          "Calcium, Magnesium & Vitamin D for Bone Density", 
-          "DHA for Cognitive Support",
-          "Essential Zinc, Selenium & Iron", 
-          "Digestive Enzymes Complex"
-        ] 
-      },
-      {
-        title: "Full Vitamin & Mineral Spectrum",
-        items: [
-          "Vitamins A, C, E Complex",
-          "Complete B-Vitamins (B1, B2, B6, B12, Niacinamide, Biotin, Pantothenic Acid)",
-          "Vital Aminos & Factors (Taurine, L-Carnitine, Inositol, Choline)",
-          "Trace Minerals (Iodine, Manganese, Copper, Chromium, Potassium, Sodium)"
-        ]
-      }
-    ],
-    sections: [
-      {
-        title: "Healthy Growth, Muscle & Bone Development",
-        points: [
-          "High Protein Density: Delivers 22% protein per serving to support optimal muscle building and tissue repair during rapid growth phases.",
-          "Stronger Skeletal Base: Synergizes Calcium, Magnesium, and Vitamin D to build dense, strong bones and healthy teeth for active lifestyles.",
-          "Brain & Visual Support: Enriched with DHA, Choline, and Iron to support concentration, memory retention, and mental sharpness."
-        ]
-      },
-      {
-        title: "Immunity Booster & Easy Digestion",
-        points: [
-          "Advanced Immune Defense: Combines Vitamins A, C, E, Zinc, and Selenium to form a robust shield against common seasonal bugs.",
-          "Smooth Gut Support: Integrates FOS (prebiotics) and active Digestive Enzymes to encourage seamless nutrient absorption and easy digestion without bloating.",
-          "Balanced Clean Energy: Provides essential carbohydrates, healthy fats (MUFA/PUFA), and B-vitamins to convert food into steady physical stamina without sudden sugar crashes."
-        ]
-      }
-    ]
-  },
+  "id": "rising-star-static-id",
+  "slug": "rising-star",
+  "name": "RISING STAR Premium Nutri Powder (Delicious Chocolate Flavor)",
+  "category": "Kids Nutrition & Growth",
+  "price": 999,
+  "discountPrice": 749,
+  "imageGallery": [
+    "/product-assets/rising-star-1.jpeg", 
+    "/product-assets/Rising-Star-2.jpg"
+  ],
+  "summary": "Fuel their greatness with Rising Star Nutri Powder. Formulated specifically as a complete nutritional drink mix for active, growing kids, this delicious chocolate-flavored health supplement packs a powerful punch with 22% high-quality protein per serving. It provides an exhaustive matrix of vital vitamins and minerals to support structural bone strength, robust immunity, daily cognitive development, and consistent physical energy.",
+  "suggestedUsage": "Take 1-2 scoops of Rising Star Nutri Powder daily. Mix smoothly into a glass of lukewarm or cold milk, stir thoroughly until fully dissolved, and serve. Ideal as a morning fuel boost or a refreshing post-playtime recovery drink.",
+  "badge": "Complete Nutrition for Active Kids",
+  "highlights": [
+    { 
+      "title": "Macro & Structural Growth Nutrients", 
+      "items": [
+        "Total Protein (from 35% concentration source)", 
+        "Dietary Fiber & FOS (Fructo-Oligosaccharides)", 
+        "Calcium, Magnesium & Vitamin D for Bone Density", 
+        "DHA for Cognitive Support",
+        "Essential Zinc, Selenium & Iron", 
+        "Digestive Enzymes Complex"
+      ] 
+    },
+    {
+      "title": "Full Vitamin & Mineral Spectrum",
+      "items": [
+        "Vitamins A, C, E Complex",
+        "Complete B-Vitamins (B1, B2, B6, B12, Niacinamide, Biotin, Pantothenic Acid)",
+        "Vital Aminos & Factors (Taurine, L-Carnitine, Inositol, Choline)",
+        "Trace Minerals (Iodine, Manganese, Copper, Chromium, Potassium, Sodium)"
+      ]
+    },
+    {
+      "title": "Ingredients / Nutrients Listed on Label",
+      "items": [
+        "Total Protein (from 35%)",
+        "Total Carbohydrates",
+        "Dietary Fiber",
+        "Total Sugar",
+        "Added Sugar",
+        "Calcium",
+        "Magnesium",
+        "Vitamin D",
+        "Vitamin K",
+        "FOS (Fructo-Oligosaccharides)",
+        "Vitamin A",
+        "Vitamin C",
+        "L-Carnitine",
+        "Vitamin E",
+        "Zinc",
+        "Selenium",
+        "Iron",
+        "Folic Acid",
+        "Iodine",
+        "Taurine",
+        "Total Fat",
+        "MUFA",
+        "PUFA",
+        "Saturated Fat",
+        "Trans Fat",
+        "Cholesterol",
+        "DHA",
+        "Digestive Enzymes",
+        "Inositol",
+        "Niacinamide",
+        "Pantothenic Acid",
+        "Vitamin B2",
+        "Vitamin B1",
+        "Vitamin B6",
+        "Biotin",
+        "Vitamin B12",
+        "Potassium",
+        "Chloride",
+        "Sodium",
+        "Choline",
+        "Manganese",
+        "Copper",
+        "Chromium"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Healthy Growth, Muscle & Bone Development",
+      "points": [
+        "High Protein Density: Delivers 22% protein per serving to support optimal muscle building and tissue repair during rapid growth phases.",
+        "Stronger Skeletal Base: Synergizes Calcium, Magnesium, and Vitamin D to build dense, strong bones and healthy teeth for active lifestyles.",
+        "Brain & Visual Support: Enriched with DHA, Choline, and Iron to support concentration, memory retention, and mental sharpness."
+      ]
+    },
+    {
+      "title": "Immunity Booster & Easy Digestion",
+      "points": [
+        "Advanced Immune Defense: Combines Vitamins A, C, E, Zinc, and Selenium to form a robust shield against common seasonal bugs.",
+        "Smooth Gut Support: Integrates FOS (prebiotics) and active Digestive Enzymes to encourage seamless nutrient absorption and easy digestion without bloating.",
+        "Balanced Clean Energy: Provides essential carbohydrates, healthy fats (MUFA/PUFA), and B-vitamins to convert food into steady physical stamina without sudden sugar crashes."
+      ]
+    }
+  ]
+},
 
   // 18. SAAVI Women Care Syrup
   "saavi-skin": {
-    id: "saavi-skin-static-id",
-    slug: "saavi",
-    name: "SAAVI Premium Ayurvedic Women Care Syrup (Sugar-Free)",
-    category: "Women's Wellness & Vitality",
-    price: 1199,
-    discountPrice: 899,
-    imageGallery: [
-      "/product-assets/saavi-1.jpeg",
-      "/product-assets/saavi-2.jpg"
-    ],
-    summary: "Nourish, protect, and empower your health at every stage of life. Saavi Women Care Syrup is a premium, sugar-free Ayurvedic restorative tonic expertly formulated for college girls, active women, and homemakers alike. Blending high-potency traditional herbs like Ashoka Chhal and Lodhra, this revitalizing tonic targets internal hormonal imbalances, purifies and supports hemoglobin counts, reinforces immunity, and fights fatigue to bring back natural radiance across your skin and hair.",
-    suggestedUsage: "Take 10 ml to 15 ml (approximately 2 to 3 teaspoons) of Saavi Women Care Syrup twice daily after primary meals, or as explicitly directed by your health advisor.",
-    badge: "Hormonal Balance & Energy · Sugar Free Base",
-    highlights: [
-      { 
-        title: "Active Herbal Composition (Per 10 ml)", 
-        items: [
-          "Ashoka Chhal (Saraca indica) – 1100 mg", 
-          "Lodhra (Symplocos racemosa) – 500 mg", 
-          "Utkambal (Abroma augusta) – 100 mg", 
-          "Nagkesar (Mesua ferrea) – 100 mg",
-          "Ashwagandha & Punarnava – 100 mg each",
-          "Manjeeth & Maajufal Matrix – 20 mg each"
-        ] 
-      },
-      {
-        title: "Holistic Health Pillars",
-        items: [
-          "Hormonal Equilibrium",
-          "Blood & Hemoglobin Support",
-          "Energy, Stamina & Vitality",
-          "Skin, Hair & Overall Wellness"
-        ]
-      }
-    ],
-    sections: [
-      {
-        title: "Hormonal Optimization & Internal Cycle Regulation",
-        points: [
-          "Balances Natural Cycles: Uses a heavy dosage of Ashoka Chhal and Lodhra to regulate irregular periodic cycles and ease severe menstrual discomfort.",
-          "Combats Mood Swings: Adaptogens like Ashwagandha settle overactive nervous exhaustion and manage stress patterns natively.",
-          "Astringent Tissue Toning: Active herbal ingredients provide deep pelvic tissue strengthening and reduce frequent inner fluid imbalances."
-        ]
-      },
-      {
-        title: "Blood Purification, Vital Energy & Radiance",
-        points: [
-          "Hemoglobin Booster: Punarnava, Manjeeth, and supportive herbal compounds optimize micro-circulation health and naturally guard blood count metrics.",
-          "Fights Persistent Fatigue: Regenerates raw physical endurance and clears brain fog, making it perfect for busy active lifestyles or demanding college routines.",
-          "Nourishes Skin & Hair: Deep cellular purification channels direct vital metabolic nutrients straight to your hair roots and outer skin layers for a healthy glow."
-        ]
-      }
-    ]
-  },
+  "id": "saavi-skin-static-id",
+  "slug": "saavi",
+  "name": "SAAVI Premium Ayurvedic Women Care Syrup (Sugar-Free)",
+  "category": "Women's Wellness & Vitality",
+  "price": 1199,
+  "discountPrice": 899,
+  "imageGallery": [
+    "/product-assets/saavi-1.jpeg",
+    "/product-assets/saavi-2.jpg"
+  ],
+  "summary": "Nourish, protect, and empower your health at every stage of life. Saavi Women Care Syrup is a premium, sugar-free Ayurvedic restorative tonic expertly formulated for college girls, active women, and homemakers alike. Blending high-potency traditional herbs like Ashoka Chhal and Lodhra, this revitalizing tonic targets internal hormonal imbalances, purifies and supports hemoglobin counts, reinforces immunity, and fights fatigue to bring back natural radiance across your skin and hair.",
+  "suggestedUsage": "Take 10 ml to 15 ml (approximately 2 to 3 teaspoons) of Saavi Women Care Syrup twice daily after primary meals, or as explicitly directed by your health advisor.",
+  "badge": "Hormonal Balance & Energy · Sugar Free Base",
+  "highlights": [
+    { 
+      "title": "Active Herbal Composition (Per 10 ml)", 
+      "items": [
+        "Ashoka Chhal (Saraca indica) – 1100 mg",
+        "Laudh (Symplocos racemosa) – 500 mg",
+        "Utkambal (Abroma augusta) – 100 mg",
+        "Chikni Supari (Areca catechu) – 50 mg",
+        "Jeevanti (Leptadenia reticulata) – 100 mg",
+        "Nagkesar (Mesua ferrea) – 100 mg",
+        "Ashwagandha (Withania somnifera) – 100 mg",
+        "Bidari Kand (Pueraria tuberosa) – 100 mg",
+        "Dahi Phool (Woodfordia fruticosa) – 100 mg",
+        "Punarnava (Boerhavia diffusa) – 100 mg",
+        "Gulab (Rosa centifolia) – 100 mg",
+        "Babool (Acacia arabica) – 100 mg",
+        "Manjeeth (Rubia cordifolia) – 20 mg",
+        "Maajufal (Quercus infectoria) – 20 mg",
+        "Sugar Free Base Material – Q.S."
+      ] 
+    },
+    {
+      "title": "Holistic Health Pillars",
+      "items": [
+        "Hormonal Equilibrium",
+        "Blood & Hemoglobin Support",
+        "Energy, Stamina & Vitality",
+        "Skin, Hair & Overall Wellness"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Hormonal Optimization & Internal Cycle Regulation",
+      "points": [
+        "Balances Natural Cycles: Uses a heavy dosage of Ashoka Chhal and Lodhra to regulate irregular periodic cycles and ease severe menstrual discomfort.",
+        "Combats Mood Swings: Adaptogens like Ashwagandha settle overactive nervous exhaustion and manage stress patterns natively.",
+        "Astringent Tissue Toning: Active herbal ingredients provide deep pelvic tissue strengthening and reduce frequent inner fluid imbalances."
+      ]
+    },
+    {
+      "title": "Blood Purification, Vital Energy & Radiance",
+      "points": [
+        "Hemoglobin Booster: Punarnava, Manjeeth, and supportive herbal compounds optimize micro-circulation health and naturally guard blood count metrics.",
+        "Fights Persistent Fatigue: Regenerates raw physical endurance and clears brain fog, making it perfect for busy active lifestyles or demanding college routines.",
+        "Nourishes Skin & Hair: Deep cellular purification channels direct vital metabolic nutrients straight to your hair roots and outer skin layers for a healthy glow."
+      ]
+    }
+  ]
+},
 
   // 19. SAVIOUR
   "saviour": {
@@ -618,7 +878,11 @@ export const EXTENDED_PRODUCT_DETAILS = {
     category: "Skin Treatment",
     price: 399,
     discountPrice: 279,
-    imageGallery: ["/product-assets/saviour-1.jpg"],
+    imageGallery: [
+      "/product-assets/saviour-1.jpeg",
+      "/product-assets/saviour-2.jpeg",
+      "/product-assets/saviour-3.jpeg",
+      "/product-assets/saviour-1.jpg"],
     summary: "A multi-purpose rescue balm for minor skin issues. Saviour forms a breathable protective barrier over chafed skin, minor scratches, extreme dryness, and minor rashes, supporting rapid cell healing.",
     suggestedUsage: "Cleanse the target skin zone thoroughly and apply a thin layer of cream. Repeat twice daily.",
     badge: "First-Line Protective Field",
@@ -639,7 +903,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
       "/product-assets/virality-max-30Tablets-1.jpg"
     ],
     summary: "Empower your cellular vitality and reproductive health from the inside out. Virality Maxx delivers a high-potency 100 mg dosage of Coenzyme Q10 (CoQ10), an essential enzyme absolutely required for basic cellular function across vital organs, including reproductive cells, the heart, kidneys, and skeletal muscles. Because natural CoQ10 levels decline steadily with age and can be further depleted by certain statin medications, this targeted formulation directly restores your body's cellular battery to promote male fertility, boost sperm volume, and enhance daily physical endurance.",
-    suggestedUsage: "Take 1 to 2 capsules twice a day with water, or follow the explicit dosage guidelines provided by your attending physician.",
+    suggestedUsage: "Take 1 capsule twice a day with water, or follow the explicit dosage guidelines provided by your attending physician.",
     badge: "Premium CoQ10 Power · Supports Male Fertility",
     highlights: [
       { 
@@ -680,60 +944,73 @@ export const EXTENDED_PRODUCT_DETAILS = {
 
   // 21. WILD ROOTS Anti Hair Fall Shampoo
   "wild-roots": {
-    id: "wild-roots-static-id",
-    slug: "wild-roots",
-    name: "WILD ROOTS Premium Anti Hair Fall Shampoo",
-    category: "Hair & Scalp Therapeutics",
-    price: 699,
-    discountPrice: 499,
-    imageGallery: [
-      "/product-assets/wild-roots-2.jpeg",
-      "/product-assets/wild-roots-1.jpg"
-    ],
-    summary: "Experience a perfect blend of powerful, nurturing plant-based actives. Wild Roots Anti Hair Fall Shampoo delivers exceptionally gentle cleansing using premium coconut-based cleansers. Fortified with structural Silk and Wheat Proteins, this advanced therapy shampoo actively repairs weak cuticles, helps prevent hair fall, adds natural shine, and deeply targets dry, itchy scalps and dandruff flaking by removing the synthetic buildup layer left behind by commercial chemical products.",
-    suggestedUsage: "Wet your hair thoroughly and take an appropriate quantity of this Herbal Shampoo onto your palms. Massage it evenly into the scalp and hair shafts until a rich, dense lather is formed, allowing the botanical nutrients to absorb. Rinse thoroughly with plenty of clear, fresh water.",
-    badge: "Sulphate & Paraben Free · Silk & Wheat Proteins",
-    highlights: [
-      { 
-        title: "Active Strengthening & Clean Sourcing", 
-        items: [
-          "Pure Aloe Vera Juice Base", 
-          "Fortifying Silk Proteins", 
-          "Structural Wheat Proteins", 
-          "Gentle Coconut-Derived Cleansers", 
-          "Cocomono Ethanol Amide Matrix", 
-          "Advanced Polyquat-7 Conditioning"
-        ] 
-      },
-      {
-        title: "Purity & Safeguard Standards",
-        items: [
-          "100% Paraben Free Shield",
-          "Sulphate & Toxin Free Formulation",
-          "Cruelty Free & Plant Powered",
-          "Chemical Layer Detoxification"
-        ]
-      }
-    ],
-    sections: [
-      {
-        title: "Hair Fall Prevention & Structural Core Repair",
-        points: [
-          "Dual Protein Reinforcement: Employs Silk and Wheat proteins to interlock within damaged hair strands, drastically cutting down on breakage and split ends.",
-          "Follicle & Root Fortification: Feeds deep nutritional elements to hair roots to stimulate healthy follicle development and anchor strands securely.",
-          "Adds Vibrant Natural Shine: Gently polishes the outer cuticle layer, restoring a glossy, smooth bounce without relying on heavy synthetic silicones."
-        ]
-      },
-      {
-        title: "Chemical Detoxification & Scalp Rebalancing",
-        points: [
-          "Strips Away Chemical Buildup: Safely dissolves the suffocating layer created by synthetic commercial shampoos, allowing the scalp skin to breathe.",
-          "Soothes Dry & Itchy Scalps: Pure Aloe Vera Juice delivers immediate cellular hydration to calm persistent irritation, redness, and scratchy surface tension.",
-          "Targeted Anti-Dandruff Action: Restores natural moisture balance across flaky scalp boundaries, safely regulating microbial balance to minimize stubborn flakes."
-        ]
-      }
-    ]
-  },
+  "id": "wild-roots-static-id",
+  "slug": "wild-roots",
+  "name": "WILD ROOTS Premium Anti Hair Fall Shampoo",
+  "category": "Hair & Scalp Therapeutics",
+  "price": 699,
+  "discountPrice": 499,
+  "imageGallery": [
+    "/product-assets/wild-roots-2.jpeg",
+    "/product-assets/wild-roots-1.jpg"
+  ],
+  "summary": "Experience a perfect blend of powerful, nurturing plant-based actives. Wild Roots Anti Hair Fall Shampoo delivers exceptionally gentle cleansing using premium coconut-based cleansers. Fortified with structural Silk and Wheat Proteins, this advanced therapy shampoo actively repairs weak cuticles, helps prevent hair fall, adds natural shine, and deeply targets dry, itchy scalps and dandruff flaking by removing the synthetic buildup layer left behind by commercial chemical products.",
+  "suggestedUsage": "Wet your hair thoroughly and take an appropriate quantity of this Herbal Shampoo onto your palms. Massage it evenly into the scalp and hair shafts until a rich, dense lather is formed, allowing the botanical nutrients to absorb. Rinse thoroughly with plenty of clear, fresh water.",
+  "badge": "Sulphate & Paraben Free · Silk & Wheat Proteins",
+  "highlights": [
+    { 
+      "title": "Active Strengthening & Clean Sourcing", 
+      "items": [
+        "Pure Aloe Vera Juice Base", 
+        "Fortifying Silk Proteins", 
+        "Structural Wheat Proteins", 
+        "Gentle Coconut-Derived Cleansers", 
+        "Cocomono Ethanol Amide Matrix", 
+        "Advanced Polyquat-7 Conditioning"
+      ] 
+    },
+    {
+      "title": "Purity & Safeguard Standards",
+      "items": [
+        "100% Paraben Free Shield",
+        "Sulphate & Toxin Free Formulation",
+        "Cruelty Free & Plant Powered",
+        "Chemical Layer Detoxification"
+      ]
+    },
+    {
+      "title": "Key Ingredients",
+      "items": [
+        "Aloe Vera Juice",
+        "Silk Protein",
+        "Wheat Protein",
+        "Cocomono Ethanol Amide",
+        "Polyquat-7",
+        "Base Material Q.S.",
+        "Permitted Color",
+        "Fragrance & Preservative"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Hair Fall Prevention & Structural Core Repair",
+      "points": [
+        "Dual Protein Reinforcement: Employs Silk and Wheat proteins to interlock within damaged hair strands, drastically cutting down on breakage and split ends.",
+        "Follicle & Root Fortification: Feeds deep nutritional elements to hair roots to stimulate healthy follicle development and anchor strands securely.",
+        "Adds Vibrant Natural Shine: Gently polishes the outer cuticle layer, restoring a glossy, smooth bounce without relying on heavy synthetic silicones."
+      ]
+    },
+    {
+      "title": "Chemical Detoxification & Scalp Rebalancing",
+      "points": [
+        "Strips Away Chemical Buildup: Safely dissolves the suffocating layer created by synthetic commercial shampoos, allowing the scalp skin to breathe.",
+        "Soothes Dry & Itchy Scalps: Pure Aloe Vera Juice delivers immediate cellular hydration to calm persistent irritation, redness, and scratchy surface tension.",
+        "Targeted Anti-Dandruff Action: Restores natural moisture balance across flaky scalp boundaries, safely regulating microbial balance to minimize stubborn flakes."
+      ]
+    }
+  ]
+}
 };
 
 // Replace the helper function at the bottom of extendedProductDetails.js with this:
