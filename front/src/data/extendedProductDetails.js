@@ -78,7 +78,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
   "male-might-30-caps": {
   "id": "6a23278599a2f8a2da9204fa",
   "slug": "male-might-30-caps",
-  "name": "MALE MIGHT Premium Stamina Stack (30 Tablets)",
+  "name": "MALE MIGHT Premium Stamina Stack (30 Capsules)",
   "category": "Male Vitality Framework",
   "price": 1599,
   "discountPrice": 1199,
@@ -142,7 +142,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
   "male-might-10-caps": {
   "id": "6a23278599a2f8a2da9204fa",
   "slug": "male-might-10-caps",
-  "name": "MALE MIGHT Premium Stamina Stack (10 Tablets)",
+  "name": "MALE MIGHT Premium Stamina Stack (10 Capsules)",
   "category": "Male Vitality Framework",
   "price": 599,
   "discountPrice": 1199,
@@ -243,7 +243,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 799,
     discountPrice: 549,
     imageGallery: [
-      "product-assets/amla-1.jpeg",
+      "/product-assets/amla-1.jpeg",
       "/product-assets/Amla-1.jpeg",
       "/product-assets/Amla-60Tablets-2.jpg"
     ],
@@ -518,8 +518,8 @@ export const EXTENDED_PRODUCT_DETAILS = {
     price: 849,
     discountPrice: 599,
     imageGallery: [
-      "/product-assets/Jamun-1.jpeg",
-      "/product-assets/Jamun-2.jpeg",
+      "/product-assets/jamun-1.jpeg",
+      "/product-assets/jamun-2.jpeg",
       "/product-assets/Jamun-2.jpg"
     ],
     summary: "Harness the ancient therapeutic values of Syzygium cumini seeds. Our Jamun formula extracts pure Jamboline and Ellagic Acid to help regulate glucose conversion processes, optimize pancreatic insulin generation, and guard blood vessels from structural sugar damage.",
@@ -550,7 +550,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     discountPrice: 699,
     imageGallery: [
       "/product-assets/ashwagandha-1.jpeg",
-      "product-assets/ash-2.jpeg",
+      "/product-assets/ash-2.jpeg",
       "/product-assets/ashwagandha-1.jpg"
     ],
     summary: "Lower systemic cortisol and restore cognitive harmony. Our Ashwagandha formula delivers concentrated withanolides to regulate the overactive adrenal system, ease mild chronic anxiety, improve natural sleep deep cycles, and restore whole-body mental clarity.",
