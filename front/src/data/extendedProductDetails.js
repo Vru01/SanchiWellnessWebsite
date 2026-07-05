@@ -92,7 +92,6 @@ export const EXTENDED_PRODUCT_DETAILS = {
   "badge": "Peak Testosterone Support",
   "highlights": [
     { "title": "Standard Pack Volume", "items": ["30 Capsules"] },
-    { "title": "Target Age Range", "items": ["Men Over 35 & Athletes"] },
     {
       "title": "Nutritional Facts (Per 500 mg Veg Capsule)",
       "items": [
@@ -156,7 +155,6 @@ export const EXTENDED_PRODUCT_DETAILS = {
   "badge": "Peak Testosterone Support",
   "highlights": [
     { "title": "Standard Pack Volume", "items": ["10 Capsules"] },
-    { "title": "Target Age Range", "items": ["Men Over 35 & Athletes"] },
     {
       "title": "Nutritional Facts (Per 500 mg Veg Capsule)",
       "items": [
@@ -817,7 +815,7 @@ export const EXTENDED_PRODUCT_DETAILS = {
     "/product-assets/saavi-2.jpg"
   ],
   "summary": "Nourish, protect, and empower your health at every stage of life. Saavi Women Care Syrup is a premium, sugar-free Ayurvedic restorative tonic expertly formulated for college girls, active women, and homemakers alike. Blending high-potency traditional herbs like Ashoka Chhal and Lodhra, this revitalizing tonic targets internal hormonal imbalances, purifies and supports hemoglobin counts, reinforces immunity, and fights fatigue to bring back natural radiance across your skin and hair.",
-  "suggestedUsage": "Take 10 ml to 15 ml (approximately 2 to 3 teaspoons) of Saavi Women Care Syrup twice daily after primary meals, or as explicitly directed by your health advisor.",
+  "suggestedUsage": "Take 15 ml (approximately 2 to 3 teaspoons) of Saavi Women Care Syrup twice daily after primary meals especially during menstrual cycles, or as explicitly directed by your health advisor.",
   "badge": "Hormonal Balance & Energy · Sugar Free Base",
   "highlights": [
     { 
@@ -872,22 +870,37 @@ export const EXTENDED_PRODUCT_DETAILS = {
 
   // 19. SAVIOUR
   "saviour": {
-    id: "saviour-balm-static-id",
-    slug: "saviour",
-    name: "SAVIOUR Emergency First-Aid Skin Cream",
-    category: "Skin Treatment",
-    price: 399,
-    discountPrice: 279,
-    imageGallery: [
+    "id": "saviour-balm-static-id",
+    "slug": "saviour",
+    "name": "SAVIOUR High-Performance Weight Gainer Stack (60 Capsules)",
+    "category": "Mass & Weight Management",
+    "price": 399,
+    "discountPrice": 279,
+    "imageGallery": [
       "/product-assets/saviour-1.jpeg",
       "/product-assets/saviour-2.jpeg",
       "/product-assets/saviour-3.jpeg",
-      "/product-assets/saviour-1.jpg"],
-    summary: "A multi-purpose rescue balm for minor skin issues. Saviour forms a breathable protective barrier over chafed skin, minor scratches, extreme dryness, and minor rashes, supporting rapid cell healing.",
-    suggestedUsage: "Cleanse the target skin zone thoroughly and apply a thin layer of cream. Repeat twice daily.",
-    badge: "First-Line Protective Field",
-    highlights: [{ title: "Cream Profile", items: ["Irritation Soothing", "Moisture Seal"] }],
-    sections: [{ title: "Barrier Function", points: ["Defends vulnerable skin tissues from airborne particles.", "Relieves itchiness and scratchy dry patches instantly."] }]
+      "/product-assets/saviour-1.jpg"
+    ],
+    "summary": "An advanced formulation designed to accelerate healthy muscle mass and volume development. Saviour works naturally inside the body to enhance nutrient distribution, ramp up cellular metabolic rate parameters, maximize caloric absorption efficiency, and build steady physical stamina.",
+    "suggestedUsage": "1 cap twice a day",
+    "badge": "Advanced Anabolic Calibration · 60 Capsules",
+    "highlights": [
+      { 
+        "title": "Core Formula Attributes", 
+        "items": ["Weight Gain", "Metabolism Optimization", "Nutrient Boost"] 
+      }
+    ],
+    "sections": [
+      {
+        "title": "Metabolic Optimization & Mass Development",
+        "points": [
+          "Ramps Up Metabolic Rate: Enhances foundational chemical processing to smoothly convert dietary nutrients into physical body mass.",
+          "Supports Clean Mass Synthesis: Works natively with healthy caloric intake windows to build lean physical frames naturally.",
+          "Optimizes Vital Nutrient Absorption: Encourages deep metabolic uptake so your body captures critical muscle-building elements effectively."
+        ]
+      }
+    ]
   },
 
   // 20. VIRALITY MAXX Cellular Energy & Fertility Stack
