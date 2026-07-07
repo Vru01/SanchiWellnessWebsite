@@ -388,8 +388,8 @@ export default function ProductDetailPage() {
                                     <span>Safety Notes</span>
                                 </div>
                                 <div className="text-sm text-emerald-900 leading-relaxed font-semibold">
-                                    This product is generally considered safe for most adults when used as directed. Please read the label and consult your healthcare provider if you have any concerns or pre-existing conditions.
-                                </div>
+    This product is generally considered safe when used as directed. Please read the label and consult your healthcare provider if you have any concerns or pre-existing conditions.
+</div>
                             </div>
                         )}
                     </div>
