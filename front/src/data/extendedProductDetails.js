@@ -458,11 +458,32 @@ export const EXTENDED_PRODUCT_DETAILS = {
       "/product-assets/Thick-Bones-2.jpg"
     ],
     summary: "Preserve posture, protect bone structure, and secure mobility. Thick Bones pairs highly bioavailable Calcium structures with a precise concentration of Vitamin D3 to maximize mineral absorption rates, slow down age-related bone mineral depletion, and prevent brittle structures.",
-    suggestedUsage: "Chew or swallow 1 tablet daily after meals, or as explicitly directed by your orthopedic surgeon.",
+    suggestedUsage: "Take 2 tablets daily after meals, or follow the explicit directives provided by your attending physician or orthopedic surgeon.",
     badge: "Bone Density Booster",
     highlights: [
-      { title: "Quantity Matrix", items: ["100 Chewable Tablets"] },
-      { title: "Synergy Elements", items: ["Calcium Core + High D3 Vector"] }
+      { title: "Quantity Matrix", items: ["100 Tablets Pack"] },
+      { title: "Product Classification", items: ["Food Supplement", "Health Supplement"] },
+      { 
+        title: "Active Ingredients (Per 500 mg Tablet)", 
+        items: [
+          "Bacillus coagulans",
+          "Vitamin D3 (as Cholecalciferol – animal source)",
+          "Calcium (as Calcium Carbonate)",
+          "Calcium (as Dibasic Calcium Phosphate)",
+          "Phosphorous (as Dibasic Calcium Phosphate)",
+          "Magnesium (as Magnesium Oxide)",
+          "Zinc (as Zinc Oxide)"
+        ] 
+      },
+      { 
+        title: "Other Formulation Ingredients", 
+        items: [
+          "Microcrystalline Cellulose",
+          "Sodium Starch Glycolate",
+          "Silicon Dioxide",
+          "Magnesium Stearate"
+        ] 
+      }
     ],
     sections: [
       {
@@ -580,13 +601,49 @@ export const EXTENDED_PRODUCT_DETAILS = {
     imageGallery: [
       "/product-assets/aloe-aura-1.jpeg",
       "/product-assets/aloe-aura-2.jpeg",
-      "/product-assets/aloe-vera-gel-1.jpg"],
-    summary: "Nourish and hydrate your skin naturally. This lightweight, fast-absorbing Aloe Vera Gel delivers deep moisture, calms inflammation, soothes sunburns, and heals irritated skin boundaries, leaving a clean, non-greasy protective field.",
-    suggestedUsage: "Apply generously to your face, body, or hair roots as needed. Smooth gently until completely absorbed.",
+      "/product-assets/aloe-vera-gel-1.jpg"
+    ],
+    summary: "Nourish and hydrate your skin naturally with this multipurpose formula. Nature's miraculous gift for complete everyday skin care, Aloe Vera Gel is perfectly suited for both men and women of all ages. It actively works to shield your skin from the harmful effects of daily city pollution, counters visible signs of aging, smooths away fine lines, and promotes a long-lasting, youthful glow by keeping your skin soft, supple, fresh, and radiating with health.",
+    suggestedUsage: "Simply apply the gel anywhere on the body including face, neck, and hands, then let it dry. It will first turn into a thin, flaky white layer—this is normal. Give it some time and it will slowly become fully moisturized, transparent, and form an invisible protective film. This natural barrier actively supplies vital nutrients to the skin while shielding it from daily exposure to harmful dust, sun rays, smoke, and exhaust fumes.",
     badge: "100% Organic Moisture Shield",
-    highlights: [{ title: "Formulation Focus", items: ["Hydration", "Skin Repair", "Cooling Relief"] }],
-    sections: [{ title: "Dermatological Benefits", points: ["Deep Skin Hydration without blocking pores.", "Calms razor bumps, redness, and occasional skin breakouts."] }]
+    highlights: [
+      { title: "Formulation Focus", items: ["Multipurpose Gel", "Deep Hydration", "Skin Repair", "Cooling Relief"] },
+      {
+        title: "Key Ingredients Breakdown",
+        items: [
+          "Aqua RO",
+          "Aloe Vera Juice",
+          "Carbopol",
+          "Glycerine",
+          "Sorbitol",
+          "TEA",
+          "Permitted Color",
+          "Fragrance",
+          "Preservative"
+        ]
+      },
+      {
+        title: "Storage & Safety Cautions",
+        items: [
+          "Stored in a cool and dry place",
+          "Avoid direct sunlight exposure",
+          "For external topical use only",
+          "In case of contact with eyes, rinse immediately with clean water"
+        ]
+      }
+    ],
+    sections: [
+      {
+        title: "Dermatological Benefits & Age Defense",
+        points: [
+          "Deep Skin Hydration: Supplies continuous moisture direct to skin cells without blocking pores or leaving sticky residues.",
+          "Anti-Aging Protection: Prevents wrinkles and cell stress parameters, smoothing out textures to lock in a young look.",
+          "Calms Razor Bumps & Redness: Delivers an immediate cooling relief that minimizes surface irritation, skin breakouts, and redness."
+        ]
+      }
+    ]
   },
+
 
   // 13. ASPIRE CHARCOAL FACE WASH
   "aspire-face-wash": {
