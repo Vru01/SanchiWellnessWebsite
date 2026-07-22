@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, LogOut, ShoppingBag, User } from 'lucide-react';
+import { Menu, X, LogOut, ShoppingBag, User, Store, Loader2, CheckCircle2 } from 'lucide-react';
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+const SCRIPT_URL = import.meta.env.VITE_FRANCHISE_SCRIPT_URL;
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isFranchiseOpen, setIsFranchiseOpen] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
@@ -18,11 +20,11 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
+  // Prevent body scroll when mobile menu or modal is open
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    document.body.style.overflow = (open || isFranchiseOpen) ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [open]);
+  }, [open, isFranchiseOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -55,12 +57,11 @@ export default function Navbar() {
                 alt="SANCHI WELLNESS"
                 className="w-10 h-10 rounded-full object-cover shadow-md ring-2 ring-white/30 group-hover:ring-cyan-400/50 transition-all duration-300"
               />
-
             </div>
             <div className="flex flex-col leading-none">
               <span className="font-serif text-[17px] font-bold tracking-wide">
-                <span style={{color: '#19e5e4'}}>SANCHI</span>{' '}
-                <span style={{color: '#6fea6d'}}>WELLNESS</span>
+                <span style={{ color: '#19e5e4' }}>SANCHI</span>{' '}
+                <span style={{ color: '#6fea6d' }}>WELLNESS</span>
               </span>
               <span className={`text-[8px] tracking-[0.22em] uppercase font-light mt-0.5 ${scrolled ? 'text-gray-400' : 'text-white/45'}`}>
                 Keeping Wellness In Everyday Life
@@ -85,6 +86,19 @@ export default function Navbar() {
             {user && isAdmin && (
               <NavLink href="/admin" scrolled={scrolled} isRouterLink>Admin Panel</NavLink>
             )}
+            
+            {/* Always visible Franchise button for desktop */}
+            <button
+              onClick={() => setIsFranchiseOpen(true)}
+              className={`flex items-center gap-1.5 text-sm font-semibold px-3.5 py-1.5 rounded-full border transition-all duration-200 ml-2 ${
+                scrolled
+                  ? 'border-emerald-500/30 text-emerald-600 hover:bg-emerald-50'
+                  : 'border-emerald-400/50 text-emerald-300 hover:bg-emerald-500/10 hover:text-emerald-200'
+              }`}
+            >
+              <Store className="h-4 w-4" />
+              <span>Start a Franchise</span>
+            </button>
           </div>
 
           {/* Desktop auth */}
@@ -148,6 +162,17 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Mobile Floating Action Button */}
+      <div className="fixed bottom-6 right-6 z-40 md:hidden">
+        <button
+          onClick={() => setIsFranchiseOpen(true)}
+          className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider px-4 py-3 rounded-full shadow-[0_10px_25px_rgba(16,185,129,0.3)] hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20"
+        >
+          <Store className="h-4 w-4" />
+          <span>Connect with us</span>
+        </button>
+      </div>
+
       {/* Mobile menu overlay */}
       <div
         className={`fixed inset-0 z-40 transition-all duration-300 md:hidden ${
@@ -171,8 +196,8 @@ export default function Navbar() {
             <div className="flex items-center gap-2.5">
               <img src="/logo.png" alt="Sanchi Wellness" className="w-8 h-8 rounded-full object-cover shadow" />
               <span className="font-serif text-base font-bold">
-                <span style={{color: '#19e5e4'}}>Sanchi</span>{' '}
-                <span style={{color: '#6fea6d'}}>Wellness</span>
+                <span style={{ color: '#19e5e4' }}>Sanchi</span>{' '}
+                <span style={{ color: '#6fea6d' }}>Wellness</span>
               </span>
             </div>
             <button
@@ -240,11 +265,229 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* Franchise Application Modal */}
+      <FranchiseModal 
+        isOpen={isFranchiseOpen} 
+        onClose={() => setIsFranchiseOpen(false)} 
+      />
     </>
   );
 }
 
-// Desktop nav link with animated underline
+// Franchise Modal Component
+function FranchiseModal({ isOpen, onClose }) {
+  const [formData, setFormData] = useState({ name: '', mobile: '', email: '', city: '', goal: '' });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState('idle');
+
+  if (!isOpen) return null;
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim() || formData.name.trim().length < 2) {
+      newErrors.name = 'Please enter a valid full name';
+    }
+
+    const mobileRegex = /^[6-9]\d{9}$/;
+    if (!mobileRegex.test(formData.mobile.trim())) {
+      newErrors.mobile = 'Enter a valid 10-digit mobile number';
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = 'Enter a valid email address';
+    }
+
+    if (!formData.city.trim() || formData.city.trim().length < 2) {
+      newErrors.city = 'Please enter your city';
+    }
+
+    if (!formData.goal.trim() || formData.goal.trim().length < 5) {
+      newErrors.goal = 'Please enter a brief description (at least 5 chars)';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setStatus('loading');
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 
+          'Content-Type': 'text/plain;charset=utf-8' 
+        },
+        body: JSON.stringify(formData),
+      });
+
+      setStatus('success');
+      setFormData({ name: '', mobile: '', email: '', city: '', goal: '' });
+      setErrors({});
+    } catch (err) {
+      console.error('Error submitting franchise request:', err);
+      setStatus('error');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-[60] animate-in fade-in duration-200">
+      <div className="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl max-w-md w-full shadow-2xl relative text-white overflow-hidden">
+        
+        {/* Top Decorative Glow */}
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+
+        <button 
+          onClick={onClose}
+          className="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-full bg-slate-800/50 hover:bg-slate-800 transition-colors z-10"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        {status === 'success' ? (
+          <div className="flex flex-col items-center text-center py-6 space-y-4 animate-in zoom-in-95 duration-300">
+            <div className="relative">
+              <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 ring-8 ring-emerald-500/10">
+                <CheckCircle2 className="h-10 w-10 animate-bounce" />
+              </div>
+            </div>
+
+            <h3 className="text-2xl font-bold text-white tracking-tight">
+              Request Received!
+            </h3>
+
+            <div className="bg-emerald-950/40 border border-emerald-500/30 text-emerald-200 p-4 rounded-2xl text-sm leading-relaxed shadow-inner">
+              Thank For Showing Your Interest, Our Team Will Contact You Soon.
+            </div>
+
+            <button
+              onClick={() => {
+                setStatus('idle');
+                onClose();
+              }}
+              className="mt-2 w-full py-3 bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold rounded-xl shadow-lg hover:opacity-95 transition-all duration-200 active:scale-98"
+            >
+              Done
+            </button>
+          </div>
+        ) : (
+          <>
+            <h2 className="text-2xl font-bold mb-1 bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+              Start a Franchise
+            </h2>
+            <p className="text-slate-400 text-sm mb-6">Partner with Sanchi Wellness. Fill in your details below.</p>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  className={`w-full bg-slate-800/80 border ${errors.name ? 'border-red-500' : 'border-slate-700/80'} rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition`}
+                />
+                {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">Mobile</label>
+                  <input
+                    type="tel"
+                    name="mobile"
+                    maxLength={10}
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    placeholder="9876543210"
+                    className={`w-full bg-slate-800/80 border ${errors.mobile ? 'border-red-500' : 'border-slate-700/80'} rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition`}
+                  />
+                  {errors.mobile && <p className="text-red-400 text-xs mt-1">{errors.mobile}</p>}
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="john@example.com"
+                    className={`w-full bg-slate-800/80 border ${errors.email ? 'border-red-500' : 'border-slate-700/80'} rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition`}
+                  />
+                  {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">City / Location</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="Mumbai"
+                  className={`w-full bg-slate-800/80 border ${errors.city ? 'border-red-500' : 'border-slate-700/80'} rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition`}
+                />
+                {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city}</p>}
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">Goal / Investment Plan</label>
+                <textarea
+                  name="goal"
+                  rows="3"
+                  value={formData.goal}
+                  onChange={handleChange}
+                  placeholder="Share your planned timeline or budget..."
+                  className={`w-full bg-slate-800/80 border ${errors.goal ? 'border-red-500' : 'border-slate-700/80'} rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 resize-none transition`}
+                />
+                {errors.goal && <p className="text-red-400 text-xs mt-1">{errors.goal}</p>}
+              </div>
+
+              {status === 'error' && (
+                <p className="text-red-400 text-xs text-center">Something went wrong. Please try submitting again.</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold py-3 rounded-xl hover:opacity-95 transition-all duration-200 active:scale-98 disabled:opacity-50 shadow-lg shadow-cyan-500/10"
+              >
+                {status === 'loading' ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  'Submit Franchise Request'
+                )}
+              </button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Desktop nav link
 function NavLink({ href, children, scrolled, isRouterLink }) {
   const cls = `relative text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200 group ${
     scrolled
