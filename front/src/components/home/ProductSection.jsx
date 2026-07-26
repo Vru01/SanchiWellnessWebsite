@@ -17,7 +17,6 @@ export default function ProductSection({ onAddToCart }) {
     fetch(`${API_URL}/api/products`)
       .then(r => { if (!r.ok) throw new Error(); return r.json(); })
       .then(data => {
-        console.log("MY BACKEND PRODUCTS:", data);
         setProducts(data);
       })
       .catch(() => setError('Could not load products.'))
