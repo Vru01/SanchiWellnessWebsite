@@ -1,15 +1,39 @@
 const CartItem = require('../models/CartItem');
 const Product = require('../models/Product');
+const User = require('../models/User');
+const getPriceForUser = require('../utils/getPriceForUser');
 
 exports.getCart = async (req, res) => {
     try {
         if (req.userId !== req.params.userId) return res.status(403).json({ error: 'Unauthorized' });
 
-        // populate brings in the real-time name, images, and price from the Product collection
-        const cartItems = await CartItem.find({ userId: req.params.userId })
-            .populate('productId', 'name price discountPrice images slug');
+        const user = await User.findById(req.userId).select('pricingTier');
+        const pricingTier = user?.pricingTier || 'normal';
 
-        res.json(cartItems);
+        // populate brings in the real-time name, images, and all price tiers from the Product collection
+        const cartItems = await CartItem.find({ userId: req.params.userId })
+            .populate('productId', 'name price discountPrice franchisePrice distributorPrice images slug');
+
+        const shaped = cartItems.map((item) => {
+            const obj = item.toObject();
+            if (obj.productId) {
+                try {
+                    const { price, original } = getPriceForUser(pricingTier, obj.productId);
+                    obj.productId.displayPrice = price;
+                    obj.productId.originalPrice = original;
+                } catch (err) {
+                    // Tier price missing for this product — surface a flag,
+                    // don't crash the whole cart view
+                    obj.productId.pricingUnavailable = true;
+                    obj.productId.pricingError = err.message;
+                }
+                delete obj.productId.franchisePrice;
+                delete obj.productId.distributorPrice;
+            }
+            return obj;
+        });
+
+        res.json(shaped);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch cart' });
     }

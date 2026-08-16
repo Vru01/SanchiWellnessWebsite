@@ -14,7 +14,13 @@ export default function ProductSection({ onAddToCart }) {
   const [filter, setFilter] = useState('All');
 
   useEffect(() => {
-    fetch(`${API_URL}/api/products`)
+    const token = localStorage.getItem('token');
+
+    // Send the token (if present) so the backend can return this user's
+    // tier-specific price. Guests still work fine — backend defaults to 'normal'.
+    fetch(`${API_URL}/api/products`, {
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+    })
       .then(r => { if (!r.ok) throw new Error(); return r.json(); })
       .then(data => {
         setProducts(data);
@@ -92,8 +98,12 @@ export default function ProductSection({ onAddToCart }) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map(product => {
-              const discount = product.discountPrice && Number(product.discountPrice) < Number(product.price)
-                ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : null;
+              // displayPrice/originalPrice come from the backend, already resolved
+              // for this user's pricing tier (normal / franchise / distributor).
+              const displayPrice = product.displayPrice ?? product.discountPrice ?? product.price;
+              const originalPrice = product.originalPrice ?? null;
+              const discount = originalPrice && Number(displayPrice) < Number(originalPrice)
+                ? Math.round(((originalPrice - displayPrice) / originalPrice) * 100) : null;
               const isAdded = addedId === product._id;
               const imageUrl = product.images?.[0]?.url || product.img;
 
@@ -134,9 +144,9 @@ export default function ProductSection({ onAddToCart }) {
 
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
                       <div>
-                        <span className="text-2xl font-bold text-gray-900">₹{product.discountPrice || product.price}</span>
-                        {product.discountPrice && (
-                          <span className="text-sm text-gray-400 line-through ml-2">₹{product.price}</span>
+                        <span className="text-2xl font-bold text-gray-900">₹{displayPrice}</span>
+                        {originalPrice && (
+                          <span className="text-sm text-gray-400 line-through ml-2">₹{originalPrice}</span>
                         )}
                       </div>
                       <button

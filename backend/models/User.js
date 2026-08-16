@@ -6,6 +6,13 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     phone: { type: String, default: '' },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+
+    pricingTier: {
+        type: String,
+        enum: ['normal', 'franchise', 'distributor'],
+        default: 'normal',
+        index: true
+    },
     
     // Quick checkout for returning customers
     savedAddresses: [{

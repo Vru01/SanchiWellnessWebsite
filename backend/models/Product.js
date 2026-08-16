@@ -7,6 +7,16 @@ const productSchema = new mongoose.Schema({
     description: { type: String, required: true },
     price: { type: Number, required: true, min: 0 },
     discountPrice: { type: Number, min: 0 },
+    franchisePrice: {
+        type: Number,
+        min: 0,
+        default: null
+    },
+    distributorPrice: {
+        type: Number,
+        min: 0,
+        default: null
+    },
     category: { type: String, index: true },
     
     images: [{

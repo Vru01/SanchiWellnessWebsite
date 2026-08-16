@@ -6,6 +6,12 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+
+    pricingTier: {
+        type: String,
+        enum: ['normal', 'franchise', 'distributor'],
+        default: 'normal'
+    },
     
     // Snapshot of the items at the exact time of purchase
     items: [{

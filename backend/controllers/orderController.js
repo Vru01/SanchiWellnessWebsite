@@ -4,13 +4,15 @@ const axios = require('axios');
 const Order = require('../models/Order');
 const CartItem = require('../models/CartItem');
 const Product = require('../models/Product');
+const User = require('../models/User');
+const getPriceForUser = require('../utils/getPriceForUser');
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// --- 1. NEW: Create Razorpay Order (Fixes the "undefined" error) ---
+// --- 1. Create Razorpay Order (tier-aware) ---
 exports.createRazorpayOrder = async (req, res) => {
     const { cartItems } = req.body;
 
@@ -19,34 +21,38 @@ exports.createRazorpayOrder = async (req, res) => {
     }
 
     try {
+        const user = await User.findById(req.userId).select('pricingTier');
+        const pricingTier = user?.pricingTier || 'normal';
+
         let calculatedTotal = 0;
-        
-        // Calculate the exact total securely on the backend
-        await Promise.all(cartItems.map(async (item) => {
+
+        // Calculate the exact total securely on the backend, using the user's pricing tier
+        for (const item of cartItems) {
             const product = await Product.findById(item.productId);
-            if (product) {
-                const activePrice = product.discountPrice || product.price;
-                calculatedTotal += activePrice * item.quantity;
-            }
-        }));
+            if (!product) continue;
+
+            const { price } = getPriceForUser(pricingTier, product); // throws if tier price missing
+            calculatedTotal += price * item.quantity;
+        }
 
         // Razorpay expects amount in paise (multiply by 100)
         const options = {
-            amount: calculatedTotal * 100, 
+            amount: calculatedTotal * 100,
             currency: "INR",
             receipt: `rcpt_${Date.now()}`
         };
 
         const order = await razorpay.orders.create(options);
-        
+
         res.status(200).json({ success: true, order });
     } catch (err) {
         console.error("Razorpay Create Order Error:", err);
-        res.status(500).json({ success: false, error: "Server error during order creation" });
+        const status = err.status || 500;
+        res.status(status).json({ success: false, error: err.message || "Server error during order creation" });
     }
 };
 
-// --- 2. Customer verifies payment & saves order ---
+// --- 2. Customer verifies payment & saves order (tier-aware) ---
 exports.verifyRazorpayPayment = async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId, address, cartItems } = req.body;
 
@@ -56,23 +62,31 @@ exports.verifyRazorpayPayment = async (req, res) => {
         const expectedSign = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(sign).digest("hex");
         if (razorpay_signature !== expectedSign) return res.status(400).json({ success: false, error: "Invalid signature!" });
 
+        const user = await User.findById(userId).select('pricingTier');
+        const pricingTier = user?.pricingTier || 'normal';
+
         let calculatedTotal = 0;
-        const finalItems = await Promise.all(cartItems.map(async (item) => {
+        const finalItems = [];
+
+        for (const item of cartItems) {
             const product = await Product.findById(item.productId);
-            const activePrice = product.discountPrice || product.price;
-            calculatedTotal += activePrice * item.quantity;
-            
-            return {
+            if (!product) continue;
+
+            const { price } = getPriceForUser(pricingTier, product); // throws if tier price missing
+            calculatedTotal += price * item.quantity;
+
+            finalItems.push({
                 productId: product._id,
                 name: product.name,
                 quantity: item.quantity,
-                price: activePrice 
-            };
-        }));
+                price
+            });
+        }
 
         // Save order structure matching production schema
         const newOrder = new Order({
             userId,
+            pricingTier,
             totalAmount: calculatedTotal,
             status: 'Processing',
             paymentDetails: {
@@ -92,7 +106,8 @@ exports.verifyRazorpayPayment = async (req, res) => {
         res.status(200).json({ success: true, orderId: newOrder._id });
 
     } catch (err) {
-        res.status(500).json({ success: false, error: "Verification failed" });
+        console.error("Verify Payment Error:", err);
+        res.status(err.status || 500).json({ success: false, error: err.message || "Verification failed" });
     }
 };
 

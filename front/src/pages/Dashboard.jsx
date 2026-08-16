@@ -157,7 +157,8 @@ export default function Dashboard() {
   };
 
   const total = cart.reduce((s, item) => {
-    const price = item.productId?.discountPrice || item.productId?.price || 0;
+    // displayPrice is resolved server-side for this user's pricing tier
+    const price = item.productId?.displayPrice ?? item.productId?.discountPrice ?? item.productId?.price ?? 0;
     return s + (price * item.quantity);
   }, 0);
 
@@ -217,7 +218,7 @@ export default function Dashboard() {
                   {cart.map(item => {
                     const product = item.productId;
                     if (!product) return null; // Prevents crashing if product was deleted from DB
-                    const price = product.discountPrice || product.price || 0;
+                    const price = product.displayPrice ?? product.discountPrice ?? product.price ?? 0;
                     const name = product.name || 'Loading...';
                     const img = product.images?.[0]?.url || '';
 

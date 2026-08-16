@@ -51,13 +51,24 @@ export default function ProductDetailPage() {
         window.scrollTo(0, 0);
         setLoading(true);
 
-        fetch(`${API_URL}/api/products`)
+        const token = localStorage.getItem('token');
+
+        // Send the token (if present) so the backend can return this user's
+        // tier-specific price. Guests still work fine — backend defaults to 'normal'.
+        fetch(`${API_URL}/api/products`, {
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        })
             .then(r => { if (!r.ok) throw new Error(); return r.json(); })
             .then(data => {
                 const foundBackendProduct = data.find(p => p.slug === id || p._id === id);
 
                 if (foundBackendProduct) {
                     const combinedData = getCombinedProductData(foundBackendProduct);
+                    // Make sure the tier-resolved price survives the merge with
+                    // local extendedProductDetails data, whatever fields it picks.
+                    combinedData.displayPrice = foundBackendProduct.displayPrice;
+                    combinedData.originalPrice = foundBackendProduct.originalPrice;
+
                     setProduct(combinedData);
                     if (combinedData.imageGallery?.length > 0) {
                         setSelectedImage(combinedData.imageGallery[0]);
@@ -105,8 +116,13 @@ export default function ProductDetailPage() {
 
     if (!product) return null;
 
-    const discount = product.price > 0 && product.discountPrice && product.discountPrice < product.price
-        ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
+    // displayPrice/originalPrice come from the backend, already resolved
+    // for this user's pricing tier (normal / franchise / distributor).
+    const displayPrice = product.displayPrice ?? product.discountPrice ?? product.price;
+    const originalPrice = product.originalPrice ?? null;
+
+    const discount = originalPrice && Number(displayPrice) < Number(originalPrice)
+        ? Math.round(((originalPrice - displayPrice) / originalPrice) * 100)
         : null;
 
     const benefitIcons = [Sparkles, Zap, ShieldCheck, Leaf];
@@ -239,8 +255,8 @@ export default function ProductDetailPage() {
                                     <div className="relative">
                                         <div className="text-[10px] font-extrabold tracking-[0.25em] text-cyan-400 uppercase mb-1">Special Price</div>
                                         <div className="flex items-baseline gap-3">
-                                            <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">₹{product.discountPrice || product.price}</span>
-                                            {product.discountPrice && <span className="text-base font-bold text-slate-500 line-through">₹{product.price}</span>}
+                                            <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">₹{displayPrice}</span>
+                                            {originalPrice && <span className="text-base font-bold text-slate-500 line-through">₹{originalPrice}</span>}
                                         </div>
                                     </div>
                                 </div>
@@ -420,7 +436,7 @@ export default function ProductDetailPage() {
                 <div className="max-w-md mx-auto flex items-center justify-between gap-4">
                     <div>
                         <div className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest leading-none">Total Price</div>
-                        <div className="text-2xl font-black text-slate-900 tracking-tight mt-1">₹{product.discountPrice || product.price}</div>
+                        <div className="text-2xl font-black text-slate-900 tracking-tight mt-1">₹{displayPrice}</div>
                     </div>
                     <button onClick={handleAdd} className="flex-1 py-3.5 bg-slate-950 hover:bg-slate-800 text-white rounded-xl font-extrabold text-xs uppercase tracking-widest shadow-lg">
                         {isAdded ? "Added" : "Buy Now"}

@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API = `${API_URL}/api`;
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dfqgwgehn';
 const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'sanchi_wellness_uploads';
-const EMPTY = { id: '', name: '', price: '', discountPrice: '', category: '', description: '', img: '', tag: '' };
+const EMPTY = { id: '', name: '', price: '', discountPrice: '', franchisePrice: '', distributorPrice: '', category: '', description: '', img: '', tag: '' };
 
 const StatusBadge = ({ status }) => {
   if (status === 'Processing' || status === 'Shipped' || status === 'Delivered') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200"><CheckCircle2 className="h-3 w-3" />{status}</span>;
@@ -32,6 +32,12 @@ export default function AdminPanel() {
   // NEW: Shipmozo Dispatch Modal State
   const [dispatchModal, setDispatchModal] = useState({ isOpen: false, orderId: '', weight: 500, length: 15, width: 10, height: 5 });
 
+  // NEW: Pricing Tier — user search & assignment
+  const [userQuery, setUserQuery] = useState('');
+  const [userResults, setUserResults] = useState([]);
+  const [userSearchLoading, setUserSearchLoading] = useState(false);
+  const [userSearched, setUserSearched] = useState(false);
+
   const fetchAll = async () => {
     setLoading(true);
     const token = localStorage.getItem('token');
@@ -44,7 +50,7 @@ export default function AdminPanel() {
     try {
       const [oRes, pRes] = await Promise.all([
         fetch(`${API}/orders/admin/all`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API}/products`)
+        fetch(`${API}/products/admin/all`, { headers: { 'Authorization': `Bearer ${token}` } })
       ]);
       
       const oData = await oRes.json();
@@ -138,6 +144,48 @@ export default function AdminPanel() {
     }
   };
 
+  // NEW: Search users by ID, email, or phone to assign a pricing tier
+  const searchUsers = async (e) => {
+    if (e) e.preventDefault();
+    if (!userQuery.trim()) return;
+    setUserSearchLoading(true);
+    setUserSearched(true);
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${API}/users/admin/search?query=${encodeURIComponent(userQuery.trim())}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (res.ok) setUserResults(data);
+      else toast.error(data.error || 'Search failed');
+    } catch (err) {
+      toast.error('Server error while searching users');
+    } finally {
+      setUserSearchLoading(false);
+    }
+  };
+
+  // NEW: Assign a pricing tier to a user
+  const setUserTier = async (userId, pricingTier) => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${API}/users/admin/set-tier`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ userId, pricingTier })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success(`Pricing tier updated to ${pricingTier}`);
+        setUserResults(prev => prev.map(u => u._id === userId ? { ...u, pricingTier } : u));
+      } else {
+        toast.error(data.error || 'Failed to update pricing tier');
+      }
+    } catch (err) {
+      toast.error('Server error updating pricing tier');
+    }
+  };
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -163,6 +211,8 @@ export default function AdminPanel() {
       name: product.name,
       price: product.price,
       discountPrice: product.discountPrice || undefined,
+      franchisePrice: product.franchisePrice === '' ? null : Number(product.franchisePrice),
+      distributorPrice: product.distributorPrice === '' ? null : Number(product.distributorPrice),
       category: product.category,
       description: product.description,
       tag: product.tag || undefined,
@@ -194,6 +244,7 @@ export default function AdminPanel() {
   const openEdit = (p) => {
     setProduct({ 
       id: p._id, name: p.name, price: p.price, discountPrice: p.discountPrice || '', 
+      franchisePrice: p.franchisePrice ?? '', distributorPrice: p.distributorPrice ?? '',
       category: p.category, description: p.description, 
       img: p.images?.[0]?.url || p.img || '',
       tag: p.tag || '' 
@@ -271,10 +322,10 @@ export default function AdminPanel() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Tabs */}
         <div className="flex gap-2 mb-8 bg-white rounded-xl p-1.5 shadow-sm border border-gray-100 w-fit">
-          {['orders', 'products'].map(t => (
+          {['orders', 'products', 'users'].map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-6 py-2.5 rounded-lg text-sm font-semibold capitalize transition-all ${tab === t ? 'bg-gradient-to-r from-cyan-500 to-green-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}>
-              {t} ({t === 'orders' ? orders.length : products.length})
+              {t === 'users' ? 'Pricing Tiers' : t} {t !== 'users' && `(${t === 'orders' ? orders.length : products.length})`}
             </button>
           ))}
         </div>
@@ -475,6 +526,63 @@ export default function AdminPanel() {
             </div>
           </div>
         )}
+
+        {/* Pricing Tiers (Users) */}
+        {tab === 'users' && (
+          <div>
+            <p className="text-gray-500 text-sm mb-6">Search a user by name, email, phone, or ID, then assign their pricing tier.</p>
+
+            <form onSubmit={searchUsers} className="flex gap-3 mb-8 max-w-xl">
+              <input
+                value={userQuery}
+                onChange={e => setUserQuery(e.target.value)}
+                placeholder="Search by name, email, phone, or user ID"
+                className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all bg-white"
+              />
+              <button type="submit" disabled={userSearchLoading}
+                className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-green-600 text-white font-semibold px-6 py-3 rounded-xl hover:from-cyan-600 hover:to-green-700 transition-all text-sm shadow-md shadow-cyan-200 disabled:opacity-60">
+                {userSearchLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Search'}
+              </button>
+            </form>
+
+            {userSearched && !userSearchLoading && userResults.length === 0 && (
+              <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-100">
+                <p>No users found for "{userQuery}".</p>
+              </div>
+            )}
+
+            {userResults.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-100">
+                {userResults.map(u => (
+                  <div key={u._id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">{u.name} {u.role === 'admin' && <span className="text-[10px] bg-gray-900 text-white px-2 py-0.5 rounded-full ml-1 align-middle">Admin</span>}</p>
+                      <p className="text-gray-400 text-xs mt-0.5">{u.email}{u.phone ? ` · +91 ${u.phone}` : ''}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full capitalize border ${
+                        u.pricingTier === 'franchise' ? 'bg-cyan-50 text-cyan-700 border-cyan-200' :
+                        u.pricingTier === 'distributor' ? 'bg-purple-50 text-purple-700 border-purple-200' :
+                        'bg-gray-50 text-gray-600 border-gray-200'
+                      }`}>
+                        {u.pricingTier || 'normal'}
+                      </span>
+                      <select
+                        value={u.pricingTier || 'normal'}
+                        onChange={e => setUserTier(u._id, e.target.value)}
+                        className="border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 bg-gray-50"
+                      >
+                        <option value="normal">Normal</option>
+                        <option value="franchise">Franchise</option>
+                        <option value="distributor">Distributor</option>
+                      </select>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Product Form Modal */}
@@ -511,6 +619,20 @@ export default function AdminPanel() {
                     className="w-full border border-green-200 bg-green-50/30 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all" />
                 </div>
               </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-cyan-600 text-xs tracking-widest uppercase mb-1.5 block font-medium">Franchise Price (₹)</label>
+                  <input type="number" placeholder="Leave blank if not set" value={product.franchisePrice} onChange={e => setProduct(p => ({ ...p, franchisePrice: e.target.value }))}
+                    className="w-full border border-cyan-200 bg-cyan-50/30 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 transition-all" />
+                </div>
+                <div>
+                  <label className="text-purple-600 text-xs tracking-widest uppercase mb-1.5 block font-medium">Distributor Price (₹)</label>
+                  <input type="number" placeholder="Leave blank if not set" value={product.distributorPrice} onChange={e => setProduct(p => ({ ...p, distributorPrice: e.target.value }))}
+                    className="w-full border border-purple-200 bg-purple-50/30 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all" />
+                </div>
+              </div>
+              <p className="text-[11px] text-gray-400 -mt-2">Leave a tier price blank until you're ready — franchise/distributor customers can't check out on that product until it's set.</p>
 
               <div>
                 <label className="text-gray-500 text-xs tracking-widest uppercase mb-1.5 block font-medium">Description *</label>

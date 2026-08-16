@@ -48,7 +48,8 @@ export default function Checkout() {
   }, [navigate]);
 
   // Handle the newly populated productId structure for prices
-  const total = cart.reduce((s, i) => s + (i.productId?.discountPrice || i.productId?.price || 0) * i.quantity, 0);
+  // displayPrice is resolved server-side for this user's pricing tier
+  const total = cart.reduce((s, i) => s + (i.productId?.displayPrice ?? i.productId?.discountPrice ?? i.productId?.price ?? 0) * i.quantity, 0);
 
   const handleAddressChange = (e) => setAddress({ ...address, [e.target.name]: e.target.value });
 
@@ -80,12 +81,7 @@ export default function Checkout() {
         quantity: c.quantity 
       }));
 
-      const orderRes = await fetch(`${API}/orders/verify-payment`, {
-        method: "POST", // Note: The route in backend combines creation and verification into one flow? No wait, let's look at orderController. It just accepts the payment details.
-      });
-      // WAIT: In backend, you need a create route and verify route, or verify covers both. Your orderController only had verifyRazorpayPayment. 
-      // If we are to create Razorpay Order, we need an endpoint for it! Assuming you have `/create-razorpay-order` (from earlier) 
-      const createRes = await fetch(`${API}/orders/create-razorpay-order`, { // Make sure this exists on backend!
+      const createRes = await fetch(`${API}/orders/create-razorpay-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ cartItems: formattedCartItems, userId: user.id }),
@@ -223,7 +219,7 @@ export default function Checkout() {
               <div className="p-6 space-y-3">
                 {cart.map((item, i) => {
                   const product = item.productId;
-                  const price = product?.discountPrice || product?.price || 0;
+                  const price = product?.displayPrice ?? product?.discountPrice ?? product?.price ?? 0;
                   const img = product?.images?.[0]?.url || '';
                   
                   return (

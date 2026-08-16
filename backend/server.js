@@ -13,6 +13,7 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const userRoutes = require('./routes/userRoutes'); // 🔥 NEW: Admin user/pricing-tier management
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -22,12 +23,16 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 
 app.use(cors({
-  origin: ['https://sanchiwellness.com', 'https://www.sanchiwellness.com'],
+  origin: [
+    'https://sanchiwellness.com', 
+    'https://www.sanchiwellness.com'
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
+app.use(express.json());
 // --- PRODUCTION DUAL-LAYER RATE LIMITERS ---
 
 // 1. Loose Catalog Read Limiter (Handles multiple concurrent component fetches like BestSellers & ProductSection)
@@ -51,7 +56,6 @@ const authLimiter = rateLimit({
   message: 'Too many login attempts, please try again later.'
 });
 
-app.use(express.json());
 
 // --- MONGODB CONNECTION ---
 mongoose.connect(process.env.MONGO_URI)
@@ -65,6 +69,7 @@ app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/products', catalogReadLimiter, productRoutes);      // 🟢 Uses the loose read configuration
 app.use('/api/cart', secureTransactionLimiter, cartRoutes);             // 🔒 Protected write route
 app.use('/api/orders', secureTransactionLimiter, orderRoutes);          // 🔒 Protected write route
+app.use('/api/users', secureTransactionLimiter, userRoutes);            // 🔒 Admin user/pricing-tier management
 
 // --- GLOBAL ERROR HANDLER ---
 app.use(errorHandler);
