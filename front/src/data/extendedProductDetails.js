@@ -935,9 +935,11 @@ export const EXTENDED_PRODUCT_DETAILS = {
     "discountPrice": 279,
     "imageGallery": [
       "/product-assets/saviour-1.jpeg",
-      "/product-assets/saviour-2.jpeg",
-      "/product-assets/saviour-3.jpeg",
-      "/product-assets/saviour-1.jpg"
+      "/product-assets/saviour-02.jpeg",
+      "/product-assets/saviour-03.jpeg",
+      "/product-assets/saviour-4.jpeg",
+      "/product-assets/saviour-5.jpeg",
+      "/product-assets/saviour-6.jpeg"
     ],
     "summary": "An advanced formulation designed to accelerate healthy muscle mass and volume development. Saviour works naturally inside the body to enhance nutrient distribution, ramp up cellular metabolic rate parameters, maximize caloric absorption efficiency, and build steady physical stamina.",
     "suggestedUsage": "1 cap twice a day",
